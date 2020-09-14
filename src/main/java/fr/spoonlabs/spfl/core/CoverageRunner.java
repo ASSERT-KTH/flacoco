@@ -4,9 +4,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import eu.stamp_project.testrunner.listener.Coverage;
-import eu.stamp_project.testrunner.listener.TestResult;
-import eu.stamp_project.testrunner.listener.impl.CoverageLineImpl;
+import eu.stamp_project.testrunner.listener.TestCoveredResult;
+import eu.stamp_project.testrunner.listener.impl.CoverageBuilderDetailled;
 import eu.stamp_project.testrunner.runner.coverage.JacocoRunner;
 import fr.spoonlabs.spfl.entities.CoverageFromSingleTestUnit;
 import fr.spoonlabs.spfl.entities.MatrixCoverage;
@@ -46,35 +45,26 @@ public class CoverageRunner {
 						runner.getInstrumentedClassLoader().getDefinitions());
 
 				// We run the instrumented classes
-				Coverage coverageResult = runner.runAlternative(new CoverageLineImpl(), classesDirectory,
-						testClassesDirectory, testTuple.testClassToBeAmplified, new String[] { method });
-
-				logger.debug(
-						method + " " + ((coverageResult != null) ? coverageResult.getDetailedCoverage().keySet().size()
-								: " null cover"));
+				TestCoveredResult coverageResult = runner.runAlternative(new CoverageBuilderDetailled(),
+						classesDirectory, testClassesDirectory, testTuple.testClassToBeAmplified,
+						new String[] { method });
 
 				if (coverageResult == null)
 					continue;
 
 				CoverageFromSingleTestUnit coverageFromSingleTestWrapper = new CoverageFromSingleTestUnit(
-						testTuple.testClassToBeAmplified, method, coverageResult);
+						testTuple.testClassToBeAmplified, method, coverageResult.getCoverageInformation());
 
-				if (coverageResult instanceof TestResult) {
+				TestCoveredResult tr = (TestCoveredResult) coverageResult;
 
-					TestResult tr = (TestResult) coverageResult;
+				boolean isPassing = tr.getPassingTests().size() > 0 && tr.getFailingTests().size() == 0;
+				coverageFromSingleTestWrapper.setIsPassing(isPassing);
 
-					boolean isPassing = tr.getPassingTests().size() > 0 && tr.getFailingTests().size() == 0;
-					coverageFromSingleTestWrapper.setIsPassing(isPassing);
-
-					boolean isSkip = tr.getIgnoredTests().size() > 0 || tr.getAssumptionFailingTests().size() > 0;
-					if (isSkip) {
-						coverageFromSingleTestWrapper.setIsSkip(isSkip);
-					} else {
-						coverageFromSingleTestWrapper.setIsSkip(false);
-					}
-
+				boolean isSkip = tr.getIgnoredTests().size() > 0 || tr.getAssumptionFailingTests().size() > 0;
+				if (isSkip) {
+					coverageFromSingleTestWrapper.setIsSkip(isSkip);
 				} else {
-					logger.error("Result is not a Test Result...");
+					coverageFromSingleTestWrapper.setIsSkip(false);
 				}
 
 				matrixExecutionResult.processSingleTest(coverageFromSingleTestWrapper);
