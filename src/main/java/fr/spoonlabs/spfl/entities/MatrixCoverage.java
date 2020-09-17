@@ -9,7 +9,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import eu.stamp_project.testrunner.listener.impl.CoverageDetailled;
+import eu.stamp_project.testrunner.listener.impl.CoverageDetailed;
 import eu.stamp_project.testrunner.listener.impl.CoverageFromClass;
 
 /**
@@ -91,7 +91,7 @@ public class MatrixCoverage {
 
 	public void processSingleTest(CoverageFromSingleTestUnit iCovWrapper) {
 
-		CoverageDetailled covLine = (CoverageDetailled) iCovWrapper.getCov();
+		CoverageDetailed covLine = (CoverageDetailed) iCovWrapper.getCov();
 
 		// Retrieve the key of the test
 		String testKey = getTestKey(iCovWrapper);

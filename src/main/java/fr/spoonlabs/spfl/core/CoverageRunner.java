@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import eu.stamp_project.testrunner.listener.TestCoveredResult;
-import eu.stamp_project.testrunner.listener.impl.CoverageBuilderDetailled;
+import eu.stamp_project.testrunner.listener.impl.CoverageCollectorDetailed;
 import eu.stamp_project.testrunner.runner.coverage.JacocoRunner;
 import fr.spoonlabs.spfl.entities.CoverageFromSingleTestUnit;
 import fr.spoonlabs.spfl.entities.MatrixCoverage;
@@ -45,7 +45,7 @@ public class CoverageRunner {
 						runner.getInstrumentedClassLoader().getDefinitions());
 
 				// We run the instrumented classes
-				TestCoveredResult coverageResult = runner.runAlternative(new CoverageBuilderDetailled(),
+				TestCoveredResult coverageResult = runner.run(new CoverageCollectorDetailed(),
 						classesDirectory, testClassesDirectory, testTuple.testClassToBeAmplified,
 						new String[] { method });
 
