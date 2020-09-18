@@ -1,5 +1,6 @@
 package fr.spoonlabs.spfl.core;
 
+import java.net.URLClassLoader;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -26,6 +27,8 @@ public class CoverageRunner {
 		// This matrix stores the results: the execution of tests and
 		MatrixCoverage matrixExecutionResult = new MatrixCoverage();
 
+		URLClassLoader urlloader = runner.getUrlClassloaderFromClassPath(classpath);
+
 		int i = 0;
 		for (TestTuple testTuple : testToRun) {
 
@@ -34,18 +37,18 @@ public class CoverageRunner {
 
 			for (String method : testTuple.testMethodsToBeAmplified) {
 
+				logger.debug("-----");
+				logger.debug("Calling method " + method);
+
 				logger.debug("Classpath " + classpath);
 
 				logger.debug("classesDirectory" + classesDirectory);
 				logger.debug("testClassesDirectory" + testClassesDirectory);
 				logger.debug("test class to run : " + testTuple.testClassToBeAmplified);
-
-				// We instrument the classes
-				runner.recreateInstrumentedClassloaded(classpath, classesDirectory, testClassesDirectory,
-						runner.getInstrumentedClassLoader().getDefinitions());
+				logger.debug("test method to run : " + method);
 
 				// We run the instrumented classes
-				TestCoveredResult coverageResult = runner.run(new CoverageCollectorDetailed(),
+				TestCoveredResult coverageResult = runner.run(new CoverageCollectorDetailed(), urlloader,
 						classesDirectory, testClassesDirectory, testTuple.testClassToBeAmplified,
 						new String[] { method });
 
