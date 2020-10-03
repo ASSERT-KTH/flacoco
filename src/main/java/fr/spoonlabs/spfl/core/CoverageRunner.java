@@ -10,7 +10,6 @@ import eu.stamp_project.testrunner.listener.impl.CoverageCollectorDetailed;
 import eu.stamp_project.testrunner.runner.coverage.JacocoRunner;
 import fr.spoonlabs.spfl.entities.CoverageFromSingleTestUnit;
 import fr.spoonlabs.spfl.entities.MatrixCoverage;
-import fr.spoonlabs.test_framework.TestTuple;
 
 /**
  * 

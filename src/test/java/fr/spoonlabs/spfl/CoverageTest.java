@@ -6,12 +6,12 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import fr.spoonlabs.spfl.core.TestTuple;
 import org.apache.log4j.Level;
 import org.junit.Test;
 
@@ -21,8 +21,6 @@ import fr.spoonlabs.spfl.core.CoverageRunner;
 import fr.spoonlabs.spfl.core.SuspiciousComputation;
 import fr.spoonlabs.spfl.entities.MatrixCoverage;
 import fr.spoonlabs.spfl.formulas.OchiaiFormula;
-import fr.spoonlabs.test_framework.TestDetector;
-import fr.spoonlabs.test_framework.TestTuple;
 import spoon.Launcher;
 
 /**
