@@ -1,7 +1,7 @@
 language: java
 
 install:
-  - cd ./examples/exampleFL3/FLtest1/ && mvn test -DskipTests
+  - cd ./examples/exampleFL3/FLtest1/ && mvn test -DskipTests && cd../../../
 
 script: 
   - mvn test
