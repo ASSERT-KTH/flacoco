@@ -1,0 +1,7 @@
+language: java
+
+install: true
+
+script: 
+  - cd ./examples/exampleFL3/FLtest1/ && mvn test -DskipTests
+  - mvn test

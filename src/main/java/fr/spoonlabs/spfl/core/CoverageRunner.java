@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import eu.stamp_project.testrunner.listener.TestCoveredResult;
+import eu.stamp_project.testrunner.listener.CoveredTestResult;
 import eu.stamp_project.testrunner.listener.impl.CoverageCollectorDetailed;
 import eu.stamp_project.testrunner.runner.coverage.JacocoRunner;
 import fr.spoonlabs.spfl.entities.CoverageFromSingleTestUnit;
@@ -48,8 +48,8 @@ public class CoverageRunner {
 				logger.debug("test method to run : " + method);
 
 				// We run the instrumented classes
-				TestCoveredResult coverageResult = runner.run(new CoverageCollectorDetailed(), urlloader,
-						classesDirectory, testClassesDirectory, testTuple.testClassToBeAmplified,
+				CoveredTestResult coverageResult = runner.run(new CoverageCollectorDetailed(), urlloader,
+						classesDirectory, testClassesDirectory, testTuple.testClassToBeAmplified, true,
 						new String[] { method });
 
 				if (coverageResult == null)
@@ -58,7 +58,7 @@ public class CoverageRunner {
 				CoverageFromSingleTestUnit coverageFromSingleTestWrapper = new CoverageFromSingleTestUnit(
 						testTuple.testClassToBeAmplified, method, coverageResult.getCoverageInformation());
 
-				TestCoveredResult tr = (TestCoveredResult) coverageResult;
+				CoveredTestResult tr = (CoveredTestResult) coverageResult;
 
 				boolean isPassing = tr.getPassingTests().size() > 0 && tr.getFailingTests().size() == 0;
 				coverageFromSingleTestWrapper.setIsPassing(isPassing);
