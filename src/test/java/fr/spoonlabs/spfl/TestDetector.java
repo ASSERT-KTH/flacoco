@@ -1,9 +1,11 @@
-package fr.spoonlabs.test_framework;
+package fr.spoonlabs.spfl;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import eu.stamp_project.testrunner.test_framework.TestFramework;
+import fr.spoonlabs.spfl.core.TestTuple;
 import spoon.reflect.declaration.CtMethod;
 import spoon.reflect.declaration.CtType;
 import spoon.reflect.factory.Factory;

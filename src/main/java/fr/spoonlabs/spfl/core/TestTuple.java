@@ -1,4 +1,4 @@
-package fr.spoonlabs.test_framework;
+package fr.spoonlabs.spfl.core;
 
 import java.util.HashMap;
 import java.util.List;
