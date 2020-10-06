@@ -10,3 +10,8 @@ The package `fr.spoonlabs.test_framework` was taken from DSpoon. The main two re
 
 - [ ] Cover tests that throw Exceptions.
 - [ ] Automated selection of test runner.
+
+## Related tools
+
+* https://github.com/GZoltar/gzoltar/
+* https://github.com/saeg/jaguar
