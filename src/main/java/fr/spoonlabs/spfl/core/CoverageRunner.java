@@ -22,18 +22,27 @@ public class CoverageRunner {
 
 	public MatrixCoverage getCoverageMatrix(JacocoRunner runner, String classpath, String classesDirectory,
 			String testClassesDirectory, List<TestTuple> testToRun) {
+		boolean coverTest = false;
+		return getCoverageMatrix(runner, classpath, classesDirectory, testClassesDirectory, testToRun, coverTest);
+	}
 
-		// This matrix stores the results: the execution of tests and
+	public MatrixCoverage getCoverageMatrix(JacocoRunner runner, String classpath, String classesDirectory,
+			String testClassesDirectory, List<TestTuple> testToRun, boolean coverTest) {
+
+		// This matrix stores the results: the execution of tests and the coverage of
+		// that execution on each line
 		MatrixCoverage matrixExecutionResult = new MatrixCoverage();
 
 		URLClassLoader urlloader = runner.getUrlClassloaderFromClassPath(classpath);
 
 		int i = 0;
+		// For each test class:
 		for (TestTuple testTuple : testToRun) {
 
 			logger.debug("#Test " + i++ + " / " + testToRun.size() + " " + testTuple.testClassToBeAmplified + " "
 					+ testTuple.testMethodsToBeAmplified.size());
 
+			// For each method test
 			for (String method : testTuple.testMethodsToBeAmplified) {
 
 				logger.debug("-----");
@@ -48,7 +57,7 @@ public class CoverageRunner {
 
 				// We run the instrumented classes
 				CoveredTestResult coverageResult = runner.run(new CoverageCollectorDetailed(), urlloader,
-						classesDirectory, testClassesDirectory, testTuple.testClassToBeAmplified, true,
+						classesDirectory, testClassesDirectory, testTuple.testClassToBeAmplified, coverTest,
 						new String[] { method });
 
 				if (coverageResult == null)

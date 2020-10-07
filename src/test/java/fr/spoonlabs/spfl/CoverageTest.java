@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import fr.spoonlabs.spfl.core.TestTuple;
 import org.apache.log4j.Level;
 import org.junit.Test;
 
@@ -19,6 +18,7 @@ import eu.stamp_project.testrunner.runner.coverage.JUnit4JacocoRunner;
 import eu.stamp_project.testrunner.runner.coverage.JacocoRunner;
 import fr.spoonlabs.spfl.core.CoverageRunner;
 import fr.spoonlabs.spfl.core.SuspiciousComputation;
+import fr.spoonlabs.spfl.core.TestTuple;
 import fr.spoonlabs.spfl.entities.MatrixCoverage;
 import fr.spoonlabs.spfl.formulas.OchiaiFormula;
 import spoon.Launcher;
@@ -319,6 +319,64 @@ public class CoverageTest {
 		// only captures the coverage on the class's constructor
 		assertTrue(susp.keySet().size() > 2);
 
+	}
+
+	@Test
+	public void test4CoverTest() throws Exception {
+
+		String dep1 = new File("./examples/libs/junit-4.12.jar").getAbsolutePath();
+		String dep2 = new File("./examples/libs/hamcrest-core-1.3.jar").getAbsolutePath();
+
+		String projectLocation = new File("./examples/exampleFL1/FLtest1").getAbsolutePath();
+		org.apache.log4j.LogManager.getRootLogger().setLevel(Level.DEBUG);
+		CoverageRunner detector = new CoverageRunner();
+
+		String dependencies = dep1 + File.separator + dep2;
+
+		// We create the model
+		Launcher laucher = new Launcher();
+		laucher.addInputResource(projectLocation + File.separator + "src/main");
+		laucher.addInputResource(projectLocation + File.separator + "src/test");
+		laucher.buildModel();
+
+		// We find for test
+		List<TestTuple> tests = testDetector.findTest(laucher.getFactory());
+
+		assertTrue(tests.size() > 0);
+
+		String pathToClasses = projectLocation + File.separator + "target/classes/";
+		String pathToTestClasses = projectLocation + File.separator + "target/test-classes/";
+
+		JacocoRunner runner = new JUnit4JacocoRunner(pathToClasses, pathToTestClasses);
+		// Add test class path
+		runner.instrumentAll(pathToTestClasses);
+
+		boolean coverTest = true;
+
+		MatrixCoverage matrix = detector.getCoverageMatrix(runner, dependencies, pathToClasses, pathToTestClasses,
+				tests, coverTest);
+
+		// verify nr of test
+		assertEquals(4, matrix.getTests().size());
+		assertEquals(1, matrix.getFailingTestCases().size());
+
+		// 18 executed lines
+		// We have 10 from class under test + 8 from test
+		assertEquals(18, matrix.getResultExecution().keySet().size());
+
+		// This line is the first if, so it's covered by all tests
+		Set<Integer> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
+
+		assertEquals(4, firstLineExecuted.size());
+
+		// Now, we check that, if we don't want to cover the test, the numbers of cover
+		// lines is fewer.
+
+		coverTest = false;
+
+		matrix = detector.getCoverageMatrix(runner, dependencies, pathToClasses, pathToTestClasses, tests, coverTest);
+
+		assertEquals(10, matrix.getResultExecution().keySet().size());
 	}
 
 }
