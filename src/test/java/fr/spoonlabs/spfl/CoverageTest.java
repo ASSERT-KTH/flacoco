@@ -18,6 +18,7 @@ import eu.stamp_project.testrunner.runner.coverage.JUnit4JacocoRunner;
 import eu.stamp_project.testrunner.runner.coverage.JacocoRunner;
 import fr.spoonlabs.spfl.core.CoverageRunner;
 import fr.spoonlabs.spfl.core.SuspiciousComputation;
+import fr.spoonlabs.spfl.core.TestDetector;
 import fr.spoonlabs.spfl.core.TestTuple;
 import fr.spoonlabs.spfl.entities.MatrixCoverage;
 import fr.spoonlabs.spfl.formulas.OchiaiFormula;
