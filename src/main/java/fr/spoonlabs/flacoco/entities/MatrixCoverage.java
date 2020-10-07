@@ -1,4 +1,4 @@
-package fr.spoonlabs.spfl.entities;
+package fr.spoonlabs.flacoco.entities;
 
 import java.util.ArrayList;
 import java.util.HashMap;

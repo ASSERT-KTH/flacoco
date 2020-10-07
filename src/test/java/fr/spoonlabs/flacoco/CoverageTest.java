@@ -1,4 +1,4 @@
-package fr.spoonlabs.spfl;
+package fr.spoonlabs.flacoco;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -16,12 +16,12 @@ import org.junit.Test;
 
 import eu.stamp_project.testrunner.runner.coverage.JUnit4JacocoRunner;
 import eu.stamp_project.testrunner.runner.coverage.JacocoRunner;
-import fr.spoonlabs.spfl.core.CoverageRunner;
-import fr.spoonlabs.spfl.core.SuspiciousComputation;
-import fr.spoonlabs.spfl.core.TestDetector;
-import fr.spoonlabs.spfl.core.TestTuple;
-import fr.spoonlabs.spfl.entities.MatrixCoverage;
-import fr.spoonlabs.spfl.formulas.OchiaiFormula;
+import fr.spoonlabs.flacoco.core.CoverageRunner;
+import fr.spoonlabs.flacoco.core.SuspiciousComputation;
+import fr.spoonlabs.flacoco.core.TestDetector;
+import fr.spoonlabs.flacoco.core.TestTuple;
+import fr.spoonlabs.flacoco.entities.MatrixCoverage;
+import fr.spoonlabs.flacoco.formulas.OchiaiFormula;
 import spoon.Launcher;
 
 /**

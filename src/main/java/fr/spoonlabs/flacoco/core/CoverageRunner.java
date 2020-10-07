@@ -1,4 +1,4 @@
-package fr.spoonlabs.spfl.core;
+package fr.spoonlabs.flacoco.core;
 
 import java.net.URLClassLoader;
 import java.util.List;
@@ -8,8 +8,8 @@ import org.apache.log4j.Logger;
 import eu.stamp_project.testrunner.listener.CoveredTestResult;
 import eu.stamp_project.testrunner.listener.impl.CoverageCollectorDetailed;
 import eu.stamp_project.testrunner.runner.coverage.JacocoRunner;
-import fr.spoonlabs.spfl.entities.CoverageFromSingleTestUnit;
-import fr.spoonlabs.spfl.entities.MatrixCoverage;
+import fr.spoonlabs.flacoco.entities.CoverageFromSingleTestUnit;
+import fr.spoonlabs.flacoco.entities.MatrixCoverage;
 
 /**
  * 

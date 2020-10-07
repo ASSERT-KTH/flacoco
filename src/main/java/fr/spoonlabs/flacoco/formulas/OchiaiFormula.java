@@ -1,4 +1,4 @@
-package fr.spoonlabs.spfl.formulas;
+package fr.spoonlabs.flacoco.formulas;
 
 public class OchiaiFormula implements Formula {
 

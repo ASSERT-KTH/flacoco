@@ -1,4 +1,4 @@
-package fr.spoonlabs.spfl.core;
+package fr.spoonlabs.flacoco.core;
 
 import java.util.HashMap;
 import java.util.List;

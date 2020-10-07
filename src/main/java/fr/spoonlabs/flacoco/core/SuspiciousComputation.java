@@ -1,4 +1,4 @@
-package fr.spoonlabs.spfl.core;
+package fr.spoonlabs.flacoco.core;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import fr.spoonlabs.spfl.entities.MatrixCoverage;
-import fr.spoonlabs.spfl.formulas.Formula;
+import fr.spoonlabs.flacoco.entities.MatrixCoverage;
+import fr.spoonlabs.flacoco.formulas.Formula;
 
 /**
  * Computes the suspicious given a coverage matrix and a formula

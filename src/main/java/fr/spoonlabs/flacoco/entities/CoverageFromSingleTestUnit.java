@@ -1,4 +1,4 @@
-package fr.spoonlabs.spfl.entities;
+package fr.spoonlabs.flacoco.entities;
 
 import eu.stamp_project.testrunner.listener.Coverage;
 
