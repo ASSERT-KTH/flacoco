@@ -1,10 +1,22 @@
 # flacoco
 
-Fault localization for Java based on Jacoco and STAMP-project's [test-runner](https://github.com/STAMP-project/test-runner)
+Fault localization for Java based on [Jacoco](https://github.com/jacoco/jacoco) and [test-runner](https://github.com/STAMP-project/test-runner)
 
-The package `fr.spoonlabs.test_framework` was taken from DSpoon. The main two reasons are: 1) to avoid importing the complete DSpot project and all its dependencies. 2) To change it according to our needs: e.g., classify each test according to the testing framework to automatically choose the test runner. 
+### Installing
 
+```
+mvn install
+```
 
+## Contributing
+
+### License
+
+MIT License
+
+### Pull requests
+
+External contributions are welcome.
 
 ## TODOS:
 
@@ -15,3 +27,8 @@ The package `fr.spoonlabs.test_framework` was taken from DSpoon. The main two re
 
 * https://github.com/GZoltar/gzoltar/
 * https://github.com/saeg/jaguar
+
+## Authors
+
+* Matias Martinez
+* Martin Monperrus
