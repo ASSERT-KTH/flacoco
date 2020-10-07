@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>fr.spoonlabs</groupId>
-	<artifactId>spfl</artifactId>
+	<artifactId>flacoco</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
