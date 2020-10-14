@@ -25,6 +25,7 @@ External contributions are welcome.
 
 ## Related tools
 
+* https://github.com/SpoonLabs/CoCoSpoon/
 * https://github.com/GZoltar/gzoltar/
 * https://github.com/saeg/jaguar
 
