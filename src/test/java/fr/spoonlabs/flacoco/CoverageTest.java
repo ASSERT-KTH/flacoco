@@ -19,7 +19,7 @@ import eu.stamp_project.testrunner.runner.coverage.JacocoRunner;
 import fr.spoonlabs.flacoco.core.CoverageRunner;
 import fr.spoonlabs.flacoco.core.SuspiciousComputation;
 import fr.spoonlabs.flacoco.core.TestDetector;
-import fr.spoonlabs.flacoco.core.TestTuple;
+import fr.spoonlabs.flacoco.core.TestInformation;
 import fr.spoonlabs.flacoco.entities.MatrixCoverage;
 import fr.spoonlabs.flacoco.formulas.OchiaiFormula;
 import spoon.Launcher;
@@ -52,7 +52,7 @@ public class CoverageTest {
 		laucher.buildModel();
 
 		// We find for test
-		List<TestTuple> tests = testDetector.findTest(laucher.getFactory());
+		List<TestInformation> tests = testDetector.findTest(laucher.getFactory());
 
 		assertTrue(tests.size() > 0);
 
@@ -192,13 +192,13 @@ public class CoverageTest {
 		laucher.buildModel();
 
 		// We find for test
-		List<TestTuple> tests = testDetector.findTest(laucher.getFactory());
+		List<TestInformation> tests = testDetector.findTest(laucher.getFactory());
 
 		assertTrue(tests.size() > 0);
 
 		assertEquals(1, tests.size());
 
-		assertEquals(5, tests.get(0).getTestMethodsToBeAmplified().size());
+		assertEquals(5, tests.get(0).getTestMethodsNames().size());
 
 		//
 
@@ -270,13 +270,13 @@ public class CoverageTest {
 		laucher.buildModel();
 
 		// We find for test
-		List<TestTuple> tests = testDetector.findTest(laucher.getFactory());
+		List<TestInformation> tests = testDetector.findTest(laucher.getFactory());
 
 		assertTrue(tests.size() > 0);
 
 		assertEquals(1, tests.size());
 
-		assertEquals(5, tests.get(0).getTestMethodsToBeAmplified().size());
+		assertEquals(5, tests.get(0).getTestMethodsNames().size());
 
 		//
 
@@ -341,7 +341,7 @@ public class CoverageTest {
 		laucher.buildModel();
 
 		// We find for test
-		List<TestTuple> tests = testDetector.findTest(laucher.getFactory());
+		List<TestInformation> tests = testDetector.findTest(laucher.getFactory());
 
 		assertTrue(tests.size() > 0);
 

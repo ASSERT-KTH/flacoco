@@ -21,13 +21,13 @@ public class CoverageRunner {
 	private Logger logger = Logger.getLogger(CoverageRunner.class.getName());
 
 	public MatrixCoverage getCoverageMatrix(JacocoRunner runner, String classpath, String classesDirectory,
-			String testClassesDirectory, List<TestTuple> testToRun) {
+			String testClassesDirectory, List<TestInformation> testToRun) {
 		boolean coverTest = false;
 		return getCoverageMatrix(runner, classpath, classesDirectory, testClassesDirectory, testToRun, coverTest);
 	}
 
 	public MatrixCoverage getCoverageMatrix(JacocoRunner runner, String classpath, String classesDirectory,
-			String testClassesDirectory, List<TestTuple> testToRun, boolean coverTest) {
+			String testClassesDirectory, List<TestInformation> testToRun, boolean coverTest) {
 
 		// This matrix stores the results: the execution of tests and the coverage of
 		// that execution on each line
@@ -37,13 +37,13 @@ public class CoverageRunner {
 
 		int i = 0;
 		// For each test class:
-		for (TestTuple testTuple : testToRun) {
+		for (TestInformation testTuple : testToRun) {
 
-			logger.debug("#Test " + i++ + " / " + testToRun.size() + " " + testTuple.testClassToBeAmplified + " "
-					+ testTuple.testMethodsToBeAmplified.size());
+			logger.debug("#Test " + i++ + " / " + testToRun.size() + " " + testTuple.getTestClassQualifiedName() + " "
+					+ testTuple.getTestMethods().size());
 
 			// For each method test
-			for (String method : testTuple.testMethodsToBeAmplified) {
+			for (String method : testTuple.getTestMethodsNames()) {
 
 				logger.debug("-----");
 				logger.debug("Calling method " + method);
@@ -52,19 +52,19 @@ public class CoverageRunner {
 
 				logger.debug("classesDirectory" + classesDirectory);
 				logger.debug("testClassesDirectory" + testClassesDirectory);
-				logger.debug("test class to run : " + testTuple.testClassToBeAmplified);
+				logger.debug("test class to run : " + testTuple.getTestClassQualifiedName());
 				logger.debug("test method to run : " + method);
 
 				// We run the instrumented classes
 				CoveredTestResult coverageResult = runner.run(new CoverageCollectorDetailed(), urlloader,
-						classesDirectory, testClassesDirectory, testTuple.testClassToBeAmplified, coverTest,
+						classesDirectory, testClassesDirectory, testTuple.getTestClassQualifiedName(), coverTest,
 						new String[] { method });
 
 				if (coverageResult == null)
 					continue;
 
 				CoverageFromSingleTestUnit coverageFromSingleTestWrapper = new CoverageFromSingleTestUnit(
-						testTuple.testClassToBeAmplified, method, coverageResult.getCoverageInformation());
+						testTuple.getTestClassQualifiedName(), method, coverageResult.getCoverageInformation());
 
 				CoveredTestResult tr = (CoveredTestResult) coverageResult;
 

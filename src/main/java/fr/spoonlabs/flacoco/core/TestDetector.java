@@ -2,7 +2,6 @@ package fr.spoonlabs.flacoco.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import eu.stamp_project.testrunner.test_framework.TestFramework;
 import spoon.reflect.declaration.CtMethod;
@@ -21,11 +20,11 @@ public class TestDetector {
 
 	}
 
-	public List<TestTuple> findTest(Factory factory) {
+	public List<TestInformation> findTest(Factory factory) {
 		TestFramework.init(factory);
 		this.testFramework = TestFramework.get();
 
-		List<TestTuple> tuples = new ArrayList();
+		List<TestInformation> tuples = new ArrayList();
 
 		List<CtType<?>> modelclassesOfTest = this.testFramework.getAllTestClasses();
 		for (CtType<?> type : modelclassesOfTest) {
@@ -36,10 +35,7 @@ public class TestDetector {
 
 			List<CtMethod<?>> methodsTest = this.testFramework.getAllTest(type);
 
-			List<String> methodTestNames = methodsTest.stream().map(e -> e.getSimpleName())
-					.collect(Collectors.toList());
-
-			TestTuple tuple = new TestTuple(type.getQualifiedName(), methodTestNames);
+			TestInformation tuple = new TestInformation(type, methodsTest);
 
 			tuples.add(tuple);
 		}
