@@ -96,13 +96,13 @@ public class MatrixCoverage {
 		// Retrieve the key of the test
 		String testKey = getTestKey(iCovWrapper);
 
-		int testIndex = this.getIndexTest(testKey);
-
 		if (iCovWrapper.isSkip()) {
 			logger.debug(
 					"Ignoring skipped test: " + iCovWrapper.getTestMethod() + " from " + iCovWrapper.getTestClass());
 			return;
 		}
+
+		int testIndex = this.getIndexTest(testKey);
 
 		boolean isPassing = iCovWrapper.isPassing();
 
@@ -160,6 +160,11 @@ public class MatrixCoverage {
 
 		for (int i = 0; i < this.getTests().size(); i++) {
 			Boolean testResult = this.getTestResult().get(i);
+
+			if (testResult == null) {
+				logger.info("We could not find the results for test  #" + i + ": " + this.getTests().get(i));
+			} else
+
 			if (!testResult) {
 				String testi = this.getTests().get(i);
 				failingTest.add(testi);
