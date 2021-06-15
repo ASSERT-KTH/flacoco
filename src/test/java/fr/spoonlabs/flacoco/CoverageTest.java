@@ -1,19 +1,6 @@
 package fr.spoonlabs.flacoco;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.apache.log4j.Level;
-import org.junit.Test;
-
+import eu.stamp_project.testrunner.listener.impl.CoverageCollectorDetailed;
 import eu.stamp_project.testrunner.runner.coverage.JUnit4JacocoRunner;
 import eu.stamp_project.testrunner.runner.coverage.JacocoRunner;
 import fr.spoonlabs.flacoco.core.CoverageRunner;
@@ -22,7 +9,17 @@ import fr.spoonlabs.flacoco.core.TestDetector;
 import fr.spoonlabs.flacoco.core.TestInformation;
 import fr.spoonlabs.flacoco.entities.MatrixCoverage;
 import fr.spoonlabs.flacoco.formulas.OchiaiFormula;
+import org.apache.log4j.Level;
+import org.junit.Test;
 import spoon.Launcher;
+
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static org.junit.Assert.*;
 
 /**
  * 
@@ -59,7 +56,7 @@ public class CoverageTest {
 		String pathToClasses = projectLocation + File.separator + "target/classes/";
 		String pathToTestClasses = projectLocation + File.separator + "target/test-classes/";
 
-		JacocoRunner runner = new JUnit4JacocoRunner(pathToClasses, pathToTestClasses);
+		JacocoRunner runner = new JUnit4JacocoRunner(pathToClasses, pathToTestClasses, new CoverageCollectorDetailed());
 
 		MatrixCoverage matrix = detector.getCoverageMatrix(runner, dependencies, pathToClasses, pathToTestClasses,
 				tests);
@@ -205,7 +202,7 @@ public class CoverageTest {
 		String pathToClasses = projectLocation + File.separator + "target/classes/";
 		String pathToTestClasses = projectLocation + File.separator + "target/test-classes/";
 
-		JacocoRunner runner = new JUnit4JacocoRunner(pathToClasses, pathToTestClasses);
+		JacocoRunner runner = new JUnit4JacocoRunner(pathToClasses, pathToTestClasses, new CoverageCollectorDetailed());
 
 		MatrixCoverage matrix = detector.getCoverageMatrix(runner, dependencies, pathToClasses, pathToTestClasses,
 				tests);
@@ -283,7 +280,7 @@ public class CoverageTest {
 		String pathToClasses = projectLocation + File.separator + "target/classes/";
 		String pathToTestClasses = projectLocation + File.separator + "target/test-classes/";
 
-		JacocoRunner runner = new JUnit4JacocoRunner(pathToClasses, pathToTestClasses);
+		JacocoRunner runner = new JUnit4JacocoRunner(pathToClasses, pathToTestClasses, new CoverageCollectorDetailed());
 
 		MatrixCoverage matrix = detector.getCoverageMatrix(runner, dependencies, pathToClasses, pathToTestClasses,
 				tests);
@@ -348,7 +345,7 @@ public class CoverageTest {
 		String pathToClasses = projectLocation + File.separator + "target/classes/";
 		String pathToTestClasses = projectLocation + File.separator + "target/test-classes/";
 
-		JacocoRunner runner = new JUnit4JacocoRunner(pathToClasses, pathToTestClasses);
+		JacocoRunner runner = new JUnit4JacocoRunner(pathToClasses, pathToTestClasses, new CoverageCollectorDetailed());
 		// Add test class path
 		runner.instrumentAll(pathToTestClasses);
 
