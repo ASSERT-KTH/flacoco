@@ -11,6 +11,9 @@ install:
 script:
   - ./.travis/execute_tests.sh
 
+after_success:
+  - ./.travis/code_coverage.sh
+
 branch:
   only:
     - master
