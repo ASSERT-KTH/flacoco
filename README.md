@@ -1,6 +1,4 @@
-[![Build Status](https://travis-ci.com/SpoonLabs/flacoco.svg?branch=master)](https://travis-ci.com/SpoonLabs/flacoco)
-[![codecov](https://codecov.io/gh/SpoonLabs/flacoco/branch/master/graph/badge.svg?token=7WWFGI1KWW)](https://codecov.io/gh/SpoonLabs/flacoco)
-# flacoco
+# flacoco · [![Build Status](https://travis-ci.com/SpoonLabs/flacoco.svg?branch=master)](https://travis-ci.com/SpoonLabs/flacoco) [![codecov](https://codecov.io/gh/SpoonLabs/flacoco/branch/master/graph/badge.svg?token=7WWFGI1KWW)](https://codecov.io/gh/SpoonLabs/flacoco)
 
 Fault localization for Java based on [Jacoco](https://github.com/jacoco/jacoco) and [test-runner](https://github.com/STAMP-project/test-runner)
 
