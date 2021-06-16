@@ -1,7 +1,16 @@
 language: java
 
-install:
-  - cd ./examples/exampleFL3/FLtest1/ && mvn test -DskipTests && cd ../../../
+jdk: openjdk8
 
-script: 
-  - mvn test
+install:
+  - ./.travis/install_examples.sh
+
+script:
+  - ./.travis/execute_tests.sh
+
+branch:
+  only:
+    - master
+
+notifications:
+  email: false
