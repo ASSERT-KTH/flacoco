@@ -1,7 +1,22 @@
+arch: amd64
+os: linux
+dist: xenial
+
 language: java
+jdk: openjdk8
 
 install:
-  - cd ./examples/exampleFL3/FLtest1/ && mvn test -DskipTests && cd ../../../
+  - ./.travis/install_examples.sh
 
-script: 
-  - mvn test
+script:
+  - ./.travis/execute_tests.sh
+
+after_success:
+  - ./.travis/code_coverage.sh
+
+branch:
+  only:
+    - master
+
+notifications:
+  email: false
