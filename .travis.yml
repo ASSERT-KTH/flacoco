@@ -1,5 +1,8 @@
-language: java
+arch: amd64
+os: linux
+dist: xenial
 
+language: java
 jdk: openjdk8
 
 install:
