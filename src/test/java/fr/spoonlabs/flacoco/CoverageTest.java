@@ -212,17 +212,17 @@ public class CoverageTest {
 		assertEquals(5, matrix.getTests().size());
 
 		// 10 executed lines
-		assertEquals(10, matrix.getResultExecution().keySet().size());
+		assertEquals(11, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
 		Set<Integer> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@12");
 		// The assertion fails because it cannot count the erroring test
-		assertEquals(4, firstLineExecuted.size());
+		assertEquals(5, firstLineExecuted.size());
 
 		System.out.println(matrix.getResultExecution());
 
 		Set<Integer> secondLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@18");
-		assertEquals(1, secondLineExecuted.size());
+		assertEquals(2, secondLineExecuted.size());
 
 		/// now suspicious
 
@@ -234,11 +234,11 @@ public class CoverageTest {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(2, susp.keySet().size());
+		assertEquals(7, susp.keySet().size());
 
 		// When there is NPE, the trace is not recorded. the assertion fails because it
 		// only captures the coverage on the class's constructor
-		// assertEquals(susp.keySet().size() > 2);
+		assertTrue(susp.keySet().size() > 2);
 
 	}
 
