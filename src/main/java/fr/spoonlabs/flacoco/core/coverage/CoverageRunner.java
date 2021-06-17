@@ -1,15 +1,14 @@
-package fr.spoonlabs.flacoco.core;
+package fr.spoonlabs.flacoco.core.coverage;
 
 import java.net.URLClassLoader;
 import java.util.List;
 
+import fr.spoonlabs.flacoco.core.test.TestInformation;
 import org.apache.log4j.Logger;
 
 import eu.stamp_project.testrunner.listener.CoveredTestResult;
 import eu.stamp_project.testrunner.listener.impl.CoverageCollectorDetailed;
 import eu.stamp_project.testrunner.runner.coverage.JacocoRunner;
-import fr.spoonlabs.flacoco.entities.CoverageFromSingleTestUnit;
-import fr.spoonlabs.flacoco.entities.MatrixCoverage;
 
 /**
  * 
@@ -18,7 +17,7 @@ import fr.spoonlabs.flacoco.entities.MatrixCoverage;
  */
 public class CoverageRunner {
 
-	private Logger logger = Logger.getLogger(CoverageRunner.class.getName());
+	private Logger logger = Logger.getLogger(CoverageRunner.class);
 
 	public MatrixCoverage getCoverageMatrix(JacocoRunner runner, String classpath, String classesDirectory,
 			String testClassesDirectory, List<TestInformation> testToRun) {

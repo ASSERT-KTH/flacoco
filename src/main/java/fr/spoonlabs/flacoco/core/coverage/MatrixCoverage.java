@@ -1,4 +1,4 @@
-package fr.spoonlabs.flacoco.entities;
+package fr.spoonlabs.flacoco.core.coverage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ import eu.stamp_project.testrunner.listener.impl.CoverageFromClass;
  */
 public class MatrixCoverage {
 
-	private Logger logger = Logger.getLogger(MatrixCoverage.class.getName());
+	private Logger logger = Logger.getLogger(MatrixCoverage.class);
 
 	public final static String JOIN = "@-@";
 

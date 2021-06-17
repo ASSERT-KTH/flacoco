@@ -1,4 +1,4 @@
-package fr.spoonlabs.flacoco.core;
+package fr.spoonlabs.flacoco.core.test;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,4 +47,11 @@ public class TestInformation {
 		this.testMethods = testMethods;
 	}
 
+	@Override
+	public String toString() {
+		return "TestInformation{" +
+				"testClassModel=" + testClassModel +
+				", testMethods=" + testMethods +
+				'}';
+	}
 }

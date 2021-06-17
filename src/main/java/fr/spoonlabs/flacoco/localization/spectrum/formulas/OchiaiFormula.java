@@ -1,4 +1,4 @@
-package fr.spoonlabs.flacoco.formulas;
+package fr.spoonlabs.flacoco.localization.spectrum.formulas;
 
 public class OchiaiFormula implements Formula {
 

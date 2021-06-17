@@ -1,64 +1,61 @@
-package fr.spoonlabs.flacoco;
+package fr.spoonlabs.flacoco.core.coverage;
 
 import eu.stamp_project.testrunner.listener.impl.CoverageCollectorDetailed;
 import eu.stamp_project.testrunner.runner.coverage.JUnit4JacocoRunner;
 import eu.stamp_project.testrunner.runner.coverage.JacocoRunner;
-import fr.spoonlabs.flacoco.core.CoverageRunner;
-import fr.spoonlabs.flacoco.core.SuspiciousComputation;
-import fr.spoonlabs.flacoco.core.TestDetector;
-import fr.spoonlabs.flacoco.core.TestInformation;
-import fr.spoonlabs.flacoco.entities.MatrixCoverage;
-import fr.spoonlabs.flacoco.formulas.OchiaiFormula;
+import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
+import fr.spoonlabs.flacoco.core.test.TestDetector;
+import fr.spoonlabs.flacoco.core.test.TestInformation;
 import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import spoon.Launcher;
 
 import java.io.File;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
-/**
- * 
- * @author Matias Martinez
- *
- */
-public class CoverageTest {
+public class CoverageRunnerTest {
 
-	TestDetector testDetector = new TestDetector();
+	@Before
+	public void setUp() {
+		LogManager.getRootLogger().setLevel(Level.DEBUG);
 
-	@Test
-	public void test1FailingTest() throws Exception {
-
+		FlacocoConfig config = FlacocoConfig.getInstance();
 		String dep1 = new File("./examples/libs/junit-4.12.jar").getAbsolutePath();
 		String dep2 = new File("./examples/libs/hamcrest-core-1.3.jar").getAbsolutePath();
+		config.setClasspath(dep1 + File.separator + dep2);
+	}
 
-		String projectLocation = new File("./examples/exampleFL1/FLtest1").getAbsolutePath();
-		org.apache.log4j.LogManager.getRootLogger().setLevel(Level.DEBUG);
+	@After
+	public void tearDown() {
+		FlacocoConfig.deleteInstance();
+	}
+
+	@Test
+	public void testExampleFL1CoverageRunner() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath("./examples/exampleFL1/FLtest1");
+
 		CoverageRunner detector = new CoverageRunner();
 
-		String dependencies = dep1 + File.separator + dep2;
-
-		// We create the model
-		Launcher laucher = new Launcher();
-		laucher.addInputResource(projectLocation + File.separator + "src/main");
-		laucher.addInputResource(projectLocation + File.separator + "src/test");
-		laucher.buildModel();
-
-		// We find for test
-		List<TestInformation> tests = testDetector.findTest(laucher.getFactory());
+		// Find the tests
+		TestDetector testDetector = new TestDetector();
+		List<TestInformation> tests = testDetector.findTests();
 
 		assertTrue(tests.size() > 0);
 
-		String pathToClasses = projectLocation + File.separator + "target/classes/";
-		String pathToTestClasses = projectLocation + File.separator + "target/test-classes/";
+		String pathToClasses = config.getProjectPath() + File.separator + "target/classes/";
+		String pathToTestClasses = config.getProjectPath() + File.separator + "target/test-classes/";
 
 		JacocoRunner runner = new JUnit4JacocoRunner(pathToClasses, pathToTestClasses, new CoverageCollectorDetailed());
 
-		MatrixCoverage matrix = detector.getCoverageMatrix(runner, dependencies, pathToClasses, pathToTestClasses,
+		MatrixCoverage matrix = detector.getCoverageMatrix(runner, config.getClasspath(), pathToClasses, pathToTestClasses,
 				tests);
 
 		// verify nr of test
@@ -140,71 +137,32 @@ public class CoverageTest {
 		// Any test executes that
 		Set<Integer> modCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@18");
 		assertNull(modCond);
-
-		// Now let's compute the suspicious
-
-		SuspiciousComputation flcalc = new SuspiciousComputation();
-
-		Map<String, Double> susp = flcalc.calculateSuspicious(matrix, new OchiaiFormula());
-
-		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
-		}
-
-		assertEquals(6, susp.size());
-
-		// Line executed only by the failling
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
-
-		// Line executed by failing and passing
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.1);
-
-		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5"), 0);
 	}
 
 	/**
-	 * This test exposes one limitation, the results from a method that throws an
-	 * Exception is empty (any line is marked as executed)
-	 * 
-	 * @throws Exception
+	 * This test captures the functionality of computing the coverage even when an exception is
+	 * thrown during execution
 	 */
 	@Test
-	public void test2NPE() throws Exception {
-
-		String dep1 = new File("./examples/libs/junit-4.12.jar").getAbsolutePath();
-		String dep2 = new File("./examples/libs/hamcrest-core-1.3.jar").getAbsolutePath();
-
-		String projectLocation = new File("./examples/exampleFL2/FLtest1").getAbsolutePath();
+	public void testExampleFL2CoverageRunner() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath("./examples/exampleFL2/FLtest1");
 
 		CoverageRunner detector = new CoverageRunner();
-		org.apache.log4j.LogManager.getRootLogger().setLevel(Level.DEBUG);
-		String dependencies = dep1 + File.separator + dep2;
 
-		// We create the model
-		Launcher laucher = new Launcher();
-		laucher.addInputResource(projectLocation + File.separator + "src/main");
-		laucher.addInputResource(projectLocation + File.separator + "src/test");
-		laucher.buildModel();
-
-		// We find for test
-		List<TestInformation> tests = testDetector.findTest(laucher.getFactory());
+		// Find the tests
+		TestDetector testDetector = new TestDetector();
+		List<TestInformation> tests = testDetector.findTests();
 
 		assertTrue(tests.size() > 0);
 
-		assertEquals(1, tests.size());
-
-		assertEquals(5, tests.get(0).getTestMethodsNames().size());
-
-		//
-
-		String pathToClasses = projectLocation + File.separator + "target/classes/";
-		String pathToTestClasses = projectLocation + File.separator + "target/test-classes/";
+		String pathToClasses = config.getProjectPath() + File.separator + "target/classes/";
+		String pathToTestClasses = config.getProjectPath() + File.separator + "target/test-classes/";
 
 		JacocoRunner runner = new JUnit4JacocoRunner(pathToClasses, pathToTestClasses, new CoverageCollectorDetailed());
 
-		MatrixCoverage matrix = detector.getCoverageMatrix(runner, dependencies, pathToClasses, pathToTestClasses,
+		MatrixCoverage matrix = detector.getCoverageMatrix(runner, config.getClasspath(), pathToClasses, pathToTestClasses,
 				tests);
 
 		/// let's inspect the matrix
@@ -216,73 +174,34 @@ public class CoverageTest {
 
 		// This line is the first if, so it's covered by all tests
 		Set<Integer> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@12");
-		// The assertion fails because it cannot count the erroring test
 		assertEquals(5, firstLineExecuted.size());
 
 		System.out.println(matrix.getResultExecution());
 
 		Set<Integer> secondLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@18");
 		assertEquals(2, secondLineExecuted.size());
-
-		/// now suspicious
-
-		SuspiciousComputation flcalc = new SuspiciousComputation();
-
-		Map<String, Double> susp = flcalc.calculateSuspicious(matrix, new OchiaiFormula());
-
-		for (String line : susp.keySet()) {
-			System.out.println("susp " + line + " " + susp.get(line));
-		}
-
-		assertEquals(7, susp.keySet().size());
-
-		// When there is NPE, the trace is not recorded. the assertion fails because it
-		// only captures the coverage on the class's constructor
-		assertTrue(susp.keySet().size() > 2);
-
 	}
 
-	/**
-	 * This test exposes one limitation, the results from a method that throws an
-	 * Exception is empty (any line is marked as executed)
-	 * 
-	 * @throws Exception
-	 */
 	@Test
-	public void test3CatchedNPE() throws Exception {
-
-		String dep1 = new File("./examples/libs/junit-4.12.jar").getAbsolutePath();
-		String dep2 = new File("./examples/libs/hamcrest-core-1.3.jar").getAbsolutePath();
-
-		String projectLocation = new File("./examples/exampleFL3/FLtest1").getAbsolutePath();
+	public void testExampleFL3CoverageRunner() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath("./examples/exampleFL3/FLtest1");
 
 		CoverageRunner detector = new CoverageRunner();
-		org.apache.log4j.LogManager.getRootLogger().setLevel(Level.DEBUG);
-		String dependencies = dep1 + File.separator + dep2;
 
-		// We create the model
-		Launcher laucher = new Launcher();
-		laucher.addInputResource(projectLocation + File.separator + "src/main");
-		laucher.addInputResource(projectLocation + File.separator + "src/test");
-		laucher.buildModel();
-
-		// We find for test
-		List<TestInformation> tests = testDetector.findTest(laucher.getFactory());
+		// Find the tests
+		TestDetector testDetector = new TestDetector();
+		List<TestInformation> tests = testDetector.findTests();
 
 		assertTrue(tests.size() > 0);
 
-		assertEquals(1, tests.size());
-
-		assertEquals(5, tests.get(0).getTestMethodsNames().size());
-
-		//
-
-		String pathToClasses = projectLocation + File.separator + "target/classes/";
-		String pathToTestClasses = projectLocation + File.separator + "target/test-classes/";
+		String pathToClasses = config.getProjectPath() + File.separator + "target/classes/";
+		String pathToTestClasses = config.getProjectPath() + File.separator + "target/test-classes/";
 
 		JacocoRunner runner = new JUnit4JacocoRunner(pathToClasses, pathToTestClasses, new CoverageCollectorDetailed());
 
-		MatrixCoverage matrix = detector.getCoverageMatrix(runner, dependencies, pathToClasses, pathToTestClasses,
+		MatrixCoverage matrix = detector.getCoverageMatrix(runner, config.getClasspath(), pathToClasses, pathToTestClasses,
 				tests);
 
 		/// let's inspect the matrix
@@ -303,56 +222,31 @@ public class CoverageTest {
 		Set<Integer> failingLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@22");
 		assertNull(failingLineExecuted);
 		// assertEquals(0, failingLineExecuted.size());
-
-		/// now suspicious
-
-		SuspiciousComputation flcalc = new SuspiciousComputation();
-
-		Map<String, Double> susp = flcalc.calculateSuspicious(matrix, new OchiaiFormula());
-
-		for (String line : susp.keySet()) {
-			System.out.println(" " + line + " " + susp.get(line));
-		}
-		// When there is NPE, the trace is not recorded. the assertion fails because it
-		// only captures the coverage on the class's constructor
-		assertTrue(susp.keySet().size() > 2);
-
 	}
 
 	@Test
-	public void test4CoverTest() throws Exception {
+	public void testExampleFL1CoverageRunnerCoverTests() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath("./examples/exampleFL1/FLtest1");
 
-		String dep1 = new File("./examples/libs/junit-4.12.jar").getAbsolutePath();
-		String dep2 = new File("./examples/libs/hamcrest-core-1.3.jar").getAbsolutePath();
-
-		String projectLocation = new File("./examples/exampleFL1/FLtest1").getAbsolutePath();
-		org.apache.log4j.LogManager.getRootLogger().setLevel(Level.DEBUG);
 		CoverageRunner detector = new CoverageRunner();
 
-		String dependencies = dep1 + File.separator + dep2;
-
-		// We create the model
-		Launcher laucher = new Launcher();
-		laucher.addInputResource(projectLocation + File.separator + "src/main");
-		laucher.addInputResource(projectLocation + File.separator + "src/test");
-		laucher.buildModel();
-
-		// We find for test
-		List<TestInformation> tests = testDetector.findTest(laucher.getFactory());
+		// Find the tests
+		TestDetector testDetector = new TestDetector();
+		List<TestInformation> tests = testDetector.findTests();
 
 		assertTrue(tests.size() > 0);
 
-		String pathToClasses = projectLocation + File.separator + "target/classes/";
-		String pathToTestClasses = projectLocation + File.separator + "target/test-classes/";
+		String pathToClasses = config.getProjectPath() + File.separator + "target/classes/";
+		String pathToTestClasses = config.getProjectPath() + File.separator + "target/test-classes/";
 
 		JacocoRunner runner = new JUnit4JacocoRunner(pathToClasses, pathToTestClasses, new CoverageCollectorDetailed());
-		// Add test class path
 		runner.instrumentAll(pathToTestClasses);
 
-		boolean coverTest = true;
-
-		MatrixCoverage matrix = detector.getCoverageMatrix(runner, dependencies, pathToClasses, pathToTestClasses,
-				tests, coverTest);
+		boolean coverTests = true;
+		MatrixCoverage matrix = detector.getCoverageMatrix(runner, config.getClasspath(), pathToClasses, pathToTestClasses,
+				tests, coverTests);
 
 		// verify nr of test
 		assertEquals(4, matrix.getTests().size());
@@ -370,9 +264,8 @@ public class CoverageTest {
 		// Now, we check that, if we don't want to cover the test, the numbers of cover
 		// lines is fewer.
 
-		coverTest = false;
-
-		matrix = detector.getCoverageMatrix(runner, dependencies, pathToClasses, pathToTestClasses, tests, coverTest);
+		coverTests = false;
+		matrix = detector.getCoverageMatrix(runner, config.getClasspath(), pathToClasses, pathToTestClasses, tests, coverTests);
 
 		assertEquals(10, matrix.getResultExecution().keySet().size());
 	}
