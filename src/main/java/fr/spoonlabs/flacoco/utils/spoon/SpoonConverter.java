@@ -50,6 +50,7 @@ public class SpoonConverter {
 
 			System.out.println(key);
 			System.out.println(SpoonLocalizedFaultFinder.found);
+			System.out.println(SpoonLocalizedFaultFinder.found.getPosition());
 			// FIXME: If the original key maps to the same CtStatement, then we potentially have a problem
 			result.put(SpoonLocalizedFaultFinder.found, original.get(key));
 

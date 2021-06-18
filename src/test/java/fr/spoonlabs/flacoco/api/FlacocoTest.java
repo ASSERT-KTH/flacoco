@@ -201,6 +201,7 @@ public class FlacocoTest {
 		assertEquals(5, susp.size());
 
 		for (CtStatement ctStatement : susp.keySet()) {
+			System.out.println("" + ctStatement + " " + susp.get(ctStatement));
 			assertTrue(ctStatement.getPosition().getFile().getAbsolutePath().endsWith("fr/spoonlabs/FLtest1/Calculator.java"));
 			switch (ctStatement.getPosition().getLine()) {
 				// Line executed only by the failing
