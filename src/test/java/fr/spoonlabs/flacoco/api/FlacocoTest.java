@@ -90,4 +90,25 @@ public class FlacocoTest {
 		assertEquals(7, susp.keySet().size());
 	}
 
+	@Test
+	public void testExampleFL3SpectrumBasedOchiaiDefaultMode() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath("./examples/exampleFL3/FLtest1");
+		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
+		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+
+		// Run Flacoco
+		Flacoco flacoco = new Flacoco();
+
+		// Run default mode
+		Map<String, Double> susp = flacoco.runDefault();
+
+		for (String line : susp.keySet()) {
+			System.out.println("susp " + line + " " + susp.get(line));
+		}
+
+		assertEquals(7, susp.keySet().size());
+	}
+
 }
