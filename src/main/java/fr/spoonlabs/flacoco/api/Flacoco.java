@@ -3,8 +3,9 @@ package fr.spoonlabs.flacoco.api;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.localization.FaultLocalizationRunner;
 import fr.spoonlabs.flacoco.localization.spectrum.SpectrumRunner;
+import fr.spoonlabs.flacoco.utils.spoon.SpoonConverter;
 import org.apache.log4j.Logger;
-import spoon.reflect.declaration.CtElement;
+import spoon.reflect.code.CtStatement;
 
 import java.util.Map;
 
@@ -36,9 +37,9 @@ public class Flacoco implements FlacocoAPI {
 	 * @return Mapping between CtElements representing a code lines and suspiciousness scores
 	 */
 	@Override
-	public Map<CtElement, Double> runSpoon() {
+	public Map<CtStatement, Double> runSpoon() {
 		Map<String, Double> defaultResults = runDefault();
-		return null;
+		return SpoonConverter.convert(defaultResults);
 	}
 
 	/**
@@ -52,6 +53,5 @@ public class Flacoco implements FlacocoAPI {
 		}
 		return null;
 	}
-
 
 }
