@@ -13,12 +13,18 @@ public class FlacocoConfig {
 		SPECTRUM_BASED,
 	}
 
-	
+	public enum TestFramework {
+		JUNIT4,
+		JUNIT5
+	}
+
 	private static FlacocoConfig instance;
 
 	private String workspace;
 	private String projectPath;
 	private String classpath;
+	private TestFramework testFramework;
+	private boolean coverTests;
 
 	private FaultLocalizationFamily family;
 	//------Options for spectrum-based fault localization------
@@ -39,6 +45,8 @@ public class FlacocoConfig {
 		this.workspace = "./";
 		this.projectPath = "./";
 		this.classpath = "./";
+		this.testFramework = TestFramework.JUNIT4;
+		this.coverTests = false;
 
 		this.family = FaultLocalizationFamily.SPECTRUM_BASED;
 		this.spectrumFormula = SpectrumFormula.OCHIAI;
@@ -68,6 +76,22 @@ public class FlacocoConfig {
 		this.classpath = classpath;
 	}
 
+	public TestFramework getTestFramework() {
+		return testFramework;
+	}
+
+	public void setTestFramework(TestFramework testFramework) {
+		this.testFramework = testFramework;
+	}
+
+	public boolean isCoverTests() {
+		return coverTests;
+	}
+
+	public void setCoverTests(boolean coverTests) {
+		this.coverTests = coverTests;
+	}
+
 	public FaultLocalizationFamily getFamily() {
 		return family;
 	}
@@ -90,6 +114,8 @@ public class FlacocoConfig {
 				"workspace='" + workspace + '\'' +
 				", projectPath='" + projectPath + '\'' +
 				", classpath='" + classpath + '\'' +
+				", testFramework=" + testFramework +
+				", coverTests=" + coverTests +
 				", family=" + family +
 				", spectrumFormula=" + spectrumFormula +
 				'}';

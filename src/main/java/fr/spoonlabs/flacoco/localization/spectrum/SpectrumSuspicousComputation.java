@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import fr.spoonlabs.flacoco.core.coverage.MatrixCoverage;
+import fr.spoonlabs.flacoco.core.coverage.CoverageMatrix;
 import fr.spoonlabs.flacoco.localization.spectrum.formulas.Formula;
 
 /**
@@ -23,7 +23,7 @@ public class SpectrumSuspicousComputation {
 	 * @return a map where the keys are the lines and the values are the suspicious
 	 *         values
 	 */
-	public Map<String, Double> calculateSuspicious(MatrixCoverage matrix, Formula formula) {
+	public Map<String, Double> calculateSuspicious(CoverageMatrix matrix, Formula formula) {
 		return calculateSuspicious(matrix, formula, false);
 	}
 
@@ -38,8 +38,8 @@ public class SpectrumSuspicousComputation {
 	 * @return a map where the keys are the lines and the values are the suspicious
 	 *         values
 	 */
-	public Map<String, Double> calculateSuspicious(MatrixCoverage matrix, Formula formula,
-			boolean includeSuspiciousEqualsToZero) {
+	public Map<String, Double> calculateSuspicious(CoverageMatrix matrix, Formula formula,
+	                                               boolean includeSuspiciousEqualsToZero) {
 
 		Map<String, Double> result = new HashMap<>();
 		// For each line of code to analyze

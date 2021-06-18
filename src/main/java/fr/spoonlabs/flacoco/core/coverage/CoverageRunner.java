@@ -1,38 +1,44 @@
 package fr.spoonlabs.flacoco.core.coverage;
 
-import java.net.URLClassLoader;
-import java.util.List;
-
+import eu.stamp_project.testrunner.EntryPoint;
+import eu.stamp_project.testrunner.listener.CoveredTestResult;
+import eu.stamp_project.testrunner.listener.impl.CoverageCollectorDetailed;
+import eu.stamp_project.testrunner.runner.coverage.JUnit4JacocoRunner;
+import eu.stamp_project.testrunner.runner.coverage.JacocoRunner;
+import fr.spoonlabs.flacoco.api.Flacoco;
+import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.test.TestInformation;
 import org.apache.log4j.Logger;
 
-import eu.stamp_project.testrunner.listener.CoveredTestResult;
-import eu.stamp_project.testrunner.listener.impl.CoverageCollectorDetailed;
-import eu.stamp_project.testrunner.runner.coverage.JacocoRunner;
+import java.io.File;
+import java.net.URLClassLoader;
+import java.util.List;
 
 /**
- * 
- * @author Matias Martinez
+ * Class for running the coverage runner from test-runner and computing
+ * the coverage matrix.
  *
+ * @author Matias Martinez
  */
 public class CoverageRunner {
 
-	private Logger logger = Logger.getLogger(CoverageRunner.class);
+	private Logger logger = Logger.getLogger(Flacoco.class);
+	private FlacocoConfig config = FlacocoConfig.getInstance();
 
-	public MatrixCoverage getCoverageMatrix(JacocoRunner runner, String classpath, String classesDirectory,
-			String testClassesDirectory, List<TestInformation> testToRun) {
-		boolean coverTest = false;
-		return getCoverageMatrix(runner, classpath, classesDirectory, testClassesDirectory, testToRun, coverTest);
-	}
-
-	public MatrixCoverage getCoverageMatrix(JacocoRunner runner, String classpath, String classesDirectory,
-			String testClassesDirectory, List<TestInformation> testToRun, boolean coverTest) {
+	public CoverageMatrix getCoverageMatrix(List<TestInformation> testToRun) {
+		setupTestRunnerEntryPoint();
 
 		// This matrix stores the results: the execution of tests and the coverage of
 		// that execution on each line
-		MatrixCoverage matrixExecutionResult = new MatrixCoverage();
+		CoverageMatrix matrixExecutionResult = new CoverageMatrix();
 
-		URLClassLoader urlloader = runner.getUrlClassloaderFromClassPath(classpath);
+		// Compute target path
+		String pathToClasses = this.config.getProjectPath() + File.separator + "target/classes/";
+		String pathToTestClasses = this.config.getProjectPath() + File.separator + "target/test-classes/";
+
+		// Get JacocoRunner
+		JacocoRunner runner = getJacocoRunner(pathToClasses, pathToTestClasses);
+		URLClassLoader urlloader = runner.getUrlClassloaderFromClassPath(this.config.getClasspath());
 
 		int i = 0;
 		// For each test class:
@@ -47,17 +53,20 @@ public class CoverageRunner {
 				logger.debug("-----");
 				logger.debug("Calling method " + method);
 
-				logger.debug("Classpath " + classpath);
+				logger.debug("Classpath " + this.config.getClasspath());
 
-				logger.debug("classesDirectory" + classesDirectory);
-				logger.debug("testClassesDirectory" + testClassesDirectory);
+				logger.debug("classesDirectory" + pathToClasses);
+				logger.debug("testClassesDirectory" + pathToTestClasses);
 				logger.debug("test class to run : " + testTuple.getTestClassQualifiedName());
 				logger.debug("test method to run : " + method);
 
 				// We run the instrumented classes
+				if (this.config.isCoverTests()) {
+					runner.instrumentAll(pathToTestClasses);
+				}
 				CoveredTestResult coverageResult = runner.run(new CoverageCollectorDetailed(), urlloader,
-						classesDirectory, testClassesDirectory, testTuple.getTestClassQualifiedName(), coverTest,
-						new String[] { method });
+						pathToClasses, pathToTestClasses, testTuple.getTestClassQualifiedName(), this.config.isCoverTests(),
+						new String[]{method});
 
 				if (coverageResult == null)
 					continue;
@@ -83,6 +92,19 @@ public class CoverageRunner {
 
 		}
 		return matrixExecutionResult;
+	}
 
+	/**
+	 * Auxiliary method to setup test-runners entry point
+	 */
+	private void setupTestRunnerEntryPoint() {
+		// test-runner requires a flag when using JUnit5
+		if (this.config.getTestFramework().equals(FlacocoConfig.TestFramework.JUNIT5)) {
+			EntryPoint.jUnit5Mode = true;
+		}
+	}
+
+	private JacocoRunner getJacocoRunner(String sourceClasses, String testClasses) {
+		return new JUnit4JacocoRunner(sourceClasses, testClasses, new CoverageCollectorDetailed());
 	}
 }

@@ -18,9 +18,9 @@ import eu.stamp_project.testrunner.listener.impl.CoverageFromClass;
  * @author Matias Martinez
  *
  */
-public class MatrixCoverage {
+public class CoverageMatrix {
 
-	private Logger logger = Logger.getLogger(MatrixCoverage.class);
+	private Logger logger = Logger.getLogger(CoverageMatrix.class);
 
 	public final static String JOIN = "@-@";
 

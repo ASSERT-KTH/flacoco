@@ -50,13 +50,7 @@ public class CoverageRunnerTest {
 
 		assertTrue(tests.size() > 0);
 
-		String pathToClasses = config.getProjectPath() + File.separator + "target/classes/";
-		String pathToTestClasses = config.getProjectPath() + File.separator + "target/test-classes/";
-
-		JacocoRunner runner = new JUnit4JacocoRunner(pathToClasses, pathToTestClasses, new CoverageCollectorDetailed());
-
-		MatrixCoverage matrix = detector.getCoverageMatrix(runner, config.getClasspath(), pathToClasses, pathToTestClasses,
-				tests);
+		CoverageMatrix matrix = detector.getCoverageMatrix(tests);
 
 		// verify nr of test
 		assertEquals(4, matrix.getTests().size());
@@ -157,13 +151,7 @@ public class CoverageRunnerTest {
 
 		assertTrue(tests.size() > 0);
 
-		String pathToClasses = config.getProjectPath() + File.separator + "target/classes/";
-		String pathToTestClasses = config.getProjectPath() + File.separator + "target/test-classes/";
-
-		JacocoRunner runner = new JUnit4JacocoRunner(pathToClasses, pathToTestClasses, new CoverageCollectorDetailed());
-
-		MatrixCoverage matrix = detector.getCoverageMatrix(runner, config.getClasspath(), pathToClasses, pathToTestClasses,
-				tests);
+		CoverageMatrix matrix = detector.getCoverageMatrix(tests);
 
 		/// let's inspect the matrix
 		assertEquals(1, matrix.getFailingTestCases().size());
@@ -196,13 +184,7 @@ public class CoverageRunnerTest {
 
 		assertTrue(tests.size() > 0);
 
-		String pathToClasses = config.getProjectPath() + File.separator + "target/classes/";
-		String pathToTestClasses = config.getProjectPath() + File.separator + "target/test-classes/";
-
-		JacocoRunner runner = new JUnit4JacocoRunner(pathToClasses, pathToTestClasses, new CoverageCollectorDetailed());
-
-		MatrixCoverage matrix = detector.getCoverageMatrix(runner, config.getClasspath(), pathToClasses, pathToTestClasses,
-				tests);
+		CoverageMatrix matrix = detector.getCoverageMatrix(tests);
 
 		/// let's inspect the matrix
 		assertEquals(1, matrix.getFailingTestCases().size());
@@ -238,15 +220,8 @@ public class CoverageRunnerTest {
 
 		assertTrue(tests.size() > 0);
 
-		String pathToClasses = config.getProjectPath() + File.separator + "target/classes/";
-		String pathToTestClasses = config.getProjectPath() + File.separator + "target/test-classes/";
-
-		JacocoRunner runner = new JUnit4JacocoRunner(pathToClasses, pathToTestClasses, new CoverageCollectorDetailed());
-		runner.instrumentAll(pathToTestClasses);
-
-		boolean coverTests = true;
-		MatrixCoverage matrix = detector.getCoverageMatrix(runner, config.getClasspath(), pathToClasses, pathToTestClasses,
-				tests, coverTests);
+		config.setCoverTests(true);
+		CoverageMatrix matrix = detector.getCoverageMatrix(tests);
 
 		// verify nr of test
 		assertEquals(4, matrix.getTests().size());
@@ -264,8 +239,8 @@ public class CoverageRunnerTest {
 		// Now, we check that, if we don't want to cover the test, the numbers of cover
 		// lines is fewer.
 
-		coverTests = false;
-		matrix = detector.getCoverageMatrix(runner, config.getClasspath(), pathToClasses, pathToTestClasses, tests, coverTests);
+		config.setCoverTests(false);
+		matrix = detector.getCoverageMatrix(tests);
 
 		assertEquals(10, matrix.getResultExecution().keySet().size());
 	}

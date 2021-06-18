@@ -6,12 +6,11 @@ import eu.stamp_project.testrunner.runner.coverage.JacocoRunner;
 import fr.spoonlabs.flacoco.api.Flacoco;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.coverage.CoverageRunner;
-import fr.spoonlabs.flacoco.core.coverage.MatrixCoverage;
+import fr.spoonlabs.flacoco.core.coverage.CoverageMatrix;
 import fr.spoonlabs.flacoco.core.test.TestDetector;
 import fr.spoonlabs.flacoco.core.test.TestInformation;
 import fr.spoonlabs.flacoco.localization.FaultLocalizationRunner;
 import org.apache.log4j.Logger;
-import spoon.Launcher;
 import spoon.reflect.declaration.CtElement;
 
 import java.io.File;
@@ -25,19 +24,19 @@ public class SpectrumRunner implements FaultLocalizationRunner {
 
 	@Override
 	public Map<String, Double> runDefault() {
-		MatrixCoverage matrixCoverage = computeCoverageMatrix();
+		CoverageMatrix coverageMatrix = computeCoverageMatrix();
 		SpectrumSuspicousComputation flcalc = new SpectrumSuspicousComputation();
-		return flcalc.calculateSuspicious(matrixCoverage, this.config.getSpectrumFormula().getFormula());
+		return flcalc.calculateSuspicious(coverageMatrix, this.config.getSpectrumFormula().getFormula());
 	}
 
 	@Override
 	public Map<CtElement, Double> runSpoon() {
-		MatrixCoverage matrixCoverage = computeCoverageMatrix();
+		CoverageMatrix coverageMatrix = computeCoverageMatrix();
 
 		return null;
 	}
 
-	private MatrixCoverage computeCoverageMatrix() {
+	private CoverageMatrix computeCoverageMatrix() {
 		this.logger.debug("Running spectrum-based fault localization...");
 		this.logger.debug(this.config);
 
@@ -47,12 +46,6 @@ public class SpectrumRunner implements FaultLocalizationRunner {
 
 		CoverageRunner detector = new CoverageRunner();
 
-		// Compute target path
-		String pathToClasses = this.config.getProjectPath() + File.separator + "target/classes/";
-		String pathToTestClasses = this.config.getProjectPath() + File.separator + "target/test-classes/";
-
-		JacocoRunner runner = new JUnit4JacocoRunner(pathToClasses, pathToTestClasses, new CoverageCollectorDetailed());
-
-		return detector.getCoverageMatrix(runner, this.config.getClasspath(), pathToClasses, pathToTestClasses, tests);
+		return detector.getCoverageMatrix(tests);
 	}
 }
