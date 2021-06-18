@@ -14,7 +14,7 @@ import fr.spoonlabs.flacoco.localization.spectrum.formulas.Formula;
  * 
  * @author Matias Martinez
  */
-public class SpectrumSuspicousComputation {
+public class SpectrumSuspiciousComputation {
 
 	/**
 	 * 

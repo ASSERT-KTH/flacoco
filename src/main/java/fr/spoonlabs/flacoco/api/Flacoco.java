@@ -3,6 +3,7 @@ package fr.spoonlabs.flacoco.api;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.localization.FaultLocalizationRunner;
 import fr.spoonlabs.flacoco.localization.spectrum.SpectrumRunner;
+import fr.spoonlabs.flacoco.utils.spoon.SpoonConverter;
 import org.apache.log4j.Logger;
 import spoon.reflect.declaration.CtElement;
 
@@ -27,8 +28,8 @@ public class Flacoco implements FlacocoAPI {
 	 */
 	@Override
 	public Map<String, Double> runDefault() {
-		this.logger.info("Running Flacoco in default mode...");
-		return getRunner().runDefault();
+		this.logger.info("Running Flacoco...");
+		return getRunner().run();
 	}
 
 	/**
@@ -37,8 +38,8 @@ public class Flacoco implements FlacocoAPI {
 	 */
 	@Override
 	public Map<CtElement, Double> runSpoon() {
-		this.logger.info("Running Flacoco in Spoon mode...");
-		return getRunner().runSpoon();
+		Map<String, Double> defaultResults = runDefault();
+		return null;
 	}
 
 	/**
