@@ -1,10 +1,14 @@
 name: deploy-snapshot
 
-on: [push]
+on:
+  workflow_run:
+    workflows: ["tests"]
+    types: [completed]
 
 jobs:
-  build:
+  deploy-on-success:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - name: Checkout
@@ -15,7 +19,10 @@ jobs:
           java-version: 8
           distribution: 'adopt'
           server-id: ossrh-flacoco-snapshots
-          server-username: ${{ secrets.OSSRH_TOKEN_USERNAME }}
-          server-password: ${{ secrets.OSSH_TOKEN_PASSWORD }}
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
       - name: Deploy to Snapshot repository
-        run: mvn deploy -DskipTests
+        run: mvn deploy --batch-mode -DskipTests
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_TOKEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN_PASSWORD }}
