@@ -3,7 +3,6 @@ package fr.spoonlabs.flacoco.api;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.localization.FaultLocalizationRunner;
 import fr.spoonlabs.flacoco.localization.spectrum.SpectrumRunner;
-import fr.spoonlabs.flacoco.utils.spoon.SpoonConverter;
 import org.apache.log4j.Logger;
 import spoon.reflect.declaration.CtElement;
 
