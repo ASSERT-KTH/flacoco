@@ -1,6 +1,6 @@
 name: tests
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        java-version: [ 8, 11, 14, 16 ]
+        java-version: [ 8 , 11 , 14 , 16 ]
 
     steps:
       - name: Checkout
@@ -20,7 +20,10 @@ jobs:
           distribution: 'adopt'
       - name: Install example projects
         run: ./.github/install_examples.sh
-      - name: Run tests
-        run: mvn clean test
+      - name: Build and run tests
+        run: mvn --batch-mode clean test
+      - name: Publish test reports
+        if: ${{ always() }}
+        uses: scacap/action-surefire-report@v1.0.12
       - name: Codecov
         uses: codecov/codecov-action@v1.5.2
