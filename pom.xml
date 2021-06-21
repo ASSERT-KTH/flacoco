@@ -13,7 +13,7 @@
 
 	<distributionManagement>
 		<snapshotRepository>
-			<id>oss-flacoco-snapshots</id>
+			<id>ossrh-flacoco-snapshots</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
