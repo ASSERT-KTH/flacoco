@@ -16,6 +16,6 @@ jobs:
           distribution: 'adopt'
           server-id: ossrh-flacoco-snapshots
           server-username: ${{ secrets.OSSRH_TOKEN_USERNAME }}
-          server-password: ${{ secrest.OSSH_TOKEN_PASSWORD }}
+          server-password: ${{ secrets.OSSH_TOKEN_PASSWORD }}
       - name: Deploy to Snapshot repository
         run: mvn deploy -DskipTests
