@@ -1,8 +1,5 @@
 package fr.spoonlabs.flacoco.core.coverage;
 
-import eu.stamp_project.testrunner.listener.impl.CoverageCollectorDetailed;
-import eu.stamp_project.testrunner.runner.coverage.JUnit4JacocoRunner;
-import eu.stamp_project.testrunner.runner.coverage.JacocoRunner;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.test.TestDetector;
 import fr.spoonlabs.flacoco.core.test.TestInformation;
@@ -37,7 +34,7 @@ public class CoverageRunnerTest {
 	}
 
 	@Test
-	public void testExampleFL1CoverageRunner() {
+	public void testExampleFL1() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		config.setProjectPath("./examples/exampleFL1/FLtest1");
@@ -138,7 +135,7 @@ public class CoverageRunnerTest {
 	 * thrown during execution
 	 */
 	@Test
-	public void testExampleFL2CoverageRunner() {
+	public void testExampleFL2() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		config.setProjectPath("./examples/exampleFL2/FLtest1");
@@ -171,7 +168,7 @@ public class CoverageRunnerTest {
 	}
 
 	@Test
-	public void testExampleFL3CoverageRunner() {
+	public void testExampleFL3() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		config.setProjectPath("./examples/exampleFL3/FLtest1");
@@ -207,7 +204,7 @@ public class CoverageRunnerTest {
 	}
 
 	@Test
-	public void testExampleFL1CoverageRunnerCoverTests() {
+	public void testExampleFL1CoverTests() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		config.setProjectPath("./examples/exampleFL1/FLtest1");

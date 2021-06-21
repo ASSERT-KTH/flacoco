@@ -6,7 +6,6 @@ import org.apache.log4j.LogManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import spoon.Launcher;
 
 import java.io.File;
 import java.util.List;
@@ -34,7 +33,7 @@ public class TestDetectorTest {
 	}
 
 	@Test
-	public void testExampleFL1TestDetector() {
+	public void testExampleFL1() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		config.setProjectPath("./examples/exampleFL1/FLtest1");
@@ -51,7 +50,7 @@ public class TestDetectorTest {
 	}
 
 	@Test
-	public void testExampleFL2TestDetector() {
+	public void testExampleFL2() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		config.setProjectPath("./examples/exampleFL2/FLtest1");
@@ -68,7 +67,7 @@ public class TestDetectorTest {
 	}
 
 	@Test
-	public void testExampleFL3TestDetector() {
+	public void testExampleFL3() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		config.setProjectPath("./examples/exampleFL3/FLtest1");

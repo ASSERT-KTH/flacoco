@@ -1,7 +1,6 @@
-package fr.spoonlabs.flacoco.api;
+package fr.spoonlabs.flacoco.localization.spectrum;
 
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
-import fr.spoonlabs.flacoco.localization.spectrum.SpectrumFormula;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.junit.After;
@@ -13,10 +12,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * This test class tests the execution of Flacoco as a whole
- */
-public class FlacocoTest {
+public class SpectrumRunnerTest {
 
 	@Before
 	public void setUp() {
@@ -34,21 +30,18 @@ public class FlacocoTest {
 	}
 
 	@Test
-	public void testExampleFL1SpectrumBasedOchiaiDefaultMode() {
+	public void testExampleFL1Ochiai() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		config.setProjectPath("./examples/exampleFL1/FLtest1");
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
-		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		SpectrumRunner runner = new SpectrumRunner();
 
-		// Run default mode
-		Map<String, Double> susp = flacoco.runDefault();
+		Map<String, Double> susp = runner.run();
 
 		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
+			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
 		assertEquals(6, susp.size());
@@ -66,30 +59,22 @@ public class FlacocoTest {
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6"), 0);
 	}
 
-
-	/**
-	 * This test captures the functionality of computing the coverage even when an exception is
-	 * thrown during execution
-	 */
 	@Test
-	public void testExampleFL2SpectrumBasedOchiaiDefaultMode() {
+	public void testExampleFL2Ochiai() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		config.setProjectPath("./examples/exampleFL2/FLtest1");
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
-		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		SpectrumRunner runner = new SpectrumRunner();
 
-		// Run default mode
-		Map<String, Double> susp = flacoco.runDefault();
+		Map<String, Double> susp = runner.run();
 
 		for (String line : susp.keySet()) {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(7, susp.keySet().size());
+		assertEquals(7, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@21"), 0);
@@ -106,24 +91,21 @@ public class FlacocoTest {
 	}
 
 	@Test
-	public void testExampleFL3SpectrumBasedOchiaiDefaultMode() {
+	public void testExampleFL3Ochiai() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		config.setProjectPath("./examples/exampleFL3/FLtest1");
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
-		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		SpectrumRunner runner = new SpectrumRunner();
 
-		// Run default mode
-		Map<String, Double> susp = flacoco.runDefault();
+		Map<String, Double> susp = runner.run();
 
 		for (String line : susp.keySet()) {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(7, susp.keySet().size());
+		assertEquals(7, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@21"), 0);
@@ -138,5 +120,4 @@ public class FlacocoTest {
 		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5"), 0.01);
 		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6"), 0.01);
 	}
-
 }
