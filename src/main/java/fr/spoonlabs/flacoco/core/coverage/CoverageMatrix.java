@@ -1,16 +1,10 @@
 package fr.spoonlabs.flacoco.core.coverage;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.log4j.Logger;
-
 import eu.stamp_project.testrunner.listener.impl.CoverageDetailed;
 import eu.stamp_project.testrunner.listener.impl.CoverageFromClass;
+import org.apache.log4j.Logger;
+
+import java.util.*;
 
 /**
  * This class contains the result of the execution of a set of test cases
@@ -50,7 +44,6 @@ public class CoverageMatrix {
 	 * @param testResult
 	 */
 	public void add(String lineKey, int testIndex, int instExecutedAtLineI, Boolean testResult) {
-
 		Set<Integer> currentExecution = null;
 
 		if (instExecutedAtLineI > 0) {
