@@ -48,10 +48,13 @@ public class SpoonConverter {
 				continue;
 			}
 
-			System.out.println(key);
-			System.out.println(SpoonLocalizedFaultFinder.found);
-			System.out.println(SpoonLocalizedFaultFinder.found.getPosition());
-			// FIXME: If the original key maps to the same CtStatement, then we potentially have a problem
+			// Warning message that should never occur.
+			if (result.containsKey(SpoonLocalizedFaultFinder.found) &&
+					!result.get(SpoonLocalizedFaultFinder.found).equals(original.get(key))) {
+				logger.error("Converting [" + key + "] to [" + SpoonLocalizedFaultFinder.found + "] resulted in a " +
+						"duplicate key with different suspiciouness values. Please report this to the developers of " +
+						"Flacoco on https://github.com/SpoonLabs/flacoco");
+			}
 			result.put(SpoonLocalizedFaultFinder.found, original.get(key));
 
 			// Prepare for next key
