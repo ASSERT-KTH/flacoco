@@ -12,9 +12,9 @@ public class Calculator {
 		} else if (op.equals("-")) {
 			return op1 - op2;
 		} else if (op.equals("*")) {
-			return op1 / op2;
-		} else if (op.equals("/")) {
 			return op1 / op2;//buggy
+		} else if (op.equals("/")) {
+			return op1 / op2;
 		} else if (op.equals("%")) {
 			return op1 % op2;
 		}

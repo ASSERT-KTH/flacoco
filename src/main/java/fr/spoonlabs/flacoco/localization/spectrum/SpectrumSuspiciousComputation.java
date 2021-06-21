@@ -1,4 +1,4 @@
-package fr.spoonlabs.flacoco.core;
+package fr.spoonlabs.flacoco.localization.spectrum;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -6,16 +6,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import fr.spoonlabs.flacoco.entities.MatrixCoverage;
-import fr.spoonlabs.flacoco.formulas.Formula;
+import fr.spoonlabs.flacoco.core.coverage.CoverageMatrix;
+import fr.spoonlabs.flacoco.localization.spectrum.formulas.Formula;
 
 /**
- * Computes the suspicious given a coverage matrix and a formula
+ * Computes the suspiciousness given a code coverage matrix and a formula.
  * 
  * @author Matias Martinez
- *
  */
-public class SuspiciousComputation {
+public class SpectrumSuspiciousComputation {
 
 	/**
 	 * 
@@ -24,7 +23,7 @@ public class SuspiciousComputation {
 	 * @return a map where the keys are the lines and the values are the suspicious
 	 *         values
 	 */
-	public Map<String, Double> calculateSuspicious(MatrixCoverage matrix, Formula formula) {
+	public Map<String, Double> calculateSuspicious(CoverageMatrix matrix, Formula formula) {
 		return calculateSuspicious(matrix, formula, false);
 	}
 
@@ -39,8 +38,8 @@ public class SuspiciousComputation {
 	 * @return a map where the keys are the lines and the values are the suspicious
 	 *         values
 	 */
-	public Map<String, Double> calculateSuspicious(MatrixCoverage matrix, Formula formula,
-			boolean includeSuspiciousEqualsToZero) {
+	public Map<String, Double> calculateSuspicious(CoverageMatrix matrix, Formula formula,
+	                                               boolean includeSuspiciousEqualsToZero) {
 
 		Map<String, Double> result = new HashMap<>();
 		// For each line of code to analyze

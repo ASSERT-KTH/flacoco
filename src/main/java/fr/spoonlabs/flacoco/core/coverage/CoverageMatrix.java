@@ -1,16 +1,10 @@
-package fr.spoonlabs.flacoco.entities;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.log4j.Logger;
+package fr.spoonlabs.flacoco.core.coverage;
 
 import eu.stamp_project.testrunner.listener.impl.CoverageDetailed;
 import eu.stamp_project.testrunner.listener.impl.CoverageFromClass;
+import org.apache.log4j.Logger;
+
+import java.util.*;
 
 /**
  * This class contains the result of the execution of a set of test cases
@@ -18,9 +12,9 @@ import eu.stamp_project.testrunner.listener.impl.CoverageFromClass;
  * @author Matias Martinez
  *
  */
-public class MatrixCoverage {
+public class CoverageMatrix {
 
-	private Logger logger = Logger.getLogger(MatrixCoverage.class.getName());
+	private Logger logger = Logger.getLogger(CoverageMatrix.class);
 
 	public final static String JOIN = "@-@";
 
@@ -50,7 +44,6 @@ public class MatrixCoverage {
 	 * @param testResult
 	 */
 	public void add(String lineKey, int testIndex, int instExecutedAtLineI, Boolean testResult) {
-
 		Set<Integer> currentExecution = null;
 
 		if (instExecutedAtLineI > 0) {
