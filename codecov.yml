@@ -1,1 +1,11 @@
+codecov:
+  require_ci_to_pass: no
+
 comment: false
+
+coverage:
+  precision: 2
+  round: down
+  range: "70...100"
+  status:
+    project: off
