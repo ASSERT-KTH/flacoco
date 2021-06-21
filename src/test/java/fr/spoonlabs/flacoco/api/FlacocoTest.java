@@ -7,19 +7,13 @@ import org.apache.log4j.LogManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-<<<<<<< HEAD
-=======
 import spoon.reflect.code.CtStatement;
->>>>>>> 13a07ac (Implement example Spoon API)
 
 import java.io.File;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-<<<<<<< HEAD
-=======
 import static org.junit.Assert.assertTrue;
->>>>>>> 13a07ac (Implement example Spoon API)
 
 /**
  * This test class tests the execution of Flacoco as a whole
@@ -209,8 +203,11 @@ public class FlacocoTest {
 					assertEquals(1.0, susp.get(ctStatement), 0);
 					break;
 				// Line executed by failing and passing
+				case 14:
+					assertEquals(0.70, susp.get(ctStatement), 0.01);
+					break;
 				case 12:
-					assertEquals(0.5, susp.get(ctStatement), 0.1);
+					assertEquals(0.57, susp.get(ctStatement), 0.01);
 					break;
 				// Lines executed by all test
 				case 10:
