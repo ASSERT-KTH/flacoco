@@ -26,8 +26,8 @@ public class SpoonConverter {
 
 		// Init spoon Launcher
 		Launcher launcher = new Launcher();
-		launcher.addInputResource(config.getProjectPath() + File.separator + "src/main");
-		launcher.addInputResource(config.getProjectPath() + File.separator + "src/test");
+		launcher.addInputResource(new File(config.getProjectPath() + File.separator + "src/main").getAbsolutePath());
+		launcher.addInputResource(new File(config.getProjectPath() + File.separator + "src/test").getAbsolutePath());
 		launcher.buildModel();
 		launcher.addProcessor(new SpoonLocalizedFaultFinder());
 

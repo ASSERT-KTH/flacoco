@@ -33,7 +33,7 @@ public class SpectrumRunnerTest {
 	public void testExampleFL1Ochiai() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath("./examples/exampleFL1/FLtest1");
+		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
 		SpectrumRunner runner = new SpectrumRunner();
@@ -63,7 +63,7 @@ public class SpectrumRunnerTest {
 	public void testExampleFL2Ochiai() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath("./examples/exampleFL2/FLtest1");
+		config.setProjectPath(new File("./examples/exampleFL2/FLtest1").getAbsolutePath());
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
 		SpectrumRunner runner = new SpectrumRunner();
@@ -94,7 +94,7 @@ public class SpectrumRunnerTest {
 	public void testExampleFL3Ochiai() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath("./examples/exampleFL3/FLtest1");
+		config.setProjectPath(new File("./examples/exampleFL3/FLtest1").getAbsolutePath());
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
 		SpectrumRunner runner = new SpectrumRunner();
@@ -125,7 +125,7 @@ public class SpectrumRunnerTest {
 	public void testExampleFL1OchiaiCoverTests() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath("./examples/exampleFL1/FLtest1");
+		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 		config.setCoverTests(true);
 

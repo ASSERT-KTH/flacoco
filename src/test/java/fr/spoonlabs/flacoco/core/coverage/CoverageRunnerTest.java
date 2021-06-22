@@ -37,7 +37,7 @@ public class CoverageRunnerTest {
 	public void testExampleFL1() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath("./examples/exampleFL1/FLtest1");
+		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 
 		CoverageRunner detector = new CoverageRunner();
 
@@ -138,7 +138,7 @@ public class CoverageRunnerTest {
 	public void testExampleFL2() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath("./examples/exampleFL2/FLtest1");
+		config.setProjectPath(new File("./examples/exampleFL2/FLtest1").getAbsolutePath());
 
 		CoverageRunner detector = new CoverageRunner();
 
@@ -171,7 +171,7 @@ public class CoverageRunnerTest {
 	public void testExampleFL3() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath("./examples/exampleFL3/FLtest1");
+		config.setProjectPath(new File("./examples/exampleFL3/FLtest1").getAbsolutePath());
 
 		CoverageRunner detector = new CoverageRunner();
 
@@ -207,7 +207,7 @@ public class CoverageRunnerTest {
 	public void testExampleFL1CoverTests() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath("./examples/exampleFL1/FLtest1");
+		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 
 		CoverageRunner detector = new CoverageRunner();
 

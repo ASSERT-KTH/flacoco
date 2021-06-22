@@ -39,7 +39,7 @@ public class SpoonConverterTest {
 	public void testConvertSpoonExample() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath("./examples/exampleFL3/FLtest1");
+		config.setProjectPath(new File("./examples/exampleFL3/FLtest1").getAbsolutePath());
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 

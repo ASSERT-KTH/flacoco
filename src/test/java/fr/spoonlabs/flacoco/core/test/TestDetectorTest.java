@@ -36,7 +36,7 @@ public class TestDetectorTest {
 	public void testExampleFL1() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath("./examples/exampleFL1/FLtest1");
+		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();
@@ -53,7 +53,7 @@ public class TestDetectorTest {
 	public void testExampleFL2() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath("./examples/exampleFL2/FLtest1");
+		config.setProjectPath(new File("./examples/exampleFL2/FLtest1").getAbsolutePath());
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();
@@ -70,7 +70,7 @@ public class TestDetectorTest {
 	public void testExampleFL3() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath("./examples/exampleFL3/FLtest1");
+		config.setProjectPath(new File("./examples/exampleFL3/FLtest1").getAbsolutePath());
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();

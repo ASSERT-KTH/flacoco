@@ -2,6 +2,8 @@ package fr.spoonlabs.flacoco.core.config;
 
 import fr.spoonlabs.flacoco.localization.spectrum.SpectrumFormula;
 
+import java.io.File;
+
 /**
  * Config manager for Flacoco.
  *
@@ -42,9 +44,9 @@ public class FlacocoConfig {
 	}
 
 	private void initDefaults() {
-		this.workspace = "./";
-		this.projectPath = "./";
-		this.classpath = "./";
+		this.workspace = new File("./").getAbsolutePath();
+		this.projectPath = new File("./").getAbsolutePath();
+		this.classpath = new File("./").getAbsolutePath();
 		this.testFramework = TestFramework.JUNIT4;
 		this.coverTests = false;
 
