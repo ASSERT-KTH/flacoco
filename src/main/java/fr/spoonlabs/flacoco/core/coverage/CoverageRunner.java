@@ -4,6 +4,7 @@ import eu.stamp_project.testrunner.EntryPoint;
 import eu.stamp_project.testrunner.listener.CoveredTestResult;
 import eu.stamp_project.testrunner.listener.impl.CoverageCollectorDetailed;
 import eu.stamp_project.testrunner.runner.coverage.JUnit4JacocoRunner;
+import eu.stamp_project.testrunner.runner.coverage.JUnit5JacocoRunner;
 import eu.stamp_project.testrunner.runner.coverage.JacocoRunner;
 import fr.spoonlabs.flacoco.api.Flacoco;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
@@ -107,6 +108,13 @@ public class CoverageRunner {
 	}
 
 	private JacocoRunner getJacocoRunner(String sourceClasses, String testClasses) {
-		return new JUnit4JacocoRunner(sourceClasses, testClasses, new CoverageCollectorDetailed());
+		switch (this.config.getTestFramework()) {
+			case JUNIT4:
+				return new JUnit4JacocoRunner(sourceClasses, testClasses, new CoverageCollectorDetailed());
+			case JUNIT5:
+				return new JUnit5JacocoRunner(sourceClasses, testClasses, new CoverageCollectorDetailed());
+			default:
+				return null;
+		}
 	}
 }
