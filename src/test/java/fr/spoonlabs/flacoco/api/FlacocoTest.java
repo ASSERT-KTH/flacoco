@@ -39,7 +39,7 @@ public class FlacocoTest {
 	public void testExampleFL1SpectrumBasedOchiaiDefaultMode() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath("./examples/exampleFL1/FLtest1");
+		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
@@ -76,7 +76,7 @@ public class FlacocoTest {
 	public void testExampleFL2SpectrumBasedOchiaiDefaultMode() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath("./examples/exampleFL2/FLtest1");
+		config.setProjectPath(new File("./examples/exampleFL2/FLtest1").getAbsolutePath());
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
@@ -110,7 +110,7 @@ public class FlacocoTest {
 	public void testExampleFL3SpectrumBasedOchiaiDefaultMode() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath("./examples/exampleFL3/FLtest1");
+		config.setProjectPath(new File("./examples/exampleFL3/FLtest1").getAbsolutePath());
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
@@ -144,7 +144,7 @@ public class FlacocoTest {
 	public void testExampleFL1SpectrumBasedOchiaiCoverTestsDefaultMode() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath("./examples/exampleFL1/FLtest1");
+		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 		config.setCoverTests(true);
@@ -180,7 +180,7 @@ public class FlacocoTest {
 	public void testExampleFL1SpectrumBasedOchiaiSpoonMode() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath("./examples/exampleFL1/FLtest1");
+		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
@@ -196,7 +196,9 @@ public class FlacocoTest {
 
 		for (CtStatement ctStatement : susp.keySet()) {
 			System.out.println("" + ctStatement + " " + susp.get(ctStatement));
-			assertTrue(ctStatement.getPosition().getFile().getAbsolutePath().endsWith("fr/spoonlabs/FLtest1/Calculator.java"));
+			// Assert location is Calculator.java, regex for matching both unix and dos paths
+			assertTrue(ctStatement.getPosition().getFile().getAbsolutePath()
+					.matches(".*(fr)[\\\\/](spoonlabs)[\\\\/](FLtest1)[\\\\/](Calculator)\\.(java)$"));
 			switch (ctStatement.getPosition().getLine()) {
 				// Line executed only by the failing
 				case 15:

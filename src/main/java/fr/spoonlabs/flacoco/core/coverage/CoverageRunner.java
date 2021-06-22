@@ -33,8 +33,10 @@ public class CoverageRunner {
 		CoverageMatrix matrixExecutionResult = new CoverageMatrix();
 
 		// Compute target path
-		String pathToClasses = this.config.getProjectPath() + File.separator + "target/classes/";
-		String pathToTestClasses = this.config.getProjectPath() + File.separator + "target/test-classes/";
+		String pathToClasses = new File(this.config.getProjectPath() + File.separator + "target/classes/")
+				.getAbsolutePath();
+		String pathToTestClasses = new File(this.config.getProjectPath() + File.separator + "target/test-classes/")
+				.getAbsolutePath();
 
 		// Get JacocoRunner
 		JacocoRunner runner = getJacocoRunner(pathToClasses, pathToTestClasses);
