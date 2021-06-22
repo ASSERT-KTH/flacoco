@@ -24,8 +24,5 @@ jobs:
         shell: bash
       - name: Build and run tests
         run: mvn --batch-mode clean test
-      - name: Publish test reports
-        if: ${{ always() }}
-        uses: scacap/action-surefire-report@v1.0.12
       - name: Codecov
         uses: codecov/codecov-action@v1.5.2
