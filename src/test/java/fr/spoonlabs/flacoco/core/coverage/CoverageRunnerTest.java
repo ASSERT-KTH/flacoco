@@ -25,7 +25,8 @@ public class CoverageRunnerTest {
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		String dep1 = new File("./examples/libs/junit-4.12.jar").getAbsolutePath();
 		String dep2 = new File("./examples/libs/hamcrest-core-1.3.jar").getAbsolutePath();
-		config.setClasspath(dep1 + File.separator + dep2);
+		String dep3 = new File("./examples/libs/junit-jupiter-api-5.7.2.jar").getAbsolutePath();
+		config.setClasspath(dep1 + File.pathSeparatorChar + dep2 + File.pathSeparatorChar + dep3);
 	}
 
 	@After
@@ -241,5 +242,104 @@ public class CoverageRunnerTest {
 
 		assertEquals(10, matrix.getResultExecution().keySet().size());
 	}
+
+	@Test
+	public void testExampleFL4JUnit5() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath(new File("./examples/exampleFL4/FLtest1").getAbsolutePath());
+		config.setTestFramework(FlacocoConfig.TestFramework.JUNIT5);
+
+		CoverageRunner detector = new CoverageRunner();
+
+		// Find the tests
+		TestDetector testDetector = new TestDetector();
+		List<TestInformation> tests = testDetector.findTests();
+
+		assertTrue(tests.size() > 0);
+
+		CoverageMatrix matrix = detector.getCoverageMatrix(tests);
+
+		// verify nr of test
+		assertEquals(4, matrix.getTests().size());
+		assertEquals(1, matrix.getFailingTestCases().size());
+
+		// 10 executed lines
+		assertEquals(10, matrix.getResultExecution().keySet().size());
+
+		// This line is the first if, so it's covered by all tests
+		Set<Integer> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
+
+		assertEquals(4, firstLineExecuted.size());
+
+		List<String> executedTest = firstLineExecuted.stream().map(e -> matrix.getTests().get(e))
+				.collect(Collectors.toList());
+
+		assertEquals(4, executedTest.size());
+
+		assertTrue(executedTest.contains("fr.spoonlabs.FLtest1.CalculatorTest@-@testSubs"));
+		assertTrue(executedTest.contains("fr.spoonlabs.FLtest1.CalculatorTest@-@testSum"));
+
+		assertTrue(executedTest.contains("fr.spoonlabs.FLtest1.CalculatorTest@-@testDiv"));
+		assertTrue(executedTest.contains("fr.spoonlabs.FLtest1.CalculatorTest@-@testMul"));
+
+		// This one is only executed by the sum
+		Set<Integer> returnSum = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@11");
+
+		executedTest = returnSum.stream().map(e -> matrix.getTests().get(e)).collect(Collectors.toList());
+
+		assertEquals(1, executedTest.size());
+
+		assertTrue(executedTest.contains("fr.spoonlabs.FLtest1.CalculatorTest@-@testSum"));
+
+		System.out.println(executedTest);
+
+		// This line is the second if, so it's covered by all tests, except the first
+		// one
+		Set<Integer> secondIfExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@12");
+		assertEquals(3, secondIfExecuted.size());
+
+		executedTest = secondIfExecuted.stream().map(e -> matrix.getTests().get(e)).collect(Collectors.toList());
+
+		// The first one returns before
+		assertFalse(executedTest.contains("fr.spoonlabs.FLtest1.CalculatorTest@-@testSum"));
+
+		assertTrue(executedTest.contains("fr.spoonlabs.FLtest1.CalculatorTest@-@testSubs"));
+		assertTrue(executedTest.contains("fr.spoonlabs.FLtest1.CalculatorTest@-@testDiv"));
+		assertTrue(executedTest.contains("fr.spoonlabs.FLtest1.CalculatorTest@-@testMul"));
+
+		Set<Integer> oneMultCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@14");
+		assertEquals(2, oneMultCond.size());
+		executedTest = oneMultCond.stream().map(e -> matrix.getTests().get(e)).collect(Collectors.toList());
+		assertFalse(executedTest.contains("fr.spoonlabs.FLtest1.CalculatorTest@-@testSum"));
+		assertFalse(executedTest.contains("fr.spoonlabs.FLtest1.CalculatorTest@-@testSubs"));
+		assertTrue(executedTest.contains("fr.spoonlabs.FLtest1.CalculatorTest@-@testDiv"));
+		assertTrue(executedTest.contains("fr.spoonlabs.FLtest1.CalculatorTest@-@testMul"));
+
+		// This line is inside one if, so it's executed only one
+		Set<Integer> oneReturnLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@15");
+		assertEquals(1, oneReturnLineExecuted.size());
+
+		executedTest = oneReturnLineExecuted.stream().map(e -> matrix.getTests().get(e)).collect(Collectors.toList());
+
+		assertFalse(executedTest.contains("fr.spoonlabs.FLtest1.CalculatorTest@-@testSum"));
+		assertTrue(executedTest.contains("fr.spoonlabs.FLtest1.CalculatorTest@-@testMul"));
+		assertFalse(executedTest.contains("fr.spoonlabs.FLtest1.CalculatorTest@-@testSubs"));
+		assertFalse(executedTest.contains("fr.spoonlabs.FLtest1.CalculatorTest@-@testDiv"));
+
+		Set<Integer> divisionCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@16");
+		assertEquals(1, divisionCond.size());
+		executedTest = divisionCond.stream().map(e -> matrix.getTests().get(e)).collect(Collectors.toList());
+
+		assertFalse(executedTest.contains("fr.spoonlabs.FLtest1.CalculatorTest@-@testSum"));
+		assertFalse(executedTest.contains("fr.spoonlabs.FLtest1.CalculatorTest@-@testMul"));
+		assertFalse(executedTest.contains("fr.spoonlabs.FLtest1.CalculatorTest@-@testSubs"));
+		assertTrue(executedTest.contains("fr.spoonlabs.FLtest1.CalculatorTest@-@testDiv"));
+
+		// Any test executes that
+		Set<Integer> modCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@18");
+		assertNull(modCond);
+	}
+
 
 }

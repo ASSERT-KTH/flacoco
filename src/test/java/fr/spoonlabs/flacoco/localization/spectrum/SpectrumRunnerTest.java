@@ -21,7 +21,8 @@ public class SpectrumRunnerTest {
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		String dep1 = new File("./examples/libs/junit-4.12.jar").getAbsolutePath();
 		String dep2 = new File("./examples/libs/hamcrest-core-1.3.jar").getAbsolutePath();
-		config.setClasspath(dep1 + File.separator + dep2);
+		String dep3 = new File("./examples/libs/junit-jupiter-api-5.7.2.jar").getAbsolutePath();
+		config.setClasspath(dep1 + File.pathSeparatorChar + dep2 + File.pathSeparatorChar + dep3);
 	}
 
 	@After
@@ -153,4 +154,70 @@ public class SpectrumRunnerTest {
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5"), 0);
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6"), 0);
 	}
+
+	@Test
+	public void testExampleFL4JUnit5Ochiai() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath(new File("./examples/exampleFL4/FLtest1").getAbsolutePath());
+		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+		config.setTestFramework(FlacocoConfig.TestFramework.JUNIT5);
+
+		SpectrumRunner runner = new SpectrumRunner();
+
+		Map<String, Double> susp = runner.run();
+
+		for (String line : susp.keySet()) {
+			System.out.println("susp " + line + " " + susp.get(line));
+		}
+
+		assertEquals(6, susp.size());
+
+		// Line executed only by the failing
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
+
+		// Line executed by a mix of failing and passing
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14"), 0.01);
+		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
+
+		// Lines executed by all test
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5"), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6"), 0);
+	}
+
+	@Test
+	public void testExampleFL4JUnit5OchiaiCoverTests() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath(new File("./examples/exampleFL4/FLtest1").getAbsolutePath());
+		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+		config.setTestFramework(FlacocoConfig.TestFramework.JUNIT5);
+		config.setCoverTests(true);
+
+		SpectrumRunner runner = new SpectrumRunner();
+
+		Map<String, Double> susp = runner.run();
+
+		for (String line : susp.keySet()) {
+			System.out.println("susp " + line + " " + susp.get(line));
+		}
+
+		assertEquals(8, susp.size());
+
+		// Line executed only by the failing
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
+
+		// Line executed by a mix of failing and passing
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14"), 0.01);
+		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
+
+		// Lines executed by all test
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9"), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7"), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5"), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6"), 0);
+	}
+
 }
