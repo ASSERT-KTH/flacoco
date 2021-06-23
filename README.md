@@ -24,10 +24,6 @@ MIT License
 
 External contributions are welcome.
 
-## TODOS:
-
-- [ ] Cover tests that throw Exceptions.
-- [ ] Automated selection of test runner.
 
 ## Related tools
 
