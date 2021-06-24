@@ -91,6 +91,7 @@ public class CoverageRunner {
 	 */
 	private void setupTestRunnerEntryPoint() {
 		EntryPoint.coverageDetail = ParserOptions.CoverageTransformerDetail.DETAIL;
+		EntryPoint.verbose = true;
 		// test-runner requires a flag when using JUnit5
 		if (this.config.getTestFramework().equals(FlacocoConfig.TestFramework.JUNIT5)) {
 			EntryPoint.jUnit5Mode = true;
