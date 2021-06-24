@@ -1,6 +1,6 @@
 # flacoco · [![Build Status](https://travis-ci.com/SpoonLabs/flacoco.svg?branch=master)](https://travis-ci.com/SpoonLabs/flacoco) [![codecov](https://codecov.io/gh/SpoonLabs/flacoco/branch/master/graph/badge.svg?token=7WWFGI1KWW)](https://codecov.io/gh/SpoonLabs/flacoco)
 
-**Flacoco** is a fault localization tool for Java based on [Jacoco](https://github.com/jacoco/jacoco) and [test-runner](https://github.com/STAMP-project/test-runner) that aims at emcompassing several fault localization techniques.
+**flacoco** is a fault localization tool for Java based on [Jacoco](https://github.com/jacoco/jacoco) and [test-runner](https://github.com/STAMP-project/test-runner) that aims at emcompassing several fault localization techniques.
 
 * **Ease of use**: With an intuitive, reliable and stable API, flacoco can be easily used in other projects such as automated program repair tools.
 * **Compatibility**: Supports JUnit3, Junit4 and JUni5. Supports Java 8 to 16. Supports Linux, MacOS and Windows.
@@ -8,7 +8,7 @@
 
 ## Installation
 
-Flacoco is currently only available as a SNAPSHOT. 
+flacoco is currently only available as a SNAPSHOT. 
 
 You can use it by installing locally yourself:
 ```bash
@@ -28,7 +28,7 @@ Or by adding flacoco as a maven dependency:
 
 ## Documentation
 
-Flacoco is currently available through it's (API)[src/main/java/fr/spoonlabs/flacoco/api/Flacoco.java] and configurable through it's (config manager)[src/main/java/fr/spoonlabs/flacoco/core/config/FlacocoConfig.java]
+flacoco is currently available through it's [API](src/main/java/fr/spoonlabs/flacoco/api/Flacoco.java) and configurable through [FlacocoConfig](src/main/java/fr/spoonlabs/flacoco/core/config/FlacocoConfig.java).
 
 Example usage:
 ```java
@@ -43,13 +43,13 @@ config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 Map<String, Double> susp = flacoco.runDefault();
 ```
 
-A more extensive listing of configurable options, as well as detailed explanation of Flacoco use-cases, features and limitation will be soon available in a dedicated wiki.
+A more extensive listing of configurable options, as well as detailed explanation of flacoco use-cases, features and limitation will be soon available in a dedicated wiki.
 
 ## Contributing
 
 ### License
 
-(MIT License)[https://github.com/SpoonLabs/flacoco/blob/master/LICENSE]
+[MIT License](LICENSE)
 
 ### Pull requests
 
