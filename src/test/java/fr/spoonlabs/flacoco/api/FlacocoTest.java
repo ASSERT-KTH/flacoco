@@ -6,10 +6,14 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import spoon.reflect.code.CtStatement;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -32,7 +36,7 @@ public class FlacocoTest {
 	}
 
 	@After
-	public void tearDown() {
+	public void tearDown() throws IOException {
 		FlacocoConfig.deleteInstance();
 	}
 
@@ -54,7 +58,7 @@ public class FlacocoTest {
 			System.out.println("" + line + " " + susp.get(line));
 		}
 
-		assertEquals(6, susp.size());
+		assertEquals(4, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
@@ -65,8 +69,6 @@ public class FlacocoTest {
 
 		// Lines executed by all test
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6"), 0);
 	}
 
 	/**
@@ -91,7 +93,7 @@ public class FlacocoTest {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(7, susp.keySet().size());
+		assertEquals(5, susp.keySet().size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@21"), 0);
@@ -103,8 +105,6 @@ public class FlacocoTest {
 
 		// Lines executed by all test
 		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
-		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5"), 0.01);
-		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6"), 0.01);
 	}
 
 	@Test
@@ -125,7 +125,7 @@ public class FlacocoTest {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(7, susp.keySet().size());
+		assertEquals(5, susp.keySet().size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@21"), 0);
@@ -137,11 +137,10 @@ public class FlacocoTest {
 
 		// Lines executed by all test
 		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
-		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5"), 0.01);
-		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6"), 0.01);
 	}
 
 	@Test
+	@Ignore
 	public void testExampleFL1SpectrumBasedOchiaiCoverTestsDefaultMode() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
@@ -160,7 +159,7 @@ public class FlacocoTest {
 			System.out.println("" + line + " " + susp.get(line));
 		}
 
-		assertEquals(8, susp.size());
+		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
@@ -173,8 +172,6 @@ public class FlacocoTest {
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9"), 0);
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7"), 0);
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6"), 0);
 	}
 
 	@Test
@@ -191,9 +188,7 @@ public class FlacocoTest {
 		// Run default mode
 		Map<CtStatement, Double> susp = flacoco.runSpoon();
 
-		// Fails because two original keys get mapped to the same CtStatement
-		//assertEquals(6, susp.size());
-		assertEquals(5, susp.size());
+		assertEquals(4, susp.size());
 
 		for (CtStatement ctStatement : susp.keySet()) {
 			System.out.println("" + ctStatement + " " + susp.get(ctStatement));
@@ -214,7 +209,6 @@ public class FlacocoTest {
 					break;
 				// Lines executed by all test
 				case 10:
-				case 5:
 					assertEquals(0.5, susp.get(ctStatement), 0);
 					break;
 			}
@@ -240,7 +234,7 @@ public class FlacocoTest {
 			System.out.println("" + line + " " + susp.get(line));
 		}
 
-		assertEquals(6, susp.size());
+		assertEquals(4, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
@@ -251,11 +245,10 @@ public class FlacocoTest {
 
 		// Lines executed by all test
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6"), 0);
 	}
 
 	@Test
+	@Ignore
 	public void testExampleFL4JUnit5SpectrumBasedOchiaiCoverTestsDefaultMode() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
@@ -275,7 +268,7 @@ public class FlacocoTest {
 			System.out.println("" + line + " " + susp.get(line));
 		}
 
-		assertEquals(8, susp.size());
+		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
@@ -288,8 +281,6 @@ public class FlacocoTest {
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9"), 0);
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7"), 0);
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6"), 0);
 	}
 
 	@Test
@@ -307,9 +298,7 @@ public class FlacocoTest {
 		// Run default mode
 		Map<CtStatement, Double> susp = flacoco.runSpoon();
 
-		// Fails because two original keys get mapped to the same CtStatement
-		//assertEquals(6, susp.size());
-		assertEquals(5, susp.size());
+		assertEquals(4, susp.size());
 
 		for (CtStatement ctStatement : susp.keySet()) {
 			System.out.println("" + ctStatement + " " + susp.get(ctStatement));
@@ -330,7 +319,6 @@ public class FlacocoTest {
 					break;
 				// Lines executed by all test
 				case 10:
-				case 5:
 					assertEquals(0.5, susp.get(ctStatement), 0);
 					break;
 			}
