@@ -12,7 +12,7 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-@Command(name = "TestJSonEngine", mixinStandardHelpOptions = true, version = "0.0.1", description = "Flacoco: fault localization")
+@Command(name = "FlacocoMain", mixinStandardHelpOptions = true, version = "0.0.1", description = "Flacoco: fault localization")
 public class FlacocoMain implements Callable<Integer> {
 	static boolean log = true;
 
