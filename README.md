@@ -40,7 +40,7 @@ config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 Map<String, Double> susp = flacoco.runDefault();
 ```
 
-A more extensive listing of configurable options, as well as detailed explanation of flacoco use-cases, features and limitation will be soon available in a dedicated wiki.
+A more extensive listing of configurable options, as well as detailed explanation of flacoco use-cases, features and limitation is available and under active development in https://github.com/SpoonLabs/flacoco/wiki.
 
 ## Contributing
 
