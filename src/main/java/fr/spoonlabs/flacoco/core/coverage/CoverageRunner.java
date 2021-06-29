@@ -97,6 +97,8 @@ public class CoverageRunner {
 		// test-runner requires a flag when using JUnit5
 		if (this.config.getTestFramework().equals(FlacocoConfig.TestFramework.JUNIT5)) {
 			EntryPoint.jUnit5Mode = true;
+		} else {
+			EntryPoint.jUnit5Mode = false;
 		}
 		if (this.config.isCoverTests()) {
 			throw new UnsupportedOperationException();
