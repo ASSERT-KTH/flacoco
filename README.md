@@ -1,6 +1,6 @@
 # flacoco · [![Build Status](https://travis-ci.com/SpoonLabs/flacoco.svg?branch=master)](https://travis-ci.com/SpoonLabs/flacoco) [![codecov](https://codecov.io/gh/SpoonLabs/flacoco/branch/master/graph/badge.svg?token=7WWFGI1KWW)](https://codecov.io/gh/SpoonLabs/flacoco)
 
-**flacoco** is a fault localization tool for Java based on [Jacoco](https://github.com/jacoco/jacoco) and [test-runner](https://github.com/STAMP-project/test-runner) that aims at emcompassing several fault localization techniques.
+**flacoco** is a fault localization tool for Java based on [Jacoco](https://github.com/jacoco/jacoco) and [test-runner](https://github.com/STAMP-project/test-runner) that aims at encompassing several fault localization techniques.
 
 * **Ease of use**: With an intuitive, reliable and stable API, flacoco can be easily used in other projects such as automated program repair tools.
 * **Compatibility**: Supports JUnit3, Junit4 and JUni5. Supports Java 8 to 16. Supports Linux, MacOS and Windows.
@@ -8,20 +8,17 @@
 
 ## Installation
 
-flacoco is currently only available as a SNAPSHOT. 
+flacoco is currently only available as a SNAPSHOT.
 
-You can use it by installing locally yourself:
+You can use it by installing locally yourself, or by adding flacoco as a maven dependency:
 ```bash
-mvn install
+$ mvn install
 ```
-
-Or by adding flacoco as a maven dependency:
-
 ```xml
 <dependency>
-  <groupId>com.github.spoonlabs</groupId>
-  <artifactId>flacoco</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+    <groupId>com.github.spoonlabs</groupId>
+    <artifactId>flacoco</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 </dependency>
 ```
 
