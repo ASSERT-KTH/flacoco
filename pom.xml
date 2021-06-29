@@ -123,6 +123,11 @@
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
+					<archive>
+						<manifest>
+							<mainClass>fr.spoonlabs.flacoco.FlacocoMain</mainClass>
+						</manifest>
+					</archive>
 				</configuration>
 				<executions>
 					<execution>
