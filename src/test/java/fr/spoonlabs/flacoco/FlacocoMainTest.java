@@ -2,7 +2,7 @@ package fr.spoonlabs.flacoco;
 
 import static org.junit.Assert.fail;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.localization.spectrum.SpectrumFormula;
