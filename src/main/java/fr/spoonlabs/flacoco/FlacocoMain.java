@@ -1,7 +1,6 @@
 package fr.spoonlabs.flacoco;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -30,13 +29,17 @@ public class FlacocoMain implements Callable<Integer> {
 	boolean coverTest = false;
 
 	@Option(names = {
-			"--framework" }, description = "Test framework that the project under analysis uses.", defaultValue = "10")
+			"--framework" }, description = "Test framework that the project under analysis uses.", defaultValue = "JUNIT4")
 	String testFramework;
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 
 		int exitCode = new CommandLine(new FlacocoMain()).execute(args);
-		System.exit(exitCode);
+		System.out.println("exit code " + exitCode);
+
+		if (exitCode != 1) {
+			throw new IllegalArgumentException("Flacoco could finish well, see error output");
+		}
 
 	}
 
