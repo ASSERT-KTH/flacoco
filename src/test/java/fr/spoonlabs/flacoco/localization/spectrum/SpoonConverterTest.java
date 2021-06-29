@@ -9,7 +9,6 @@ import org.junit.rules.TemporaryFolder;
 import spoon.reflect.code.CtStatement;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +21,7 @@ public class SpoonConverterTest {
 	public TemporaryFolder workspaceDir = new TemporaryFolder();
 
 	@Before
-	public void setUp() throws IOException {
+	public void setUp() {
 		LogManager.getRootLogger().setLevel(Level.DEBUG);
 
 		FlacocoConfig config = FlacocoConfig.getInstance();

@@ -25,8 +25,9 @@ public class FlacocoConfig {
 	private String workspace;
 	private String projectPath;
 	private String classpath;
-	private String customJUnit4Classpath;
-	private String customJUnit5Classpath;
+	private String customJUnitClasspath;
+	private String customJacocoClasspath;
+	private String mavenHome;
 	private TestFramework testFramework;
 	private boolean coverTests;
 
@@ -50,8 +51,9 @@ public class FlacocoConfig {
 		this.workspace = new File("./").getAbsolutePath();
 		this.projectPath = new File("./").getAbsolutePath();
 		this.classpath = new File("./").getAbsolutePath();
-		this.customJUnit4Classpath = null;
-		this.customJUnit5Classpath = null;
+		this.customJUnitClasspath = null;
+		this.customJacocoClasspath = null;
+		this.mavenHome = System.getProperty("user.home") + "/.m2/repository/";
 		this.testFramework = TestFramework.JUNIT4;
 		this.coverTests = false;
 
@@ -83,20 +85,28 @@ public class FlacocoConfig {
 		this.classpath = classpath;
 	}
 
-	public String getCustomJUnit4Classpath() {
-		return customJUnit4Classpath;
+	public String getCustomJUnitClasspath() {
+		return customJUnitClasspath;
 	}
 
-	public void setCustomJUnit4Classpath(String customJUnit4Classpath) {
-		this.customJUnit4Classpath = customJUnit4Classpath;
+	public void setCustomJUnitClasspath(String customJUnitClasspath) {
+		this.customJUnitClasspath = customJUnitClasspath;
 	}
 
-	public String getCustomJUnit5Classpath() {
-		return customJUnit5Classpath;
+	public String getCustomJacocoClasspath() {
+		return customJacocoClasspath;
 	}
 
-	public void setCustomJUnit5Classpath(String customJUnit5Classpath) {
-		this.customJUnit5Classpath = customJUnit5Classpath;
+	public void setCustomJacocoClasspath(String customJacocoClasspath) {
+		this.customJacocoClasspath = customJacocoClasspath;
+	}
+
+	public String getMavenHome() {
+		return mavenHome;
+	}
+
+	public void setMavenHome(String mavenHome) {
+		this.mavenHome = mavenHome;
 	}
 
 	public TestFramework getTestFramework() {
@@ -137,6 +147,7 @@ public class FlacocoConfig {
 				"workspace='" + workspace + '\'' +
 				", projectPath='" + projectPath + '\'' +
 				", classpath='" + classpath + '\'' +
+				", customJUnitClasspath='" + customJUnitClasspath + '\'' +
 				", testFramework=" + testFramework +
 				", coverTests=" + coverTests +
 				", family=" + family +

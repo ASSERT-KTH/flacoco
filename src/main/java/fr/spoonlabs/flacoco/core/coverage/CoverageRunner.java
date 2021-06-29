@@ -4,7 +4,6 @@ import eu.stamp_project.testrunner.EntryPoint;
 import eu.stamp_project.testrunner.listener.CoveredTestResultPerTestMethod;
 import eu.stamp_project.testrunner.listener.impl.CoverageDetailed;
 import eu.stamp_project.testrunner.runner.ParserOptions;
-import eu.stamp_project.testrunner.utils.ConstantsHelper;
 import fr.spoonlabs.flacoco.api.Flacoco;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.test.TestInformation;
@@ -112,38 +111,34 @@ public class CoverageRunner {
 	 */
 	private String computeClasspath() {
 		String classpath = this.config.getClasspath();
+		String mavenHome = this.config.getMavenHome();
+		String junitClasspath;
+		String jacocoClassPath;
 
-		String MAVEN_HOME = System.getProperty("user.home") + "/.m2/repository/";
-		String JUNIT4_CP;
-		String JUNIT5_CP;
-		String JACOCO_CP;
+		junitClasspath = mavenHome + "junit/junit/4.12/junit-4.12.jar" + File.pathSeparatorChar
+				+ mavenHome + "org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar" + File.pathSeparatorChar
+				+ mavenHome + "org/junit/jupiter/junit-jupiter-api/5.3.2/junit-jupiter-api-5.3.2.jar" + File.pathSeparatorChar
+				+ mavenHome + "org/apiguardian/apiguardian-api/1.0.0/apiguardian-api-1.0.0.jar" + File.pathSeparatorChar
+				+ mavenHome + "org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar" + File.pathSeparatorChar
+				+ mavenHome + "org/junit/platform/junit-platform-commons/1.3.2/junit-platform-commons-1.3.2.jar" + File.pathSeparatorChar
+				+ mavenHome + "org/junit/jupiter/junit-jupiter-engine/5.3.2/junit-jupiter-engine-5.3.2.jar" + File.pathSeparatorChar
+				+ mavenHome + "org/junit/jupiter/junit-jupiter-params/5.3.2/junit-jupiter-params-5.3.2.jar" + File.pathSeparatorChar
+				+ mavenHome + "org/junit/platform/junit-platform-engine/1.3.2/junit-platform-engine-1.3.2.jar" + File.pathSeparatorChar
+				+ mavenHome + "org/junit/platform/junit-platform-launcher/1.3.2/junit-platform-launcher-1.3.2.jar";
 
-		JUNIT4_CP = MAVEN_HOME + "junit/junit/4.12/junit-4.12.jar" + ConstantsHelper.PATH_SEPARATOR
-				+ MAVEN_HOME + "org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar";
-		JUNIT5_CP =
-				MAVEN_HOME + "org/junit/jupiter/junit-jupiter-api/5.3.2/junit-jupiter-api-5.3.2.jar" + ConstantsHelper.PATH_SEPARATOR
-						+ MAVEN_HOME + "org/apiguardian/apiguardian-api/1.0.0/apiguardian-api-1.0.0.jar" + ConstantsHelper.PATH_SEPARATOR
-						+ MAVEN_HOME + "org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar" + ConstantsHelper.PATH_SEPARATOR
-						+ MAVEN_HOME + "org/junit/platform/junit-platform-commons/1.3.2/junit-platform-commons-1.3.2.jar" + ConstantsHelper.PATH_SEPARATOR
-						+ MAVEN_HOME + "org/junit/jupiter/junit-jupiter-engine/5.3.2/junit-jupiter-engine-5.3.2.jar" + ConstantsHelper.PATH_SEPARATOR
-						+ MAVEN_HOME + "org/junit/jupiter/junit-jupiter-params/5.3.2/junit-jupiter-params-5.3.2.jar" + ConstantsHelper.PATH_SEPARATOR
-						+ MAVEN_HOME + "org/junit/platform/junit-platform-engine/1.3.2/junit-platform-engine-1.3.2.jar" + ConstantsHelper.PATH_SEPARATOR
-						+ MAVEN_HOME + "org/junit/platform/junit-platform-launcher/1.3.2/junit-platform-launcher-1.3.2.jar";
-		JACOCO_CP = MAVEN_HOME + "org/jacoco/org.jacoco.core/0.8.3/org.jacoco.core-0.7.9.jar";
-
-		// Add Jacoco dependency
-		classpath += File.pathSeparatorChar + JACOCO_CP + File.pathSeparatorChar + MAVEN_HOME + MAVEN_HOME + "commons-io/commons-io/2.5/commons-io-2.5.jar";
+		jacocoClassPath = mavenHome + "org/jacoco/org.jacoco.core/0.8.3/org.jacoco.core-0.7.9.jar";
 
 		// Add JUnit dependencies
-		if (this.config.getCustomJUnit4Classpath() != null) {
-			classpath += File.pathSeparatorChar + this.config.getCustomJUnit4Classpath();
+		if (this.config.getCustomJUnitClasspath() != null) {
+			classpath += File.pathSeparatorChar + this.config.getCustomJUnitClasspath();
 		} else {
-			classpath += File.pathSeparatorChar + JUNIT4_CP;
+			classpath += File.pathSeparatorChar + junitClasspath;
 		}
-		if (this.config.getCustomJUnit5Classpath() != null) {
-			classpath += File.pathSeparatorChar + this.config.getCustomJUnit5Classpath();
+		// Add jacoco dependency
+		if (this.config.getCustomJacocoClasspath() != null) {
+			classpath += File.pathSeparatorChar + this.config.getCustomJacocoClasspath();
 		} else {
-			classpath += File.pathSeparatorChar + JUNIT5_CP;
+			classpath += File.pathSeparatorChar + jacocoClassPath;
 		}
 
 		return classpath;

@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -24,7 +23,7 @@ public class TestDetectorTest {
 	public TemporaryFolder workspaceDir = new TemporaryFolder();
 
 	@Before
-	public void setUp() throws IOException {
+	public void setUp() {
 		LogManager.getRootLogger().setLevel(Level.DEBUG);
 
 		FlacocoConfig config = FlacocoConfig.getInstance();
