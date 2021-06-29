@@ -1,9 +1,5 @@
 package fr.spoonlabs.flacoco;
 
-import java.io.File;
-import java.util.Map;
-import java.util.concurrent.Callable;
-
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.localization.spectrum.SpectrumFormula;
 import fr.spoonlabs.flacoco.localization.spectrum.SpectrumRunner;
@@ -11,9 +7,16 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
+import java.io.File;
+import java.util.Map;
+import java.util.concurrent.Callable;
+
 @Command(name = "FlacocoMain", mixinStandardHelpOptions = true, version = "0.0.1", description = "Flacoco: fault localization")
 public class FlacocoMain implements Callable<Integer> {
 	static boolean log = true;
+
+	@Option(names = { "-w", "--workspace"}, description = "Path to the workspace directory of flacoco.", defaultValue = "./")
+	String workspace;
 
 	@Option(names = { "-p", "--projectpath" }, description = "Path to the project to analyze.")
 	String projectPath = null;
@@ -23,6 +26,15 @@ public class FlacocoMain implements Callable<Integer> {
 
 	@Option(names = { "-c", "--classpath" }, description = "Classpath of the project under analyzis.")
 	String classpath;
+
+	@Option(names = { "--junitClasspath" }, description = "Classpath to junit dependencies")
+	String customJUnitClasspath;
+
+	@Option(names = { "--jacocoClasspath" }, description = "Classpath to jacoco dependencies")
+	String customJacocoClasspath;
+
+	@Option(names = { "--mavenHome" }, description = "Path to maven home")
+	String mavenHome;
 
 	@Option(names = {
 			"--coverTest" }, description = "Indicates if coverage must also cover the tests.", defaultValue = "false")
@@ -44,13 +56,20 @@ public class FlacocoMain implements Callable<Integer> {
 	}
 
 	@Override
-	public Integer call() throws Exception {
+	public Integer call() {
 
 		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setWorkspace(new File(this.workspace).getAbsolutePath());
 		config.setProjectPath(new File(this.projectPath).getAbsolutePath());
 
 		if (this.classpath != null && !this.classpath.trim().isEmpty())
 			config.setClasspath(classpath);
+		if (this.customJUnitClasspath != null && !this.customJUnitClasspath.trim().isEmpty())
+			config.setCustomJacocoClasspath(this.customJUnitClasspath);
+		if (this.customJacocoClasspath != null && !this.customJacocoClasspath.trim().isEmpty())
+			config.setCustomJacocoClasspath(this.customJacocoClasspath);
+		if (this.mavenHome != null && !this.mavenHome.trim().isEmpty())
+			config.setMavenHome(this.mavenHome);
 
 		config.setCoverTests(coverTest);
 
