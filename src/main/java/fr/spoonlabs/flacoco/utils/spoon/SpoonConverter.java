@@ -39,11 +39,11 @@ public class SpoonConverter {
 					.replace("/", ".");
 			SpoonLocalizedFaultFinder.lineNumber = Integer.parseInt(key.substring(key.lastIndexOf("@") + 1));
 
-			// Launch processor to find the top-most CtElement of the given line
+			// Launch processor to find the top-most CtStatement of the given line
 			launcher.process();
 
 			if (SpoonLocalizedFaultFinder.found == null) {
-				logger.error("Spoon found no CtElement for the location " +
+				logger.error("Spoon found no CtStatement for the location " +
 						SpoonLocalizedFaultFinder.fullyQualifiedClassName + ":" + SpoonLocalizedFaultFinder.lineNumber);
 				continue;
 			}
