@@ -25,8 +25,11 @@ public class FlacocoConfig {
 	private String workspace;
 	private String projectPath;
 	private String classpath;
+	private String customJUnit4Classpath;
+	private String customJUnit5Classpath;
 	private TestFramework testFramework;
 	private boolean coverTests;
+
 
 	private FaultLocalizationFamily family;
 	//------Options for spectrum-based fault localization------
@@ -47,6 +50,8 @@ public class FlacocoConfig {
 		this.workspace = new File("./").getAbsolutePath();
 		this.projectPath = new File("./").getAbsolutePath();
 		this.classpath = new File("./").getAbsolutePath();
+		this.customJUnit4Classpath = null;
+		this.customJUnit5Classpath = null;
 		this.testFramework = TestFramework.JUNIT4;
 		this.coverTests = false;
 
@@ -76,6 +81,22 @@ public class FlacocoConfig {
 
 	public void setClasspath(String classpath) {
 		this.classpath = classpath;
+	}
+
+	public String getCustomJUnit4Classpath() {
+		return customJUnit4Classpath;
+	}
+
+	public void setCustomJUnit4Classpath(String customJUnit4Classpath) {
+		this.customJUnit4Classpath = customJUnit4Classpath;
+	}
+
+	public String getCustomJUnit5Classpath() {
+		return customJUnit5Classpath;
+	}
+
+	public void setCustomJUnit5Classpath(String customJUnit5Classpath) {
+		this.customJUnit5Classpath = customJUnit5Classpath;
 	}
 
 	public TestFramework getTestFramework() {
