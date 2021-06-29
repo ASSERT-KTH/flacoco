@@ -4,9 +4,8 @@ import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.localization.spectrum.SpectrumFormula;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
+import org.junit.rules.TemporaryFolder;
 import spoon.reflect.code.CtStatement;
 
 import java.io.File;
@@ -20,11 +19,15 @@ import static org.junit.Assert.assertTrue;
  */
 public class FlacocoTest {
 
+	@Rule
+	public TemporaryFolder workspaceDir = new TemporaryFolder();
+
 	@Before
 	public void setUp() {
 		LogManager.getRootLogger().setLevel(Level.DEBUG);
 
 		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
 		String dep1 = new File("./examples/libs/junit-4.12.jar").getAbsolutePath();
 		String dep2 = new File("./examples/libs/hamcrest-core-1.3.jar").getAbsolutePath();
 		String dep3 = new File("./examples/libs/junit-jupiter-api-5.7.2.jar").getAbsolutePath();
@@ -54,7 +57,7 @@ public class FlacocoTest {
 			System.out.println("" + line + " " + susp.get(line));
 		}
 
-		assertEquals(6, susp.size());
+		assertEquals(4, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
@@ -65,8 +68,6 @@ public class FlacocoTest {
 
 		// Lines executed by all test
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6"), 0);
 	}
 
 	/**
@@ -91,7 +92,7 @@ public class FlacocoTest {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(7, susp.keySet().size());
+		assertEquals(5, susp.keySet().size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@21"), 0);
@@ -103,8 +104,6 @@ public class FlacocoTest {
 
 		// Lines executed by all test
 		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
-		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5"), 0.01);
-		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6"), 0.01);
 	}
 
 	@Test
@@ -125,7 +124,7 @@ public class FlacocoTest {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(7, susp.keySet().size());
+		assertEquals(5, susp.keySet().size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@21"), 0);
@@ -137,11 +136,10 @@ public class FlacocoTest {
 
 		// Lines executed by all test
 		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
-		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5"), 0.01);
-		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6"), 0.01);
 	}
 
 	@Test
+	@Ignore
 	public void testExampleFL1SpectrumBasedOchiaiCoverTestsDefaultMode() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
@@ -160,7 +158,7 @@ public class FlacocoTest {
 			System.out.println("" + line + " " + susp.get(line));
 		}
 
-		assertEquals(8, susp.size());
+		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
@@ -173,8 +171,6 @@ public class FlacocoTest {
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9"), 0);
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7"), 0);
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6"), 0);
 	}
 
 	@Test
@@ -191,9 +187,7 @@ public class FlacocoTest {
 		// Run default mode
 		Map<CtStatement, Double> susp = flacoco.runSpoon();
 
-		// Fails because two original keys get mapped to the same CtStatement
-		//assertEquals(6, susp.size());
-		assertEquals(5, susp.size());
+		assertEquals(4, susp.size());
 
 		for (CtStatement ctStatement : susp.keySet()) {
 			System.out.println("" + ctStatement + " " + susp.get(ctStatement));
@@ -214,7 +208,6 @@ public class FlacocoTest {
 					break;
 				// Lines executed by all test
 				case 10:
-				case 5:
 					assertEquals(0.5, susp.get(ctStatement), 0);
 					break;
 			}
@@ -240,7 +233,7 @@ public class FlacocoTest {
 			System.out.println("" + line + " " + susp.get(line));
 		}
 
-		assertEquals(6, susp.size());
+		assertEquals(4, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
@@ -251,11 +244,10 @@ public class FlacocoTest {
 
 		// Lines executed by all test
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6"), 0);
 	}
 
 	@Test
+	@Ignore
 	public void testExampleFL4JUnit5SpectrumBasedOchiaiCoverTestsDefaultMode() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
@@ -275,7 +267,7 @@ public class FlacocoTest {
 			System.out.println("" + line + " " + susp.get(line));
 		}
 
-		assertEquals(8, susp.size());
+		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
@@ -288,8 +280,6 @@ public class FlacocoTest {
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9"), 0);
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7"), 0);
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6"), 0);
 	}
 
 	@Test
@@ -307,9 +297,7 @@ public class FlacocoTest {
 		// Run default mode
 		Map<CtStatement, Double> susp = flacoco.runSpoon();
 
-		// Fails because two original keys get mapped to the same CtStatement
-		//assertEquals(6, susp.size());
-		assertEquals(5, susp.size());
+		assertEquals(4, susp.size());
 
 		for (CtStatement ctStatement : susp.keySet()) {
 			System.out.println("" + ctStatement + " " + susp.get(ctStatement));
@@ -330,7 +318,6 @@ public class FlacocoTest {
 					break;
 				// Lines executed by all test
 				case 10:
-				case 5:
 					assertEquals(0.5, susp.get(ctStatement), 0);
 					break;
 			}

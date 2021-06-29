@@ -5,9 +5,8 @@ import fr.spoonlabs.flacoco.core.test.TestDetector;
 import fr.spoonlabs.flacoco.core.test.TestInformation;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
+import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.util.List;
@@ -18,11 +17,15 @@ import static org.junit.Assert.*;
 
 public class CoverageRunnerTest {
 
+	@Rule
+	public TemporaryFolder workspaceDir = new TemporaryFolder();
+
 	@Before
 	public void setUp() {
 		LogManager.getRootLogger().setLevel(Level.DEBUG);
 
 		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
 		String dep1 = new File("./examples/libs/junit-4.12.jar").getAbsolutePath();
 		String dep2 = new File("./examples/libs/hamcrest-core-1.3.jar").getAbsolutePath();
 		String dep3 = new File("./examples/libs/junit-jupiter-api-5.7.2.jar").getAbsolutePath();
@@ -54,8 +57,8 @@ public class CoverageRunnerTest {
 		assertEquals(4, matrix.getTests().size());
 		assertEquals(1, matrix.getFailingTestCases().size());
 
-		// 10 executed lines
-		assertEquals(10, matrix.getResultExecution().keySet().size());
+		// 8 executed lines
+		assertEquals(8, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
 		Set<Integer> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
@@ -155,8 +158,8 @@ public class CoverageRunnerTest {
 		assertEquals(1, matrix.getFailingTestCases().size());
 		assertEquals(5, matrix.getTests().size());
 
-		// 10 executed lines
-		assertEquals(11, matrix.getResultExecution().keySet().size());
+		// 9 executed lines
+		assertEquals(9, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
 		Set<Integer> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@12");
@@ -188,8 +191,8 @@ public class CoverageRunnerTest {
 		assertEquals(1, matrix.getFailingTestCases().size());
 		assertEquals(5, matrix.getTests().size());
 
-		// 10 executed lines
-		assertEquals(11, matrix.getResultExecution().keySet().size());
+		// 9 executed lines
+		assertEquals(9, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
 		Set<Integer> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@12");
@@ -205,6 +208,7 @@ public class CoverageRunnerTest {
 	}
 
 	@Test
+	@Ignore
 	public void testExampleFL1CoverTests() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
@@ -225,9 +229,9 @@ public class CoverageRunnerTest {
 		assertEquals(4, matrix.getTests().size());
 		assertEquals(1, matrix.getFailingTestCases().size());
 
-		// 18 executed lines
-		// We have 10 from class under test + 8 from test
-		assertEquals(18, matrix.getResultExecution().keySet().size());
+		// 16 executed lines
+		// We have 8 from class under test + 8 from test
+		assertEquals(16, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
 		Set<Integer> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
@@ -240,7 +244,7 @@ public class CoverageRunnerTest {
 		config.setCoverTests(false);
 		matrix = detector.getCoverageMatrix(tests);
 
-		assertEquals(10, matrix.getResultExecution().keySet().size());
+		assertEquals(8, matrix.getResultExecution().keySet().size());
 	}
 
 	@Test
@@ -264,8 +268,8 @@ public class CoverageRunnerTest {
 		assertEquals(4, matrix.getTests().size());
 		assertEquals(1, matrix.getFailingTestCases().size());
 
-		// 10 executed lines
-		assertEquals(10, matrix.getResultExecution().keySet().size());
+		// 8 executed lines
+		assertEquals(8, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
 		Set<Integer> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");

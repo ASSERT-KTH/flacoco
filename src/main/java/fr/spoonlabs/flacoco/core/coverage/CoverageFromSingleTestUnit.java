@@ -1,6 +1,7 @@
 package fr.spoonlabs.flacoco.core.coverage;
 
 import eu.stamp_project.testrunner.listener.Coverage;
+import eu.stamp_project.testrunner.listener.impl.CoverageDetailed;
 
 /**
  * Contains the results of the execution of a single test case (i.e., a method).
@@ -20,7 +21,7 @@ public class CoverageFromSingleTestUnit {
 	/**
 	 * Coverage info
 	 */
-	protected Coverage cov;
+	protected CoverageDetailed cov;
 	/**
 	 * Result of the execution: true if it's passing
 	 */
@@ -30,7 +31,7 @@ public class CoverageFromSingleTestUnit {
 	 */
 	protected boolean isSkip = false;
 
-	public CoverageFromSingleTestUnit(String testClass, String method, Coverage cov) {
+	public CoverageFromSingleTestUnit(String testClass, String method, CoverageDetailed cov) {
 		super();
 		this.testClass = testClass;
 		this.testMethod = method;
@@ -49,7 +50,7 @@ public class CoverageFromSingleTestUnit {
 		return cov;
 	}
 
-	public void setCov(Coverage cov) {
+	public void setCov(CoverageDetailed cov) {
 		this.cov = cov;
 	}
 
