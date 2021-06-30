@@ -30,7 +30,9 @@ public class FlacocoConfig {
 	private String mavenHome;
 	private TestFramework testFramework;
 	private boolean coverTests;
-
+	private boolean testRunnerVerbose;
+	private int testRunnerTimeoutInMs;
+	private String testRunnerJVMArgs;
 
 	private FaultLocalizationFamily family;
 	//------Options for spectrum-based fault localization------
@@ -56,6 +58,9 @@ public class FlacocoConfig {
 		this.mavenHome = System.getProperty("user.home") + "/.m2/repository/";
 		this.testFramework = TestFramework.JUNIT4;
 		this.coverTests = false;
+		this.testRunnerVerbose = false;
+		this.testRunnerTimeoutInMs = 10000;
+		this.testRunnerJVMArgs = null;
 
 		this.family = FaultLocalizationFamily.SPECTRUM_BASED;
 		this.spectrumFormula = SpectrumFormula.OCHIAI;
@@ -125,6 +130,30 @@ public class FlacocoConfig {
 		this.coverTests = coverTests;
 	}
 
+	public boolean isTestRunnerVerbose() {
+		return testRunnerVerbose;
+	}
+
+	public void setTestRunnerVerbose(boolean testRunnerVerbose) {
+		this.testRunnerVerbose = testRunnerVerbose;
+	}
+
+	public int getTestRunnerTimeoutInMs() {
+		return testRunnerTimeoutInMs;
+	}
+
+	public void setTestRunnerTimeoutInMs(int testRunnerTimeoutInMs) {
+		this.testRunnerTimeoutInMs = testRunnerTimeoutInMs;
+	}
+
+	public String getTestRunnerJVMArgs() {
+		return testRunnerJVMArgs;
+	}
+
+	public void setTestRunnerJVMArgs(String testRunnerJVMArgs) {
+		this.testRunnerJVMArgs = testRunnerJVMArgs;
+	}
+
 	public FaultLocalizationFamily getFamily() {
 		return family;
 	}
@@ -148,8 +177,13 @@ public class FlacocoConfig {
 				", projectPath='" + projectPath + '\'' +
 				", classpath='" + classpath + '\'' +
 				", customJUnitClasspath='" + customJUnitClasspath + '\'' +
+				", customJacocoClasspath='" + customJacocoClasspath + '\'' +
+				", mavenHome='" + mavenHome + '\'' +
 				", testFramework=" + testFramework +
 				", coverTests=" + coverTests +
+				", testRunnerVerbose=" + testRunnerVerbose +
+				", testRunnerTimeoutInMs=" + testRunnerTimeoutInMs +
+				", testRunnerJVMArgs='" + testRunnerJVMArgs + '\'' +
 				", family=" + family +
 				", spectrumFormula=" + spectrumFormula +
 				'}';

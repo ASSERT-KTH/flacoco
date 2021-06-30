@@ -91,14 +91,13 @@ public class CoverageRunner {
 	 */
 	private void setupTestRunnerEntryPoint() {
 		EntryPoint.coverageDetail = ParserOptions.CoverageTransformerDetail.DETAIL;
-		EntryPoint.verbose = true;
 		EntryPoint.workingDirectory = new File(this.config.getWorkspace());
+		EntryPoint.verbose = this.config.isTestRunnerVerbose();
+		EntryPoint.timeoutInMs = this.config.getTestRunnerTimeoutInMs();
+		EntryPoint.JVMArgs = this.config.getTestRunnerJVMArgs();
+
 		// test-runner requires a flag when using JUnit5
-		if (this.config.getTestFramework().equals(FlacocoConfig.TestFramework.JUNIT5)) {
-			EntryPoint.jUnit5Mode = true;
-		} else {
-			EntryPoint.jUnit5Mode = false;
-		}
+		EntryPoint.jUnit5Mode = this.config.getTestFramework().equals(FlacocoConfig.TestFramework.JUNIT5);
 		if (this.config.isCoverTests()) {
 			throw new UnsupportedOperationException();
 		}
