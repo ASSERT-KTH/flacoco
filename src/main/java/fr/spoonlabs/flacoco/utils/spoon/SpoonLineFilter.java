@@ -19,7 +19,7 @@ public class SpoonLineFilter implements Filter<CtStatement> {
 
 	/**s
 	 * @param ctStatement The CtStatement to be analyzed
-	 * @return True if ctElements position contains the given lineNumber
+	 * @return True if CtStatements position contains the given lineNumber
 	 */
 	@Override
 	public boolean matches(CtStatement ctStatement) {

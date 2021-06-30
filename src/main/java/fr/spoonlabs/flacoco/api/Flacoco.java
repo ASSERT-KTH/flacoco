@@ -34,7 +34,7 @@ public class Flacoco implements FlacocoAPI {
 
 	/**
 	 * Spoon mode for Flacoco
-	 * @return Mapping between CtElements representing a code lines and suspiciousness scores
+	 * @return Mapping between CtStatements representing a code lines and suspiciousness scores
 	 */
 	@Override
 	public Map<CtStatement, Double> runSpoon() {
