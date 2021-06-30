@@ -40,6 +40,15 @@ public class FlacocoMain implements Callable<Integer> {
 			"--coverTest" }, description = "Indicates if coverage must also cover the tests.", defaultValue = "false")
 	boolean coverTest = false;
 
+	@Option(names = { "--testRunnerVerbose" }, description = "Test-runner verbose mode.", defaultValue = "false")
+	boolean testRunnerVerbose = false;
+
+	@Option(names = { "--testRunnerTimeoutInMs" }, description = "Timeout for each test execution with test-runner.", defaultValue = "10000")
+	int testRunnerTimeoutInMs = 10000;
+
+	@Option(names = { "--testRunnerJVMArgs" }, description = "JVM args for test-runner's test execution VMs")
+	String testRunnerJVMArgs = null;
+
 	@Option(names = {
 			"--framework" }, description = "Test framework that the project under analysis uses.", defaultValue = "JUNIT4")
 	String testFramework;
@@ -72,6 +81,10 @@ public class FlacocoMain implements Callable<Integer> {
 			config.setMavenHome(this.mavenHome);
 
 		config.setCoverTests(coverTest);
+		config.setTestRunnerVerbose(testRunnerVerbose);
+		config.setTestRunnerTimeoutInMs(testRunnerTimeoutInMs);
+		if (this.testRunnerJVMArgs != null && !this.testRunnerJVMArgs.trim().isEmpty())
+			config.setTestRunnerJVMArgs(testRunnerJVMArgs);
 
 		SpectrumFormula spectrumFormulaSelected = SpectrumFormula.valueOf(this.spectrumFormula);
 

@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.io.File;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertThrows;
 
 public class FlacocoMainTest {
 
@@ -29,26 +29,20 @@ public class FlacocoMainTest {
 
 		FlacocoMain.main(new String[]{"--projectpath", "examples/exampleFL1/FLtest1", "--formula",
 				SpectrumFormula.OCHIAI.name(), "--framework", FlacocoConfig.TestFramework.JUNIT4.name(),
-				"--mavenHome", mavenHome, "--junitClasspath", junitClasspath, "--jacocoClasspath", jacocoClassPath
-
+				"--mavenHome", mavenHome, "--junitClasspath", junitClasspath, "--jacocoClasspath", jacocoClassPath,
+				"--testRunnerVerbose", "--testRunnerTimeoutInMs", "10000", "--testRunnerJVMArgs", "-Xms16M"
 		});
 	}
 
 	@Test
-	public void testMainIncorrectInputs() throws Exception {
+	public void testMainIncorrectInputs() {
 
-		try {
-
-			FlacocoMain.main(new String[]{"--projhjhjhectpathddd", // Incorrect argument
-					"examples/exampleFL1/FLtest1", "--formula", SpectrumFormula.OCHIAI.name(), "--coverTest",
-					"--framework", FlacocoConfig.TestFramework.JUNIT4.name()
-
-			});
-
-			fail("The main must fail because one argument is incorrect");
-		} catch (Throwable t) {
-
-		}
+		assertThrows(IllegalArgumentException.class, () ->
+				FlacocoMain.main(new String[]{"--projhjhjhectpathddd", // Incorrect argument
+						"examples/exampleFL1/FLtest1", "--formula", SpectrumFormula.OCHIAI.name(), "--coverTest",
+						"--framework", FlacocoConfig.TestFramework.JUNIT4.name()
+				})
+		);
 	}
 
 	@Test
