@@ -49,14 +49,15 @@ public class TestDetectorTest {
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();
-		List<TestInformation> tests = testDetector.findTests();
+		List<TestContext> testContexts = testDetector.findTests();
 
-		// Check that there is one test class
-		assertEquals(1, tests.size());
-		// Check that there are 4 test methods in the test class and the correct framework is set
-		TestInformation testInformation = tests.get(0);
-		assertEquals(4, testInformation.getTestMethods().size());
-		assertTrue(testInformation.getTestFrameworkStrategy() instanceof JUnit4Strategy);
+		// Check that there is only one test context
+		assertEquals(1, testContexts.size());
+		// Check that there are 4 test methods in the test context
+		TestContext testContext = testContexts.get(0);
+		assertEquals(4, testContext.getTestMethods().size());
+		// Check that the correct test framework is set
+		assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
 	}
 
 	@Test
@@ -67,14 +68,15 @@ public class TestDetectorTest {
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();
-		List<TestInformation> tests = testDetector.findTests();
+		List<TestContext> testContexts = testDetector.findTests();
 
-		// Check that there is one test class
-		assertEquals(1, tests.size());
-		// Check that there are 5 test methods in the test class and the correct framework is set
-		TestInformation testInformation = tests.get(0);
-		assertEquals(5, testInformation.getTestMethods().size());
-		assertTrue(testInformation.getTestFrameworkStrategy() instanceof JUnit4Strategy);
+		// Check that there is only one test context
+		assertEquals(1, testContexts.size());
+		// Check that there are 5 test methods in the test context
+		TestContext testContext = testContexts.get(0);
+		assertEquals(5, testContext.getTestMethods().size());
+		// Check that the correct test framework is set
+		assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
 	}
 
 	@Test
@@ -85,14 +87,15 @@ public class TestDetectorTest {
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();
-		List<TestInformation> tests = testDetector.findTests();
+		List<TestContext> testContexts = testDetector.findTests();
 
-		// Check that there is one test class
-		assertEquals(1, tests.size());
-		// Check that there are 5 test methods in the test class and the correct framework is set
-		TestInformation testInformation = tests.get(0);
-		assertEquals(5, testInformation.getTestMethods().size());
-		assertTrue(testInformation.getTestFrameworkStrategy() instanceof JUnit4Strategy);
+		// Check that there is only one test context
+		assertEquals(1, testContexts.size());
+		// Check that there are 5 test methods in the test context
+		TestContext testContext = testContexts.get(0);
+		assertEquals(5, testContext.getTestMethods().size());
+		// Check that the correct test framework is set
+		assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
 	}
 
 	@Test
@@ -103,14 +106,15 @@ public class TestDetectorTest {
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();
-		List<TestInformation> tests = testDetector.findTests();
+		List<TestContext> testContexts = testDetector.findTests();
 
-		// Check that there is one test class
-		assertEquals(1, tests.size());
-		// Check that there are 4 test methods in the test class and the correct framework is set
-		TestInformation testInformation = tests.get(0);
-		assertEquals(4, testInformation.getTestMethods().size());
-		assertTrue(testInformation.getTestFrameworkStrategy() instanceof JUnit5Strategy);
+		// Check that there is only one test context
+		assertEquals(1, testContexts.size());
+		// Check that there are 4 test methods in the test context
+		TestContext testContext = testContexts.get(0);
+		assertEquals(4, testContext.getTestMethods().size());
+		// Check that the correct test framework is set
+		assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit5Strategy);
 	}
 
 	@Test
@@ -121,14 +125,15 @@ public class TestDetectorTest {
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();
-		List<TestInformation> tests = testDetector.findTests();
+		List<TestContext> testContexts = testDetector.findTests();
 
-		// Check that there is one test class
-		assertEquals(1, tests.size());
-		// Check that there are 4 test methods in the test class and the correct framework is set
-		TestInformation testInformation = tests.get(0);
-		assertEquals(4, testInformation.getTestMethods().size());
-		assertTrue(testInformation.getTestFrameworkStrategy() instanceof JUnit4Strategy);
+		// Check that there is only one test context
+		assertEquals(1, testContexts.size());
+		// Check that there are 4 test methods in the test context
+		TestContext testContext = testContexts.get(0);
+		assertEquals(4, testContext.getTestMethods().size());
+		// Check that the correct test framework is set
+		assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
 	}
 
 	@Test
@@ -139,35 +144,55 @@ public class TestDetectorTest {
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();
-		List<TestInformation> tests = testDetector.findTests();
+		List<TestContext> testContexts = testDetector.findTests();
 
-		// Check that there are four test information objects (mixed class gets mapped to two)
-		assertEquals(4, tests.size());
-		for (TestInformation testInformation : tests) {
-			switch (testInformation.getTestClassQualifiedName()) {
-				case "fr.spoonlabs.FLtest1.CalculatorJUnit3Test":
-					assertEquals(1, testInformation.getTestMethods().size());
-					assertTrue(testInformation.getTestFrameworkStrategy() instanceof JUnit4Strategy);
-					break;
-				case "fr.spoonlabs.FLtest1.CalculatorMixedTest":
-					if (testInformation.getTestMethodsNames().contains("testSubs")) {
-						assertEquals(1, testInformation.getTestMethods().size());
-						assertTrue(testInformation.getTestFrameworkStrategy() instanceof JUnit4Strategy);
-					} else if (testInformation.getTestMethodsNames().contains("testMul")) {
-						assertEquals(1, testInformation.getTestMethods().size());
-						assertTrue(testInformation.getTestFrameworkStrategy() instanceof JUnit5Strategy);
-					} else {
+		// Check that there are two test contexts, one for each strategy
+		assertEquals(2, testContexts.size());
+		for (TestContext testContext : testContexts) {
+			for (TestMethod testMethod : testContext.getTestMethods()) {
+				switch (testMethod.getFullyQualifiedClassName()) {
+					case "fr.spoonlabs.FLtest1.CalculatorJUnit3Test":
+						assertEquals("fr.spoonlabs.FLtest1.CalculatorJUnit3Test#testSum", testMethod.getFullyQualifiedMethodName());
+						assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
+						break;
+					case "fr.spoonlabs.FLtest1.CalculatorMixedTest":
+						if (testMethod.getFullyQualifiedMethodName().equals("fr.spoonlabs.FLtest1.CalculatorMixedTest#testSubs")) {
+							assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
+						} else if (testMethod.getFullyQualifiedMethodName().equals("fr.spoonlabs.FLtest1.CalculatorMixedTest#testMul")) {
+							assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit5Strategy);
+						} else {
+							fail();
+						}
+						break;
+					case "fr.spoonlabs.FLtest1.CalculatorJUnit5Test":
+						assertEquals("fr.spoonlabs.FLtest1.CalculatorJUnit5Test#testDiv", testMethod.getFullyQualifiedMethodName());
+						assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit5Strategy);
+						break;
+					default:
 						fail();
-					}
-					break;
-				case "fr.spoonlabs.FLtest1.CalculatorJUnit5Test":
-					assertEquals(1, testInformation.getTestMethods().size());
-					assertTrue(testInformation.getTestFrameworkStrategy() instanceof JUnit5Strategy);
-					break;
-				default:
-					fail();
+				}
 			}
 		}
 	}
+
+	@Test
+	public void testExampleFL7() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath(new File("./examples/exampleFL7SameNamedMethods/FLtest1").getAbsolutePath());
+
+		// Find the tests
+		TestDetector testDetector = new TestDetector();
+		List<TestContext> testContexts = testDetector.findTests();
+
+		// Check that there is only one test context
+		assertEquals(1, testContexts.size());
+		// Check that there are 8 test methods in the test context
+		TestContext testContext = testContexts.get(0);
+		assertEquals(8, testContext.getTestMethods().size());
+		// Check that the correct test framework is set
+		assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
+	}
+
 
 }
