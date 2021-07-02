@@ -49,10 +49,6 @@ public class FlacocoMain implements Callable<Integer> {
 	@Option(names = { "--testRunnerJVMArgs" }, description = "JVM args for test-runner's test execution VMs")
 	String testRunnerJVMArgs = null;
 
-	@Option(names = {
-			"--framework" }, description = "Test framework that the project under analysis uses.", defaultValue = "JUNIT4")
-	String testFramework;
-
 	public static void main(String[] args) throws Exception {
 
 		int exitCode = new CommandLine(new FlacocoMain()).execute(args);
@@ -89,9 +85,6 @@ public class FlacocoMain implements Callable<Integer> {
 		SpectrumFormula spectrumFormulaSelected = SpectrumFormula.valueOf(this.spectrumFormula);
 
 		config.setSpectrumFormula(spectrumFormulaSelected);
-
-		FlacocoConfig.TestFramework testFrameworkSelected = FlacocoConfig.TestFramework.valueOf(testFramework);
-		config.setTestFramework(testFrameworkSelected);
 
 		SpectrumRunner runner = new SpectrumRunner();
 
