@@ -2,10 +2,9 @@ package fr.spoonlabs.flacoco.core.coverage.framework;
 
 import eu.stamp_project.testrunner.EntryPoint;
 import eu.stamp_project.testrunner.listener.CoveredTestResultPerTestMethod;
-import eu.stamp_project.testrunner.runner.ParserOptions;
-import fr.spoonlabs.flacoco.api.Flacoco;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
-import fr.spoonlabs.flacoco.core.test.TestInformation;
+import fr.spoonlabs.flacoco.core.test.TestContext;
+import fr.spoonlabs.flacoco.core.test.TestMethod;
 import org.apache.log4j.Logger;
 
 import java.io.File;
@@ -17,8 +16,8 @@ public class JUnit5Strategy extends TestFrameworkStrategy {
 	private FlacocoConfig config = FlacocoConfig.getInstance();
 
 	@Override
-	public CoveredTestResultPerTestMethod execute(TestInformation testInformation) throws TimeoutException {
-		this.logger.info("Running: " + testInformation);
+	public CoveredTestResultPerTestMethod execute(TestContext testContext) throws TimeoutException {
+		this.logger.info("Running: " + testContext);
 		this.setupTestRunnerEntryPoint();
 
 		// test-runner needs a flag for JUnit5 tests
@@ -27,8 +26,8 @@ public class JUnit5Strategy extends TestFrameworkStrategy {
 		return EntryPoint.runCoveredTestResultPerTestMethods(
 				this.computeClasspath(),
 				this.getPathToClasses() + File.pathSeparatorChar + this.getPathToTestClasses(),
-				testInformation.getTestClassQualifiedName(),
-				testInformation.getTestMethodsNames().toArray(new String[0])
+				testContext.getTestMethods().stream().map(TestMethod::getFullyQualifiedClassName).toArray(String[]::new),
+				testContext.getTestMethods().stream().map(TestMethod::getFullyQualifiedMethodName).toArray(String[]::new)
 		);
 	}
 

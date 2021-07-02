@@ -7,23 +7,24 @@ import fr.spoonlabs.flacoco.core.coverage.framework.JUnit4Strategy;
 import fr.spoonlabs.flacoco.core.coverage.framework.JUnit5Strategy;
 import org.apache.log4j.Logger;
 import spoon.Launcher;
-import spoon.reflect.declaration.CtMethod;
 import spoon.reflect.declaration.CtType;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Matias Martinez
  */
 public class TestDetector {
 
-	private Logger logger = Logger.getLogger(Flacoco.class);
+	private Logger logger = Logger.getLogger(TestDetector.class);
 	private FlacocoConfig config = FlacocoConfig.getInstance();
 
-	public List<TestInformation> findTests() {
+	public List<TestContext> findTests() {
 		// Create Spoon model to retrieve information about the tests
 		Launcher laucher = new Launcher();
 		laucher.addInputResource(new File(this.config.getProjectPath() + File.separator + "src/main").getAbsolutePath());
@@ -33,26 +34,33 @@ public class TestDetector {
 		// Init test framework
 		TestFramework.init(laucher.getFactory());
 
-		List<TestInformation> tuples = new ArrayList<>();
+		TestContext jUnit4Context = new TestContext(new JUnit4Strategy());
+		TestContext jUnit5Context = new TestContext(new JUnit5Strategy());
 
-		for (CtType<?> type : TestFramework.getAllTestClasses()) {
+		for (CtType<?> ctType : TestFramework.getAllTestClasses()) {
 
-			if (type.isAbstract()) {
+			if (ctType.isAbstract()) {
 				continue;
 			}
 
-			List<CtMethod<?>> jUnit4Tests = TestFramework.getAllTest(type).stream()
-					.filter(TestFramework::isJUnit4).collect(Collectors.toList());
-			List<CtMethod<?>> jUnit5Tests = TestFramework.getAllTest(type).stream()
-					.filter(TestFramework::isJUnit5).collect(Collectors.toList());
+			// Add JUnit4 methods to jUnit4Context
+			jUnit4Context.addTestMethods(
+					TestFramework.getAllTest(ctType).stream().filter(TestFramework::isJUnit4)
+							.map(ctMethod -> new TestMethod(ctType, ctMethod))
+							.collect(Collectors.toList())
+			);
 
-			if (!jUnit4Tests.isEmpty())
-				tuples.add(new TestInformation(type, jUnit4Tests, new JUnit4Strategy()));
-			if (!jUnit5Tests.isEmpty())
-				tuples.add(new TestInformation(type, jUnit5Tests, new JUnit5Strategy()));
+			// Add JUnit5 methods to jUnit5Context
+			jUnit5Context.addTestMethods(
+					TestFramework.getAllTest(ctType).stream().filter(TestFramework::isJUnit5)
+							.map(ctMethod -> new TestMethod(ctType, ctMethod))
+							.collect(Collectors.toList())
+			);
 		}
 
-		return tuples;
+		// We only want to return those that have test units
+		return Stream.of(jUnit4Context, jUnit5Context)
+				.filter(x -> !x.getTestMethods().isEmpty()).collect(Collectors.toList());
 	}
 
 }

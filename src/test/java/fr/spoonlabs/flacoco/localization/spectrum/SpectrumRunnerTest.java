@@ -331,4 +331,32 @@ public class SpectrumRunnerTest {
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
 	}
 
+	@Test
+	public void testExampleFL7Ochiai() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath(new File("./examples/exampleFL7SameNamedMethods/FLtest1").getAbsolutePath());
+		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+
+		SpectrumRunner runner = new SpectrumRunner();
+
+		Map<String, Double> susp = runner.run();
+
+		for (String line : susp.keySet()) {
+			System.out.println("susp " + line + " " + susp.get(line));
+		}
+
+		assertEquals(4, susp.size());
+
+		// Line executed only by the failing
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
+
+		// Line executed by a mix of failing and passing
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14"), 0.01);
+		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
+
+		// Lines executed by all test
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
+	}
+
 }
