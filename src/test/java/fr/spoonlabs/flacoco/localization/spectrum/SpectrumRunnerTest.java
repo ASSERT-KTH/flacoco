@@ -155,8 +155,9 @@ public class SpectrumRunnerTest {
 	public void testExampleFL4JUnit5Ochiai() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath(new File("./examples/exampleFL4JUnit5/FLtest1").getAbsolutePath());
+		config.setProjectPath(new File("./examples/exampleFL4/FLtest1").getAbsolutePath());
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+		config.setTestFramework(FlacocoConfig.TestFramework.JUNIT5);
 
 		SpectrumRunner runner = new SpectrumRunner();
 
@@ -184,8 +185,9 @@ public class SpectrumRunnerTest {
 	public void testExampleFL4JUnit5OchiaiCoverTests() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath(new File("./examples/exampleFL4JUnit5/FLtest1").getAbsolutePath());
+		config.setProjectPath(new File("./examples/exampleFL4/FLtest1").getAbsolutePath());
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+		config.setTestFramework(FlacocoConfig.TestFramework.JUNIT5);
 		config.setCoverTests(true);
 
 		SpectrumRunner runner = new SpectrumRunner();
@@ -208,154 +210,6 @@ public class SpectrumRunnerTest {
 		// Lines executed by all test
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9"), 0);
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
-	}
-
-	@Test
-	public void testExampleFL5JUnit3Ochiai() {
-		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath(new File("./examples/exampleFL5JUnit3/FLtest1").getAbsolutePath());
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
-
-		SpectrumRunner runner = new SpectrumRunner();
-
-		Map<String, Double> susp = runner.run();
-
-		for (String line : susp.keySet()) {
-			System.out.println("susp " + line + " " + susp.get(line));
-		}
-
-		assertEquals(4, susp.size());
-
-		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
-
-		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14"), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
-
-		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
-	}
-
-	@Test
-	@Ignore
-	public void testExampleFL5JUnit3OchiaiCoverTests() {
-		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath(new File("./examples/exampleFL5JUnit3/FLtest1").getAbsolutePath());
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
-		config.setCoverTests(true);
-
-		SpectrumRunner runner = new SpectrumRunner();
-
-		Map<String, Double> susp = runner.run();
-
-		for (String line : susp.keySet()) {
-			System.out.println("susp " + line + " " + susp.get(line));
-		}
-
-		assertEquals(6, susp.size());
-
-		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
-
-		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14"), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
-
-		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
-	}
-
-	@Test
-	public void testExampleFL6MixedOchiai() {
-		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath(new File("./examples/exampleFL6Mixed/FLtest1").getAbsolutePath());
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
-
-		SpectrumRunner runner = new SpectrumRunner();
-
-		Map<String, Double> susp = runner.run();
-
-		for (String line : susp.keySet()) {
-			System.out.println("susp " + line + " " + susp.get(line));
-		}
-
-		assertEquals(4, susp.size());
-
-		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
-
-		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14"), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
-
-		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
-	}
-
-	@Test
-	@Ignore
-	public void testExampleFL6MixedOchiaiCoverTests() {
-		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath(new File("./examples/exampleFL6Mixed/FLtest1").getAbsolutePath());
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
-		config.setCoverTests(true);
-
-		SpectrumRunner runner = new SpectrumRunner();
-
-		Map<String, Double> susp = runner.run();
-
-		for (String line : susp.keySet()) {
-			System.out.println("susp " + line + " " + susp.get(line));
-		}
-
-		assertEquals(6, susp.size());
-
-		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
-
-		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14"), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
-
-		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
-	}
-
-	@Test
-	public void testExampleFL7Ochiai() {
-		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath(new File("./examples/exampleFL7SameNamedMethods/FLtest1").getAbsolutePath());
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
-
-		SpectrumRunner runner = new SpectrumRunner();
-
-		Map<String, Double> susp = runner.run();
-
-		for (String line : susp.keySet()) {
-			System.out.println("susp " + line + " " + susp.get(line));
-		}
-
-		assertEquals(4, susp.size());
-
-		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
-
-		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14"), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
-
-		// Lines executed by all test
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
 	}
 
