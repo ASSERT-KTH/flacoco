@@ -15,11 +15,6 @@ public class FlacocoConfig {
 		SPECTRUM_BASED,
 	}
 
-	public enum TestFramework {
-		JUNIT4,
-		JUNIT5
-	}
-
 	private static FlacocoConfig instance;
 
 	private String workspace;
@@ -28,7 +23,6 @@ public class FlacocoConfig {
 	private String customJUnitClasspath;
 	private String customJacocoClasspath;
 	private String mavenHome;
-	private TestFramework testFramework;
 	private boolean coverTests;
 	private boolean testRunnerVerbose;
 	private int testRunnerTimeoutInMs;
@@ -56,7 +50,6 @@ public class FlacocoConfig {
 		this.customJUnitClasspath = null;
 		this.customJacocoClasspath = null;
 		this.mavenHome = System.getProperty("user.home") + "/.m2/repository/";
-		this.testFramework = TestFramework.JUNIT4;
 		this.coverTests = false;
 		this.testRunnerVerbose = false;
 		this.testRunnerTimeoutInMs = 10000;
@@ -112,14 +105,6 @@ public class FlacocoConfig {
 
 	public void setMavenHome(String mavenHome) {
 		this.mavenHome = mavenHome;
-	}
-
-	public TestFramework getTestFramework() {
-		return testFramework;
-	}
-
-	public void setTestFramework(TestFramework testFramework) {
-		this.testFramework = testFramework;
 	}
 
 	public boolean isCoverTests() {
@@ -179,7 +164,6 @@ public class FlacocoConfig {
 				", customJUnitClasspath='" + customJUnitClasspath + '\'' +
 				", customJacocoClasspath='" + customJacocoClasspath + '\'' +
 				", mavenHome='" + mavenHome + '\'' +
-				", testFramework=" + testFramework +
 				", coverTests=" + coverTests +
 				", testRunnerVerbose=" + testRunnerVerbose +
 				", testRunnerTimeoutInMs=" + testRunnerTimeoutInMs +

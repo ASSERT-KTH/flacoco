@@ -1,6 +1,8 @@
 package fr.spoonlabs.flacoco.core.test;
 
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
+import fr.spoonlabs.flacoco.core.coverage.framework.JUnit4Strategy;
+import fr.spoonlabs.flacoco.core.coverage.framework.JUnit5Strategy;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.junit.After;
@@ -12,7 +14,7 @@ import org.junit.rules.TemporaryFolder;
 import java.io.File;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * This class tests the TestDetector against 3 example projects
@@ -51,9 +53,10 @@ public class TestDetectorTest {
 
 		// Check that there is one test class
 		assertEquals(1, tests.size());
-		// Check that there are 4 test methods in the test class
+		// Check that there are 4 test methods in the test class and the correct framework is set
 		TestInformation testInformation = tests.get(0);
 		assertEquals(4, testInformation.getTestMethods().size());
+		assertTrue(testInformation.getTestFrameworkStrategy() instanceof JUnit4Strategy);
 	}
 
 	@Test
@@ -68,9 +71,10 @@ public class TestDetectorTest {
 
 		// Check that there is one test class
 		assertEquals(1, tests.size());
-		// Check that there are 5 test methods in the test class
+		// Check that there are 5 test methods in the test class and the correct framework is set
 		TestInformation testInformation = tests.get(0);
 		assertEquals(5, testInformation.getTestMethods().size());
+		assertTrue(testInformation.getTestFrameworkStrategy() instanceof JUnit4Strategy);
 	}
 
 	@Test
@@ -85,17 +89,17 @@ public class TestDetectorTest {
 
 		// Check that there is one test class
 		assertEquals(1, tests.size());
-		// Check that there are 5 test methods in the test class
+		// Check that there are 5 test methods in the test class and the correct framework is set
 		TestInformation testInformation = tests.get(0);
 		assertEquals(5, testInformation.getTestMethods().size());
+		assertTrue(testInformation.getTestFrameworkStrategy() instanceof JUnit4Strategy);
 	}
 
 	@Test
 	public void testExampleFL4JUnit5() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath(new File("./examples/exampleFL4/FLtest1").getAbsolutePath());
-		config.setTestFramework(FlacocoConfig.TestFramework.JUNIT5);
+		config.setProjectPath(new File("./examples/exampleFL4JUnit5/FLtest1").getAbsolutePath());
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();
@@ -103,9 +107,67 @@ public class TestDetectorTest {
 
 		// Check that there is one test class
 		assertEquals(1, tests.size());
-		// Check that there are 4 test methods in the test class
+		// Check that there are 4 test methods in the test class and the correct framework is set
 		TestInformation testInformation = tests.get(0);
 		assertEquals(4, testInformation.getTestMethods().size());
+		assertTrue(testInformation.getTestFrameworkStrategy() instanceof JUnit5Strategy);
+	}
+
+	@Test
+	public void testExampleFL5JUnit3() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath(new File("./examples/exampleFL5JUnit3/FLtest1").getAbsolutePath());
+
+		// Find the tests
+		TestDetector testDetector = new TestDetector();
+		List<TestInformation> tests = testDetector.findTests();
+
+		// Check that there is one test class
+		assertEquals(1, tests.size());
+		// Check that there are 4 test methods in the test class and the correct framework is set
+		TestInformation testInformation = tests.get(0);
+		assertEquals(4, testInformation.getTestMethods().size());
+		assertTrue(testInformation.getTestFrameworkStrategy() instanceof JUnit4Strategy);
+	}
+
+	@Test
+	public void testExampleFL6Mixed() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath(new File("./examples/exampleFL6Mixed/FLtest1").getAbsolutePath());
+
+		// Find the tests
+		TestDetector testDetector = new TestDetector();
+		List<TestInformation> tests = testDetector.findTests();
+
+		// Check that there are four test information objects (mixed class gets mapped to two)
+		assertEquals(4, tests.size());
+		for (TestInformation testInformation : tests) {
+			switch (testInformation.getTestClassQualifiedName()) {
+				case "fr.spoonlabs.FLtest1.CalculatorJUnit3Test":
+					assertEquals(1, testInformation.getTestMethods().size());
+					assertTrue(testInformation.getTestFrameworkStrategy() instanceof JUnit4Strategy);
+					break;
+				case "fr.spoonlabs.FLtest1.CalculatorMixedTest":
+					if (testInformation.getTestMethodsNames().contains("testSubs")) {
+						assertEquals(1, testInformation.getTestMethods().size());
+						assertTrue(testInformation.getTestFrameworkStrategy() instanceof JUnit4Strategy);
+					} else if (testInformation.getTestMethodsNames().contains("testMul")) {
+						assertEquals(1, testInformation.getTestMethods().size());
+						assertTrue(testInformation.getTestFrameworkStrategy() instanceof JUnit5Strategy);
+					} else {
+						fail();
+					}
+					break;
+				case "fr.spoonlabs.FLtest1.CalculatorJUnit5Test":
+					assertEquals(1, testInformation.getTestMethods().size());
+					assertTrue(testInformation.getTestFrameworkStrategy() instanceof JUnit5Strategy);
+					break;
+				default:
+					fail();
+			}
+		}
 	}
 
 }
