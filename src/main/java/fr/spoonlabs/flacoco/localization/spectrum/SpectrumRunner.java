@@ -1,11 +1,10 @@
 package fr.spoonlabs.flacoco.localization.spectrum;
 
-import fr.spoonlabs.flacoco.api.Flacoco;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.coverage.CoverageMatrix;
 import fr.spoonlabs.flacoco.core.coverage.CoverageRunner;
+import fr.spoonlabs.flacoco.core.test.TestContext;
 import fr.spoonlabs.flacoco.core.test.TestDetector;
-import fr.spoonlabs.flacoco.core.test.TestInformation;
 import fr.spoonlabs.flacoco.localization.FaultLocalizationRunner;
 import org.apache.log4j.Logger;
 
@@ -14,7 +13,7 @@ import java.util.Map;
 
 public class SpectrumRunner implements FaultLocalizationRunner {
 
-	private Logger logger = Logger.getLogger(Flacoco.class);
+	private Logger logger = Logger.getLogger(SpectrumRunner.class);
 	private FlacocoConfig config = FlacocoConfig.getInstance();
 
 	@Override
@@ -30,7 +29,7 @@ public class SpectrumRunner implements FaultLocalizationRunner {
 
 		// Get the tests
 		TestDetector testDetector = new TestDetector();
-		List<TestInformation> tests = testDetector.findTests();
+		List<TestContext> tests = testDetector.findTests();
 
 		CoverageRunner detector = new CoverageRunner();
 

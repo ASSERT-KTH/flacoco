@@ -28,8 +28,8 @@ public class FlacocoMainTest {
 		String jacocoClassPath = mavenHome + "org/jacoco/org.jacoco.core/0.8.3/org.jacoco.core-0.7.9.jar";
 
 		FlacocoMain.main(new String[]{"--projectpath", "examples/exampleFL1/FLtest1", "--formula",
-				SpectrumFormula.OCHIAI.name(), "--framework", FlacocoConfig.TestFramework.JUNIT4.name(),
-				"--mavenHome", mavenHome, "--junitClasspath", junitClasspath, "--jacocoClasspath", jacocoClassPath,
+				SpectrumFormula.OCHIAI.name(), "--mavenHome", mavenHome,
+				"--junitClasspath", junitClasspath, "--jacocoClasspath", jacocoClassPath,
 				"--testRunnerVerbose", "--testRunnerTimeoutInMs", "10000", "--testRunnerJVMArgs", "-Xms16M"
 		});
 	}
@@ -39,8 +39,9 @@ public class FlacocoMainTest {
 
 		assertThrows(IllegalArgumentException.class, () ->
 				FlacocoMain.main(new String[]{"--projhjhjhectpathddd", // Incorrect argument
-						"examples/exampleFL1/FLtest1", "--formula", SpectrumFormula.OCHIAI.name(), "--coverTest",
-						"--framework", FlacocoConfig.TestFramework.JUNIT4.name()
+						"examples/exampleFL1/FLtest1",
+						"--formula", SpectrumFormula.OCHIAI.name(),
+						"--coverTest"
 				})
 		);
 	}
