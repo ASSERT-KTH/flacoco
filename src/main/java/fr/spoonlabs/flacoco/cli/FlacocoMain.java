@@ -57,7 +57,11 @@ public class FlacocoMain implements Callable<Integer> {
 	@Option(names = {"--testRunnerJVMArgs"}, description = "JVM args for test-runner's test execution VMs.")
 	String testRunnerJVMArgs = null;
 
-	@Option(names = {"-o", "--output"}, description = "Path to the output file. If nothing is specified, output will be printed to stdout.", defaultValue = "stdout")
+	@Option(names = {"-o", "--output"},
+			description = "Path to the output file. If no path is provided but the flag is, the result will be stored in flacoco_result.{extension}",
+			arity = "0..1",
+			fallbackValue = ""
+	)
 	String output;
 
 	@CommandLine.ArgGroup(exclusive = true, multiplicity = "0..1")
@@ -125,8 +129,8 @@ public class FlacocoMain implements Callable<Integer> {
 
 	private void exportResults(Map<String, Double> results) {
 		try {
-			OutputStreamWriter outputStreamWriter = getOutputStreamWriter();
 			FlacocoExporter exporter = getExporter();
+			OutputStreamWriter outputStreamWriter = getOutputStreamWriter(exporter);
 			exporter.export(results, outputStreamWriter);
 			outputStreamWriter.close();
 		} catch (IOException e) {
@@ -134,9 +138,15 @@ public class FlacocoMain implements Callable<Integer> {
 		}
 	}
 
-	private OutputStreamWriter getOutputStreamWriter() throws IOException {
-		if ("stdout".equals(this.output)) {
+	private OutputStreamWriter getOutputStreamWriter(FlacocoExporter exporter) throws IOException {
+		if (this.output == null) {
 			return new OutputStreamWriter(System.out);
+		} else if (this.output.isEmpty()) {
+			File file = new File("flacoco_results." + exporter.extension());
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			return new OutputStreamWriter(new FileOutputStream(file));
 		} else {
 			File file = new File(this.output);
 			if (!file.exists()) {

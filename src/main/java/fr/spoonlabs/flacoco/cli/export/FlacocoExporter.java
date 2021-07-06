@@ -8,4 +8,6 @@ public interface FlacocoExporter {
 
 	void export(Map<String, Double> results, OutputStreamWriter outputStream) throws IOException;
 
+	String extension();
+
 }

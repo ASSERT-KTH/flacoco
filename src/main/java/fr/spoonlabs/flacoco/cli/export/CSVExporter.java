@@ -20,4 +20,9 @@ public class CSVExporter implements FlacocoExporter {
 		}
 		writer.close();
 	}
+
+	@Override
+	public String extension() {
+		return "csv";
+	}
 }

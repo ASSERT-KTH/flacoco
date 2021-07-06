@@ -10,4 +10,9 @@ public class OneLineExporter implements fr.spoonlabs.flacoco.cli.export.FlacocoE
 			outputStream.write(entry.getKey() + "," + entry.getValue());
 		}
 	}
+
+	@Override
+	public String extension() {
+		return "custom";
+	}
 }

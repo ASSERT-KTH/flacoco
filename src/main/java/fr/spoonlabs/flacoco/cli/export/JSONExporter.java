@@ -20,4 +20,9 @@ public class JSONExporter implements FlacocoExporter {
 
 		outputStream.write(gsonString);
 	}
+
+	@Override
+	public String extension() {
+		return "json";
+	}
 }
