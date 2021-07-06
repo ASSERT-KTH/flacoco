@@ -1,12 +1,16 @@
 package fr.spoonlabs.flacoco.cli;
 
-import fr.spoonlabs.flacoco.cli.FlacocoMain;
-import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
+import fr.spoonlabs.flacoco.cli.export.CSVExporter;
+import fr.spoonlabs.flacoco.cli.export.JSONExporter;
 import fr.spoonlabs.flacoco.localization.spectrum.SpectrumFormula;
 import org.apache.commons.io.FileUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
+import org.junit.rules.RuleChain;
+import org.junit.rules.TestRule;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import picocli.CommandLine;
 
 import java.io.File;
@@ -16,8 +20,11 @@ import static org.junit.Assert.assertTrue;
 
 public class FlacocoMainTest {
 
-	@Rule
 	public final ExpectedSystemExit exit = ExpectedSystemExit.none();
+	public final CheckOutput output = new CheckOutput();
+
+	@Rule
+	public TestRule allRules = RuleChain.outerRule(output).around(exit);
 
 	@Test
 	public void testMainExplicitArguments() {
@@ -64,34 +71,52 @@ public class FlacocoMainTest {
 
 	@Test
 	public void testMainCSVExport() throws IOException {
+		// setup check output rule
+		output.extension = new CSVExporter().extension();
 
 		exit.expectSystemExitWithStatus(0);
 		FlacocoMain.main(new String[]{"--projectpath", "examples/exampleFL1/FLtest1",
 				"--format", "CSV", "-o", "results.csv"});
-
-		File expected = new File("src/test/resources/expected.csv");
-		assertTrue("The files differ!", FileUtils.contentEquals(new File("results.csv"), expected));
 	}
 
 	@Test
 	public void testMainJSONExport() throws IOException {
+		// setup check output rule
+		output.extension = new JSONExporter().extension();
 
 		exit.expectSystemExitWithStatus(0);
 		FlacocoMain.main(new String[]{"--projectpath", "examples/exampleFL1/FLtest1",
-				"--format", "CSV", "-o", "results.json"});
-
-		File expected = new File("src/test/resources/expected.json");
-		assertTrue("The files differ!", FileUtils.contentEquals(new File("results.json"), expected));
+				"--format", "JSON", "-o", "results.json"});
 	}
 
 	@Test
 	public void testMainCustomExport() throws IOException {
+		// setup check output rule
+		output.extension = "custom";
 
 		exit.expectSystemExitWithStatus(0);
 		FlacocoMain.main(new String[]{"--projectpath", "examples/exampleFL1/FLtest1",
 				"--formatter", "src/test/resources/OneLineExporter.java", "-o", "results.custom"});
+	}
 
-		File expected = new File("src/test/resources/expected.custom");
-		assertTrue("The files differ!", FileUtils.contentEquals(new File("results.custom"), expected));
+	private static final class CheckOutput extends TestWatcher {
+		String extension;
+
+		@Override
+		protected void starting(Description description) {
+			this.extension = null;
+		}
+
+		@Override
+		protected void finished(Description description) {
+			if (this.extension != null) {
+				try {
+					File expected = new File("src/test/resources/expected." + this.extension);
+					assertTrue("The files differ!", FileUtils.contentEquals(new File("results." + this.extension), expected));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 }

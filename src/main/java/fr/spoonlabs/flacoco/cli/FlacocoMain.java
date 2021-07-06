@@ -65,15 +65,19 @@ public class FlacocoMain implements Callable<Integer> {
 	String output;
 
 	@CommandLine.ArgGroup(exclusive = true, multiplicity = "0..1")
-	FormatOption formatOption;
+	FormatOption formatOption = new FormatOption();
 
 	static class FormatOption {
+		// default value for formatOption
+		public FormatOption() {
+			this.format = Format.CSV;
+		}
+
 		public enum Format {
 			CSV,
 			JSON
 		}
 
-		// To change the default value, change getExporter(), has picocli doesn't support default values for mutually exclusive groups
 		@Option(names = {"--format"}, description = "Format of the output. Valid values: ${COMPLETION-CANDIDATES}", defaultValue = "CSV")
 		Format format;
 
@@ -157,10 +161,7 @@ public class FlacocoMain implements Callable<Integer> {
 	}
 
 	private FlacocoExporter getExporter() {
-		if (this.formatOption == null) {
-			// This is here because picocli doesn't allow for default values for mutually exclusive groups
-			return new CSVExporter();
-		} else if (this.formatOption.customExporter == null) {
+		if (this.formatOption.customExporter == null) {
 			switch (this.formatOption.format) {
 				case CSV:
 					return new CSVExporter();
