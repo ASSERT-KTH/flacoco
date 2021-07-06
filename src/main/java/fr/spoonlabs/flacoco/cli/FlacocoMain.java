@@ -11,6 +11,8 @@ import org.apache.log4j.Logger;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
+import spoon.Launcher;
+import spoon.reflect.declaration.CtClass;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,13 +36,13 @@ public class FlacocoMain implements Callable<Integer> {
 	@Option(names = {"-c", "--classpath"}, description = "Classpath of the project under analyzis.")
 	String classpath;
 
-	@Option(names = {"--junitClasspath"}, description = "Classpath to junit dependencies")
+	@Option(names = {"--junitClasspath"}, description = "Classpath to junit dependencies.")
 	String customJUnitClasspath;
 
-	@Option(names = {"--jacocoClasspath"}, description = "Classpath to jacoco dependencies")
+	@Option(names = {"--jacocoClasspath"}, description = "Classpath to jacoco dependencies.")
 	String customJacocoClasspath;
 
-	@Option(names = {"--mavenHome"}, description = "Path to maven home")
+	@Option(names = {"--mavenHome"}, description = "Path to maven home.")
 	String mavenHome;
 
 	@Option(names = {"--coverTest"}, description = "Indicates if coverage must also cover the tests.", defaultValue = "false")
@@ -52,19 +54,28 @@ public class FlacocoMain implements Callable<Integer> {
 	@Option(names = {"--testRunnerTimeoutInMs"}, description = "Timeout for each test execution with test-runner.", defaultValue = "10000")
 	int testRunnerTimeoutInMs = 10000;
 
-	@Option(names = {"--testRunnerJVMArgs"}, description = "JVM args for test-runner's test execution VMs")
+	@Option(names = {"--testRunnerJVMArgs"}, description = "JVM args for test-runner's test execution VMs.")
 	String testRunnerJVMArgs = null;
 
 	@Option(names = {"-o", "--output"}, description = "Path to the output file. If nothing is specified, output will be printed to stdout.", defaultValue = "stdout")
 	String output;
 
-	public enum Format {
-		CSV,
-		JSON
-	}
+	@CommandLine.ArgGroup(exclusive = true, multiplicity = "0..1")
+	FormatOption formatOption;
 
-	@Option(names = {"--format"}, description = "Format of the output. Valid values: ${COMPLETION-CANDIDATES}", defaultValue = "CSV")
-	Format format;
+	static class FormatOption {
+		public enum Format {
+			CSV,
+			JSON
+		}
+
+		// To change the default value, change getExporter(), has picocli doesn't support default values for mutually exclusive groups
+		@Option(names = {"--format"}, description = "Format of the output. Valid values: ${COMPLETION-CANDIDATES}", defaultValue = "CSV")
+		Format format;
+
+		@Option(names = {"--formatter"}, description = "Path to java file of a custom FlacocoExporter.")
+		String customExporter;
+	}
 
 	@Option(names = "-v", scope = CommandLine.ScopeType.INHERIT, description = "Verbose mode.")
 	public void setVerbose(boolean[] verbose) {
@@ -136,14 +147,26 @@ public class FlacocoMain implements Callable<Integer> {
 	}
 
 	private FlacocoExporter getExporter() {
-		switch (this.format) {
-			case CSV:
-				return new CSVExporter();
-			case JSON:
-				return new JSONExporter();
-			default:
-				// should never happen as the argument is parsed by picocli
-				return null;
+		if (this.formatOption == null) {
+			// This is here because picocli doesn't allow for default values for mutually exclusive groups
+			return new CSVExporter();
+		} else if (this.formatOption.customExporter == null) {
+			switch (this.formatOption.format) {
+				case CSV:
+					return new CSVExporter();
+				case JSON:
+					return new JSONExporter();
+				default:
+					// should never happen as the argument is parsed by picocli
+					return null;
+			}
+		} else {
+			Launcher launcher = new Launcher();
+			launcher.addInputResource(this.formatOption.customExporter);
+			CtClass<FlacocoExporter> exporterClass = (CtClass<FlacocoExporter>) launcher.buildModel().getAllTypes()
+					.stream().findFirst().get();
+
+			return exporterClass.newInstance();
 		}
 	}
 }

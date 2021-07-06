@@ -6,6 +6,6 @@ import java.util.Map;
 
 public interface FlacocoExporter {
 
-	public void export(Map<String, Double> results, OutputStreamWriter outputStream) throws IOException;
+	void export(Map<String, Double> results, OutputStreamWriter outputStream) throws IOException;
 
 }

@@ -43,3 +43,4 @@ buildNumber.properties
 ### flacoco ###
 results.json
 results.csv
+results.custom

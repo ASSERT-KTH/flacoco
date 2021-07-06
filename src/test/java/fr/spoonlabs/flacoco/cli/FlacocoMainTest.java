@@ -83,4 +83,15 @@ public class FlacocoMainTest {
 		File expected = new File("src/test/resources/expected.json");
 		assertTrue("The files differ!", FileUtils.contentEquals(new File("results.json"), expected));
 	}
+
+	@Test
+	public void testMainCustomExport() throws IOException {
+
+		exit.expectSystemExitWithStatus(0);
+		FlacocoMain.main(new String[]{"--projectpath", "examples/exampleFL1/FLtest1",
+				"--formatter", "src/test/resources/OneLineExporter.java", "-o", "results.custom"});
+
+		File expected = new File("src/test/resources/expected.custom");
+		assertTrue("The files differ!", FileUtils.contentEquals(new File("results.custom"), expected));
+	}
 }
