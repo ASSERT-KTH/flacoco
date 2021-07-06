@@ -1,9 +1,9 @@
 name: deploy-snapshot
 
 on:
-  workflow_run:
-    workflows: ["tests"]
-    types: [completed]
+  push:
+    branches:
+      - master
 
 jobs:
   deploy-on-success:
