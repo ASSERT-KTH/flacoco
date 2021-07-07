@@ -1,5 +1,6 @@
 package fr.spoonlabs.flacoco.utils.spoon;
 
+import fr.spoonlabs.flacoco.api.Suspiciousness;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import org.apache.log4j.Logger;
 import spoon.Launcher;
@@ -20,7 +21,7 @@ public class SpoonConverter {
 	private static Logger logger = Logger.getLogger(SpoonConverter.class);
 	private static FlacocoConfig config = FlacocoConfig.getInstance();
 
-	public static Map<CtStatement, Double> convert(Map<String, Double> original) {
+	public static Map<CtStatement, Suspiciousness> convert(Map<String, Suspiciousness> original) {
 		logger.debug("Converting results to Spoon format...");
 		logger.debug(original);
 
@@ -32,7 +33,7 @@ public class SpoonConverter {
 		launcher.addProcessor(new SpoonLocalizedFaultFinder());
 
 		// Convert keys
-		Map<CtStatement, Double> result = new HashMap<>();
+		Map<CtStatement, Suspiciousness> result = new HashMap<>();
 		for (String key : original.keySet()) {
 			// Compute location information
 			SpoonLocalizedFaultFinder.fullyQualifiedClassName = key.substring(0, key.indexOf("@"))

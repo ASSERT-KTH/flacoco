@@ -2,6 +2,7 @@ package fr.spoonlabs.flacoco.core.coverage;
 
 import eu.stamp_project.testrunner.listener.Coverage;
 import eu.stamp_project.testrunner.listener.impl.CoverageDetailed;
+import fr.spoonlabs.flacoco.core.test.TestMethod;
 
 /**
  * Contains the results of the execution of a single test case (i.e., a method).
@@ -11,13 +12,9 @@ import eu.stamp_project.testrunner.listener.impl.CoverageDetailed;
  */
 public class CoverageFromSingleTestUnit {
 	/**
-	 * Class name of class that contains the test
+	 * TestMethod information
 	 */
-	protected String testClass;
-	/**
-	 * Name of the method that corresponds to the test
-	 */
-	protected String testMethod;
+	protected TestMethod testMethod;
 	/**
 	 * Coverage info
 	 */
@@ -31,65 +28,42 @@ public class CoverageFromSingleTestUnit {
 	 */
 	protected boolean isSkip = false;
 
-	public CoverageFromSingleTestUnit(String testClass, String method, CoverageDetailed cov) {
-		super();
-		this.testClass = testClass;
-		this.testMethod = method;
+	public CoverageFromSingleTestUnit(TestMethod testMethod, CoverageDetailed cov) {
+		this.testMethod = testMethod;
 		this.cov = cov;
 	}
 
-	public String getMethod() {
+	public TestMethod getTestMethod() {
 		return testMethod;
 	}
 
-	public void setMethod(String method) {
-		this.testMethod = method;
-	}
-
-	public Coverage getCov() {
+	public CoverageDetailed getCov() {
 		return cov;
 	}
 
-	public void setCov(CoverageDetailed cov) {
-		this.cov = cov;
-	}
-
-	public String getTestMethod() {
-		return testMethod;
-	}
-
-	public void setTestMethod(String testMethod) {
-		this.testMethod = testMethod;
-	}
-
-	@Override
-	public String toString() {
-		return "CoverageFromSingleTestUnit [testClass=" + testClass + ", testMethod=" + testMethod + ", cov="
-				+ cov.getInstructionsCovered() + "]";
-	}
-
 	public boolean isPassing() {
-		return isPassing && !isSkip();
+		return isPassing;
 	}
 
-	public void setIsPassing(Boolean isPassing) {
-		this.isPassing = isPassing;
+	public void setPassing(boolean passing) {
+		isPassing = passing;
 	}
 
 	public boolean isSkip() {
 		return isSkip;
 	}
 
-	public void setIsSkip(Boolean isSkip) {
-		this.isSkip = isSkip;
+	public void setSkip(boolean skip) {
+		isSkip = skip;
 	}
 
-	public String getTestClass() {
-		return testClass;
+	@Override
+	public String toString() {
+		return "CoverageFromSingleTestUnit{" +
+				"testMethod=" + testMethod +
+				", cov=" + cov +
+				", isPassing=" + isPassing +
+				", isSkip=" + isSkip +
+				'}';
 	}
-
-	public void setTestClass(String testClass) {
-		this.testClass = testClass;
-	}
-
 }

@@ -1,6 +1,7 @@
 package fr.spoonlabs.flacoco.cli;
 
 import fr.spoonlabs.flacoco.api.Flacoco;
+import fr.spoonlabs.flacoco.api.Suspiciousness;
 import fr.spoonlabs.flacoco.cli.export.CSVExporter;
 import fr.spoonlabs.flacoco.cli.export.FlacocoExporter;
 import fr.spoonlabs.flacoco.cli.export.JSONExporter;
@@ -101,7 +102,7 @@ public class FlacocoMain implements Callable<Integer> {
 		setupFlacocoConfig();
 
 		Flacoco flacoco = new Flacoco();
-		Map<String, Double> susp = flacoco.runDefault();
+		Map<String, Suspiciousness> susp = flacoco.runDefault();
 
 		exportResults(susp);
 
@@ -131,7 +132,7 @@ public class FlacocoMain implements Callable<Integer> {
 		config.setSpectrumFormula(this.spectrumFormula);
 	}
 
-	private void exportResults(Map<String, Double> results) {
+	private void exportResults(Map<String, Suspiciousness> results) {
 		try {
 			FlacocoExporter exporter = getExporter();
 			OutputStreamWriter outputStreamWriter = getOutputStreamWriter(exporter);

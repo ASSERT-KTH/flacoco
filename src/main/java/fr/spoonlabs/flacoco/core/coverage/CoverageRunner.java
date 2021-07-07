@@ -39,8 +39,7 @@ public class CoverageRunner {
 				for (TestMethod testMethod : testContext.getTestMethods()) {
 					CoverageFromSingleTestUnit coverageFromSingleTestWrapper =
 							new CoverageFromSingleTestUnit(
-									testMethod.getFullyQualifiedClassName(),
-									testMethod.getSimpleMethodName(),
+									testMethod,
 									(CoverageDetailed) result.getCoverageOf(testMethod.getFullyQualifiedMethodName())
 							);
 
@@ -49,10 +48,10 @@ public class CoverageRunner {
 							.noneMatch(x -> x.equals(testMethod.getFullyQualifiedMethodName()))
 							&& result.getAssumptionFailingTests().stream().map(x -> x.testClassName + "#" + x.testCaseName)
 							.noneMatch(x -> x.equals(testMethod.getFullyQualifiedMethodName()));
-					coverageFromSingleTestWrapper.setIsPassing(isPassing);
+					coverageFromSingleTestWrapper.setPassing(isPassing);
 
 					boolean isSkip = result.getIgnoredTests().contains(testMethod.getFullyQualifiedMethodName());
-					coverageFromSingleTestWrapper.setIsSkip(isSkip);
+					coverageFromSingleTestWrapper.setSkip(isSkip);
 
 					matrixExecutionResult.processSingleTest(coverageFromSingleTestWrapper);
 				}

@@ -1,5 +1,6 @@
 package fr.spoonlabs.flacoco.localization.spectrum;
 
+import fr.spoonlabs.flacoco.api.Suspiciousness;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
@@ -42,7 +43,7 @@ public class SpectrumRunnerTest {
 
 		SpectrumRunner runner = new SpectrumRunner();
 
-		Map<String, Double> susp = runner.run();
+		Map<String, Suspiciousness> susp = runner.run();
 
 		for (String line : susp.keySet()) {
 			System.out.println("susp " + line + " " + susp.get(line));
@@ -51,14 +52,14 @@ public class SpectrumRunnerTest {
 		assertEquals(4, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14"), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
+		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
 	}
 
 	@Test
@@ -70,7 +71,7 @@ public class SpectrumRunnerTest {
 
 		SpectrumRunner runner = new SpectrumRunner();
 
-		Map<String, Double> susp = runner.run();
+		Map<String, Suspiciousness> susp = runner.run();
 
 		for (String line : susp.keySet()) {
 			System.out.println("susp " + line + " " + susp.get(line));
@@ -79,15 +80,15 @@ public class SpectrumRunnerTest {
 		assertEquals(5, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@21"), 0);
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@21").getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@18"), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@16"), 0.01);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14"), 0);
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@18").getScore(), 0.01);
+		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@16").getScore(), 0.01);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0);
 
 		// Lines executed by all test
-		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
+		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
 	}
 
 	@Test
@@ -99,7 +100,7 @@ public class SpectrumRunnerTest {
 
 		SpectrumRunner runner = new SpectrumRunner();
 
-		Map<String, Double> susp = runner.run();
+		Map<String, Suspiciousness> susp = runner.run();
 
 		for (String line : susp.keySet()) {
 			System.out.println("susp " + line + " " + susp.get(line));
@@ -108,15 +109,15 @@ public class SpectrumRunnerTest {
 		assertEquals(5, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@21"), 0);
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@21").getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@18"), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@16"), 0.01);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14"), 0);
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@18").getScore(), 0.01);
+		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@16").getScore(), 0.01);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0);
 
 		// Lines executed by all test
-		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
+		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
 	}
 
 	@Test
@@ -130,7 +131,7 @@ public class SpectrumRunnerTest {
 
 		SpectrumRunner runner = new SpectrumRunner();
 
-		Map<String, Double> susp = runner.run();
+		Map<String, Suspiciousness> susp = runner.run();
 
 		for (String line : susp.keySet()) {
 			System.out.println("susp " + line + " " + susp.get(line));
@@ -139,16 +140,16 @@ public class SpectrumRunnerTest {
 		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14"), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
+		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
 	}
 
 	@Test
@@ -160,7 +161,7 @@ public class SpectrumRunnerTest {
 
 		SpectrumRunner runner = new SpectrumRunner();
 
-		Map<String, Double> susp = runner.run();
+		Map<String, Suspiciousness> susp = runner.run();
 
 		for (String line : susp.keySet()) {
 			System.out.println("susp " + line + " " + susp.get(line));
@@ -169,14 +170,14 @@ public class SpectrumRunnerTest {
 		assertEquals(4, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14"), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
+		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
 	}
 
 	@Test
@@ -190,7 +191,7 @@ public class SpectrumRunnerTest {
 
 		SpectrumRunner runner = new SpectrumRunner();
 
-		Map<String, Double> susp = runner.run();
+		Map<String, Suspiciousness> susp = runner.run();
 
 		for (String line : susp.keySet()) {
 			System.out.println("susp " + line + " " + susp.get(line));
@@ -199,16 +200,16 @@ public class SpectrumRunnerTest {
 		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14"), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
+		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
 	}
 
 	@Test
@@ -220,7 +221,7 @@ public class SpectrumRunnerTest {
 
 		SpectrumRunner runner = new SpectrumRunner();
 
-		Map<String, Double> susp = runner.run();
+		Map<String, Suspiciousness> susp = runner.run();
 
 		for (String line : susp.keySet()) {
 			System.out.println("susp " + line + " " + susp.get(line));
@@ -229,14 +230,14 @@ public class SpectrumRunnerTest {
 		assertEquals(4, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14"), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
+		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
 	}
 
 	@Test
@@ -250,7 +251,7 @@ public class SpectrumRunnerTest {
 
 		SpectrumRunner runner = new SpectrumRunner();
 
-		Map<String, Double> susp = runner.run();
+		Map<String, Suspiciousness> susp = runner.run();
 
 		for (String line : susp.keySet()) {
 			System.out.println("susp " + line + " " + susp.get(line));
@@ -259,16 +260,16 @@ public class SpectrumRunnerTest {
 		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14"), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
+		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
 	}
 
 	@Test
@@ -280,7 +281,7 @@ public class SpectrumRunnerTest {
 
 		SpectrumRunner runner = new SpectrumRunner();
 
-		Map<String, Double> susp = runner.run();
+		Map<String, Suspiciousness> susp = runner.run();
 
 		for (String line : susp.keySet()) {
 			System.out.println("susp " + line + " " + susp.get(line));
@@ -289,14 +290,14 @@ public class SpectrumRunnerTest {
 		assertEquals(4, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14"), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
+		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
 	}
 
 	@Test
@@ -310,7 +311,7 @@ public class SpectrumRunnerTest {
 
 		SpectrumRunner runner = new SpectrumRunner();
 
-		Map<String, Double> susp = runner.run();
+		Map<String, Suspiciousness> susp = runner.run();
 
 		for (String line : susp.keySet()) {
 			System.out.println("susp " + line + " " + susp.get(line));
@@ -319,16 +320,16 @@ public class SpectrumRunnerTest {
 		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14"), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
+		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7"), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
 	}
 
 	@Test
@@ -340,7 +341,7 @@ public class SpectrumRunnerTest {
 
 		SpectrumRunner runner = new SpectrumRunner();
 
-		Map<String, Double> susp = runner.run();
+		Map<String, Suspiciousness> susp = runner.run();
 
 		for (String line : susp.keySet()) {
 			System.out.println("susp " + line + " " + susp.get(line));
@@ -349,14 +350,14 @@ public class SpectrumRunnerTest {
 		assertEquals(4, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15"), 0);
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14"), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12"), 0.01);
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
+		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10"), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
 	}
 
 }

@@ -27,7 +27,7 @@ public class Flacoco implements FlacocoAPI {
 	 * @return Mapping between source code lines and suspiciousness scores
 	 */
 	@Override
-	public Map<String, Double> runDefault() {
+	public Map<String, Suspiciousness> runDefault() {
 		this.logger.info("Running Flacoco...");
 		return getRunner().run();
 	}
@@ -37,8 +37,8 @@ public class Flacoco implements FlacocoAPI {
 	 * @return Mapping between CtStatements representing a code lines and suspiciousness scores
 	 */
 	@Override
-	public Map<CtStatement, Double> runSpoon() {
-		Map<String, Double> defaultResults = runDefault();
+	public Map<CtStatement, Suspiciousness> runSpoon() {
+		Map<String, Suspiciousness> defaultResults = runDefault();
 		return SpoonConverter.convert(defaultResults);
 	}
 
