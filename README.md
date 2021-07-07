@@ -37,7 +37,7 @@ config.setClasspath(classpath);
 config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
-Map<String, Double> susp = flacoco.runDefault();
+Map<String, Suspiciousness> susp = flacoco.runDefault();
 ```
 
 A more extensive listing of configurable options, as well as detailed explanation of flacoco use-cases, features and limitation is available and under active development in https://github.com/SpoonLabs/flacoco/wiki.
