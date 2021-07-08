@@ -1,5 +1,6 @@
 package fr.spoonlabs.flacoco.localization.spectrum;
 
+import fr.spoonlabs.flacoco.api.Suspiciousness;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.coverage.CoverageMatrix;
 import fr.spoonlabs.flacoco.core.coverage.CoverageRunner;
@@ -17,7 +18,7 @@ public class SpectrumRunner implements FaultLocalizationRunner {
 	private FlacocoConfig config = FlacocoConfig.getInstance();
 
 	@Override
-	public Map<String, Double> run() {
+	public Map<String, Suspiciousness> run() {
 		CoverageMatrix coverageMatrix = computeCoverageMatrix();
 		SpectrumSuspiciousComputation flcalc = new SpectrumSuspiciousComputation();
 		return flcalc.calculateSuspicious(coverageMatrix, this.config.getSpectrumFormula().getFormula());

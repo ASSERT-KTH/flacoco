@@ -1,7 +1,8 @@
-package fr.spoonlabs.flacoco.localization.spectrum;
+package fr.spoonlabs.flacoco.utils.spoon;
 
+import fr.spoonlabs.flacoco.api.Suspiciousness;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
-import fr.spoonlabs.flacoco.utils.spoon.SpoonConverter;
+import fr.spoonlabs.flacoco.localization.spectrum.SpectrumFormula;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.junit.*;
@@ -47,17 +48,17 @@ public class SpoonConverterTest {
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
 		// Init mapping
-		Map<String, Double> map = new HashMap<>();
-		map.put("fr/spoonlabs/FLtest1/Calculator@-@5", 1.0);
-		map.put("fr/spoonlabs/FLtest1/Calculator@-@6", 0.95);
-		map.put("fr/spoonlabs/FLtest1/Calculator@-@12", 0.90);
-		map.put("fr/spoonlabs/FLtest1/Calculator@-@8", 0.85);
-		map.put("fr/spoonlabs/FLtest1/Calculator@-@14", 0.80);
-		map.put("fr/spoonlabs/FLtest1/Calculator@-@15", 0.75);
-		map.put("fr/spoonlabs/FLtest1/Calculator@-@26", 0.70);
-		map.put("fr/spoonlabs/FLtest1/Calculator@-@21", 0.65);
+		Map<String, Suspiciousness> map = new HashMap<>();
+		map.put("fr/spoonlabs/FLtest1/Calculator@-@5", new Suspiciousness(1.0, null, null));
+		map.put("fr/spoonlabs/FLtest1/Calculator@-@6", new Suspiciousness(0.95, null, null));
+		map.put("fr/spoonlabs/FLtest1/Calculator@-@12", new Suspiciousness(0.90, null, null));
+		map.put("fr/spoonlabs/FLtest1/Calculator@-@8", new Suspiciousness(0.85, null, null));
+		map.put("fr/spoonlabs/FLtest1/Calculator@-@14", new Suspiciousness(0.80, null, null));
+		map.put("fr/spoonlabs/FLtest1/Calculator@-@15", new Suspiciousness(0.75, null, null));
+		map.put("fr/spoonlabs/FLtest1/Calculator@-@26", new Suspiciousness(0.70, null, null));
+		map.put("fr/spoonlabs/FLtest1/Calculator@-@21", new Suspiciousness(0.65, null, null));
 
-		Map<CtStatement, Double> converted = SpoonConverter.convert(map);
+		Map<CtStatement, Suspiciousness> converted = SpoonConverter.convert(map);
 
 		for (CtStatement statement : converted.keySet()) {
 			System.out.println(statement + " : " + converted.get(statement));

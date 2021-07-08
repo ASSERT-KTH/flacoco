@@ -2,15 +2,16 @@ package fr.spoonlabs.flacoco.core.coverage;
 
 import eu.stamp_project.testrunner.listener.impl.CoverageDetailed;
 import eu.stamp_project.testrunner.listener.impl.CoverageFromClass;
+import fr.spoonlabs.flacoco.core.test.TestMethod;
 import org.apache.log4j.Logger;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
- * This class contains the result of the execution of a set of test cases
- * 
- * @author Matias Martinez
+ * This class contains the result of the execution of a set of test units
  *
+ * @author Matias Martinez
  */
 public class CoverageMatrix {
 
@@ -19,83 +20,38 @@ public class CoverageMatrix {
 	public final static String JOIN = "@-@";
 
 	/**
-	 * Key is the line, value is a set of the test identifiers that execute that
-	 * line (executed)
+	 * Key is the line, value is a set of test methods that execute that  line
 	 */
-
-	protected Map<String, Set<Integer>> resultExecution = new HashMap<>();
+	protected Map<String, Set<TestMethod>> resultExecution = new HashMap<>();
 
 	/**
-	 * All test executed
+	 * Map between executed test methods and their result. True if passing, false is failing.
 	 */
-	protected List<String> tests = new ArrayList<String>();
+	protected Map<TestMethod, Boolean> tests = new HashMap<>();
 
 	/**
-	 * Key is the test id, value is the Result
+	 * Creates the key for a line of a given class
+	 *
+	 * @param iClassNameCovered
+	 * @param iLineNumber
+	 * @return The key for iLineNumber in iClassNameCovered
 	 */
-	protected Map<Integer, Boolean> testResult = new HashMap<Integer, Boolean>();
-
-	/**
-	 * Adds
-	 * 
-	 * @param lineKey
-	 * @param testIndex
-	 * @param instExecutedAtLineI
-	 * @param testResult
-	 */
-	public void add(String lineKey, int testIndex, int instExecutedAtLineI, Boolean testResult) {
-		Set<Integer> currentExecution = null;
-
-		if (instExecutedAtLineI > 0) {
-
-			if (resultExecution.containsKey(lineKey)) {
-				currentExecution = resultExecution.get(lineKey);
-			} else {
-				currentExecution = new HashSet<>();
-				resultExecution.put(lineKey, currentExecution);
-			}
-
-			currentExecution.add(testIndex);
-
-		}
-
-		this.testResult.put(testIndex, testResult);
-
+	public String getLineKey(String iClassNameCovered, int iLineNumber) {
+		return String.format("%s%s%d", iClassNameCovered, JOIN, iLineNumber);
 	}
 
 	/**
-	 * Returns the index of the test given as parameter. That index is used as test
-	 * ID
-	 * 
-	 * @param testKey
-	 * @return
+	 * Processes a wrapper for the coverage from a single test unit
+	 *
+	 * @param iCovWrapper
 	 */
-	public int getIndexTest(String testKey) {
-
-		int exists = tests.indexOf(testKey);
-		if (exists >= 0)
-			return exists;
-		else {
-			tests.add(testKey);
-			// Added at the end
-			return tests.size() - 1;
-		}
-	}
-
 	public void processSingleTest(CoverageFromSingleTestUnit iCovWrapper) {
-
-		CoverageDetailed covLine = (CoverageDetailed) iCovWrapper.getCov();
-
-		// Retrieve the key of the test
-		String testKey = getTestKey(iCovWrapper);
+		CoverageDetailed covLine = iCovWrapper.getCov();
 
 		if (iCovWrapper.isSkip()) {
-			logger.debug(
-					"Ignoring skipped test: " + iCovWrapper.getTestMethod() + " from " + iCovWrapper.getTestClass());
+			logger.debug("Ignoring skipped test: " + iCovWrapper.getTestMethod().getFullyQualifiedMethodName());
 			return;
 		}
-
-		int testIndex = this.getIndexTest(testKey);
 
 		boolean isPassing = iCovWrapper.isPassing();
 
@@ -110,69 +66,50 @@ public class CoverageMatrix {
 				int instExecutedAtLineI = lines.getCov().get(iLineNumber);
 
 				String lineKey = getLineKey(iClassNameCovered, iLineNumber);
-				this.add(lineKey, testIndex, instExecutedAtLineI, isPassing);
+				this.add(lineKey, iCovWrapper.getTestMethod(), instExecutedAtLineI, isPassing);
 
 			}
 
 		}
 	}
 
-	/**
-	 * Creates a key a line
-	 * 
-	 * @param iClassNameCovered
-	 * @param iLineNumber
-	 * @return
-	 */
-	public String getLineKey(String iClassNameCovered, int iLineNumber) {
-		return String.format("%s%s%d", iClassNameCovered, JOIN, iLineNumber);
-	}
-
-	public static String getTestKey(CoverageFromSingleTestUnit covWrapper) {
-		return String.format("%s%s%s", covWrapper.getTestClass(), JOIN, covWrapper.getMethod());
-	}
-
-	public Map<String, Set<Integer>> getResultExecution() {
+	public Map<String, Set<TestMethod>> getResultExecution() {
 		return resultExecution;
 	}
 
-	public void setResultExecution(Map<String, Set<Integer>> resultExecutionNew) {
-		this.resultExecution = resultExecutionNew;
+	public Map<TestMethod, Boolean> getTests() {
+		return tests;
 	}
 
-	public void setTests(List<String> tests) {
-		this.tests = tests;
+	public List<TestMethod> getFailingTestCases() {
+		return this.tests.entrySet().stream().filter(x -> !x.getValue())
+				.map(Map.Entry::getKey).collect(Collectors.toList());
 	}
 
-	public void setTestResult(Map<Integer, Boolean> testResult) {
-		this.testResult = testResult;
-	}
+	/**
+	 * Auxiliary method to introduce the gathered information about a test unit run in the coverage matrix
+	 *
+	 * The modifier is public for testing purposes
+	 * @param lineKey
+	 * @param testMethod
+	 * @param instExecutedAtLineI
+	 * @param testResult
+	 */
+	public void add(String lineKey, TestMethod testMethod, int instExecutedAtLineI, Boolean testResult) {
+		if (instExecutedAtLineI > 0) {
+			Set<TestMethod> currentExecution;
 
-	public List<String> getFailingTestCases() {
-		List<String> failingTest = new ArrayList<>();
-
-		for (int i = 0; i < this.getTests().size(); i++) {
-			Boolean testResult = this.getTestResult().get(i);
-
-			if (testResult == null) {
-				logger.info("We could not find the results for test  #" + i + ": " + this.getTests().get(i));
-			} else
-
-			if (!testResult) {
-				String testi = this.getTests().get(i);
-				failingTest.add(testi);
+			if (this.resultExecution.containsKey(lineKey)) {
+				currentExecution = this.resultExecution.get(lineKey);
+			} else {
+				currentExecution = new HashSet<>();
+				this.resultExecution.put(lineKey, currentExecution);
 			}
+
+			currentExecution.add(testMethod);
 		}
 
-		return failingTest;
-	}
-
-	public Map<Integer, Boolean> getTestResult() {
-		return testResult;
-	}
-
-	public List<String> getTests() {
-		return tests;
+		this.tests.put(testMethod, testResult);
 	}
 
 }

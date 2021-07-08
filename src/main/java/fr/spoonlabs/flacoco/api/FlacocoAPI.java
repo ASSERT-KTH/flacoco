@@ -6,8 +6,8 @@ import java.util.Map;
 
 public interface FlacocoAPI {
 
-	Map<String, Double> runDefault();
+	Map<String, Suspiciousness> runDefault();
 
-	Map<CtStatement, Double> runSpoon();
+	Map<CtStatement, Suspiciousness> runSpoon();
 
 }
