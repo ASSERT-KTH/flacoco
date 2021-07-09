@@ -3,6 +3,10 @@ package fr.spoonlabs.flacoco.core.config;
 import fr.spoonlabs.flacoco.localization.spectrum.SpectrumFormula;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Config manager for Flacoco.
@@ -19,10 +23,10 @@ public class FlacocoConfig {
 
 	private String workspace;
 	private String projectPath;
-	private String srcJavaDir;
-	private String srcTestDir;
-	private String binJavaDir;
-	private String binTestDir;
+	private List<String> srcJavaDir;
+	private List<String> srcTestDir;
+	private List<String> binJavaDir;
+	private List<String> binTestDir;
 	private String classpath;
 	private String customJUnitClasspath;
 	private String customJacocoClasspath;
@@ -52,10 +56,10 @@ public class FlacocoConfig {
 		this.workspace = new File("./").getAbsolutePath();
 		this.projectPath = new File("./").getAbsolutePath();
 		this.classpath = "";
-		this.srcJavaDir = ""; // will default to {this.projectPath}/src/main/java if not set; see getter
-		this.srcTestDir = ""; // will default to {this.projectPath}/src/test if not set; see getter
-		this.binJavaDir = ""; // will default to {this.projectPath}/target/classes if not set; see getter
-		this.binTestDir = ""; // will default to {this.projectPath}/target/test-classes if not set; see getter
+		this.srcJavaDir = new ArrayList<>(); // will default to {this.projectPath}/src/main/java if not set; see getter
+		this.srcTestDir = new ArrayList<>(); // will default to {this.projectPath}/src/test if not set; see getter
+		this.binJavaDir = new ArrayList<>(); // will default to {this.projectPath}/target/classes if not set; see getter
+		this.binTestDir = new ArrayList<>(); // will default to {this.projectPath}/target/test-classes if not set; see getter
 		this.customJUnitClasspath = null;
 		this.customJacocoClasspath = null;
 		this.mavenHome = System.getProperty("user.home") + "/.m2/repository/";
@@ -93,56 +97,64 @@ public class FlacocoConfig {
 		this.classpath = classpath;
 	}
 
-	public String getSrcJavaDir() {
-		if (srcJavaDir.trim().isEmpty()) {
-			return new File(getProjectPath() + File.separatorChar + "src/main/java/")
-					.getAbsolutePath();
+	public List<String> getSrcJavaDir() {
+		if (srcJavaDir.isEmpty()) {
+			return Collections.singletonList(
+					new File(getProjectPath() + File.separatorChar + "src/main/java/")
+							.getAbsolutePath()
+			);
 		} else {
 			return srcJavaDir;
 		}
 	}
 
-	public void setSrcJavaDir(String srcJavaDir) {
-		this.srcJavaDir = new File(srcJavaDir).getAbsolutePath();
+	public void setSrcJavaDir(List<String> srcJavaDir) {
+		this.srcJavaDir = listOfPathsToListOfAbsolutePaths(srcJavaDir);
 	}
 
-	public String getSrcTestDir() {
-		if (srcTestDir.trim().isEmpty()) {
-			return new File(getProjectPath() + File.separatorChar + "src/test/")
-					.getAbsolutePath();
+	public List<String> getSrcTestDir() {
+		if (srcTestDir.isEmpty()) {
+			return Collections.singletonList(
+					new File(getProjectPath() + File.separatorChar + "src/test/")
+							.getAbsolutePath()
+			);
 		} else {
 			return srcTestDir;
 		}
 	}
 
-	public void setSrcTestDir(String srcTestDir) {
-		this.srcTestDir = new File(srcTestDir).getAbsolutePath();
+	public void setSrcTestDir(List<String> srcTestDir) {
+		this.srcTestDir = listOfPathsToListOfAbsolutePaths(srcTestDir);
 	}
 
-	public String getBinJavaDir() {
-		if (binJavaDir.trim().isEmpty()) {
-			return new File(getProjectPath() + File.separatorChar + "target/classes/")
-					.getAbsolutePath();
+	public List<String> getBinJavaDir() {
+		if (binJavaDir.isEmpty()) {
+			return Collections.singletonList(
+					new File(getProjectPath() + File.separatorChar + "target/classes/")
+							.getAbsolutePath()
+			);
 		} else {
 			return binJavaDir;
 		}
 	}
 
-	public void setBinJavaDir(String binJavaDir) {
-		this.binJavaDir = new File(binJavaDir).getAbsolutePath();
+	public void setBinJavaDir(List<String> binJavaDir) {
+		this.binJavaDir = listOfPathsToListOfAbsolutePaths(binJavaDir);
 	}
 
-	public String getBinTestDir() {
-		if (binTestDir.trim().isEmpty()) {
-			return new File(getProjectPath() + File.separatorChar + "target/test-classes/")
-					.getAbsolutePath();
+	public List<String> getBinTestDir() {
+		if (binTestDir.isEmpty()) {
+			return Collections.singletonList(
+					new File(getProjectPath() + File.separatorChar + "target/test-classes/")
+							.getAbsolutePath()
+			);
 		} else {
 			return binTestDir;
 		}
 	}
 
-	public void setBinTestDir(String binTestDir) {
-		this.binTestDir = new File(binTestDir).getAbsolutePath();
+	public void setBinTestDir(List<String> binTestDir) {
+		this.binTestDir = listOfPathsToListOfAbsolutePaths(binTestDir);
 	}
 
 	public String getCustomJUnitClasspath() {
@@ -251,5 +263,9 @@ public class FlacocoConfig {
 	// For test purposes only
 	public static void deleteInstance() {
 		instance = null;
+	}
+
+	private static List<String> listOfPathsToListOfAbsolutePaths(List<String> paths) {
+		return paths.stream().map(x -> new File(x).getAbsolutePath()).collect(Collectors.toList());
 	}
 }

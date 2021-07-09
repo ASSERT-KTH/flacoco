@@ -26,12 +26,13 @@ public class TestDetector {
 
 	public List<TestContext> findTests() {
 		// Create Spoon model to retrieve information about the tests
-		Launcher laucher = new Launcher();
-		laucher.addInputResource(config.getSrcTestDir());
-		laucher.buildModel();
+		Launcher launcher = new Launcher();
+		for (String dir : config.getSrcTestDir())
+			launcher.addInputResource(dir);
+		launcher.buildModel();
 
 		// Init test framework
-		TestFramework.init(laucher.getFactory());
+		TestFramework.init(launcher.getFactory());
 
 		TestContext jUnit4Context = new TestContext(new JUnit4Strategy());
 		TestContext jUnit5Context = new TestContext(new JUnit5Strategy());

@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -37,17 +38,17 @@ public class FlacocoMain implements Callable<Integer> {
 	@Option(names = {"-c", "--classpath"}, description = "Classpath of the project under analyzis.")
 	String classpath;
 
-	@Option(names = {"--srcJavaDir"}, description = "Path to the directory containing java source files. Defaults to {projectpath}/src/main/java")
-	String srcJavaDir;
+	@Option(names = {"--srcJavaDir"}, arity = "0..*", description = "Paths to the directories containing java source files. Defaults to {projectpath}/src/main/java")
+	List<String> srcJavaDir;
 
-	@Option(names = {"--srcTestDir"}, description = "Path to the directory containing java test source files. Defaults to {projectpath}/src/test")
-	String srcTestDir;
+	@Option(names = {"--srcTestDir"}, arity = "0..*", description = "Paths to the directories containing java test source files. Defaults to {projectpath}/src/test")
+	List<String> srcTestDir;
 
-	@Option(names = {"--binJavaDir"}, description = "Path to the directory containing java class files. Defaults to {projectpath}/target/classes")
-	String binJavaDir;
+	@Option(names = {"--binJavaDir"}, arity = "0..*", description = "Paths to the directories containing java class files. Defaults to {projectpath}/target/classes")
+	List<String> binJavaDir;
 
-	@Option(names = {"--binTestDir"}, description = "Path to the directory containing java test class files. Defaults to {projectpath}/target/test-classes")
-	String binTestDir;
+	@Option(names = {"--binTestDir"}, arity = "0..*", description = "Paths to the directories containing java test class files. Defaults to {projectpath}/target/test-classes")
+	List<String> binTestDir;
 
 	@Option(names = {"--junitClasspath"}, description = "Classpath to junit dependencies.")
 	String customJUnitClasspath;
@@ -129,13 +130,13 @@ public class FlacocoMain implements Callable<Integer> {
 		config.setWorkspace(new File(this.workspace).getAbsolutePath());
 		config.setProjectPath(new File(this.projectPath).getAbsolutePath());
 
-		if (this.srcJavaDir != null && !this.srcJavaDir.trim().isEmpty())
+		if (this.srcJavaDir != null && !this.srcJavaDir.isEmpty())
 			config.setSrcJavaDir(this.srcJavaDir);
-		if (this.srcTestDir != null && !this.srcTestDir.trim().isEmpty())
+		if (this.srcTestDir != null && !this.srcTestDir.isEmpty())
 			config.setSrcTestDir(this.srcTestDir);
-		if (this.binJavaDir != null && !this.binJavaDir.trim().isEmpty())
+		if (this.binJavaDir != null && !this.binJavaDir.isEmpty())
 			config.setBinJavaDir(this.binJavaDir);
-		if (this.binTestDir != null && !this.binTestDir.trim().isEmpty())
+		if (this.binTestDir != null && !this.binTestDir.isEmpty())
 			config.setBinTestDir(this.binTestDir);
 		if (this.classpath != null && !this.classpath.trim().isEmpty())
 			config.setClasspath(classpath);

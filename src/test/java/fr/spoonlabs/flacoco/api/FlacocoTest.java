@@ -9,6 +9,8 @@ import org.junit.rules.TemporaryFolder;
 import spoon.reflect.code.CtStatement;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -598,10 +600,10 @@ public class FlacocoTest {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		config.setProjectPath("./examples/exampleFL8NotMaven/");
-		config.setSrcJavaDir("./examples/exampleFL8NotMaven/java");
-		config.setSrcTestDir("./examples/exampleFL8NotMaven/test");
-		config.setBinJavaDir("./examples/exampleFL8NotMaven/bin/classes");
-		config.setBinTestDir("./examples/exampleFL8NotMaven/bin/test-classes");
+		config.setSrcJavaDir(Collections.singletonList("./examples/exampleFL8NotMaven/java"));
+		config.setSrcTestDir(Collections.singletonList("./examples/exampleFL8NotMaven/test"));
+		config.setBinJavaDir(Collections.singletonList("./examples/exampleFL8NotMaven/bin/classes"));
+		config.setBinTestDir(Collections.singletonList("./examples/exampleFL8NotMaven/bin/test-classes"));
 		config.setTestRunnerVerbose(true);
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
@@ -630,14 +632,53 @@ public class FlacocoTest {
 	}
 
 	@Test
+	@Ignore
+	public void testExampleFL8SpectrumBasedOchiaiCoverTestsDefaultMode() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath("./examples/exampleFL8NotMaven/");
+		config.setSrcJavaDir(Collections.singletonList("./examples/exampleFL8NotMaven/java"));
+		config.setSrcTestDir(Collections.singletonList("./examples/exampleFL8NotMaven/test"));
+		config.setBinJavaDir(Collections.singletonList("./examples/exampleFL8NotMaven/bin/classes"));
+		config.setBinTestDir(Collections.singletonList("./examples/exampleFL8NotMaven/bin/test-classes"));
+		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
+		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+		config.setCoverTests(true);
+
+		// Run Flacoco
+		Flacoco flacoco = new Flacoco();
+
+		// Run default mode
+		Map<String, Suspiciousness> susp = flacoco.runDefault();
+
+		for (String line : susp.keySet()) {
+			System.out.println("" + line + " " + susp.get(line));
+		}
+
+		assertEquals(6, susp.size());
+
+		// Line executed only by the failing
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+
+		// Line executed by a mix of failing and passing
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
+		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+
+		// Lines executed by all test
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+	}
+
+	@Test
 	public void testExampleFL8SpectrumBasedOchiaiSpoonMode() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		config.setProjectPath("./examples/exampleFL8NotMaven/");
-		config.setSrcJavaDir("./examples/exampleFL8NotMaven/java");
-		config.setSrcTestDir("./examples/exampleFL8NotMaven/test");
-		config.setBinJavaDir("./examples/exampleFL8NotMaven/bin/classes");
-		config.setBinTestDir("./examples/exampleFL8NotMaven/bin/test-classes");
+		config.setSrcJavaDir(Collections.singletonList("./examples/exampleFL8NotMaven/java"));
+		config.setSrcTestDir(Collections.singletonList("./examples/exampleFL8NotMaven/test"));
+		config.setBinJavaDir(Collections.singletonList("./examples/exampleFL8NotMaven/bin/classes"));
+		config.setBinTestDir(Collections.singletonList("./examples/exampleFL8NotMaven/bin/test-classes"));
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
@@ -672,6 +713,49 @@ public class FlacocoTest {
 					break;
 			}
 		}
+	}
+
+	/**
+	 * This tests shows an example when several source and classes directories exists. Flacoco does not fully support
+	 * this atm, due to test-runner not supporting it.
+	 * <p>
+	 * To be completed and un-ingnored when https://github.com/STAMP-project/test-runner/issues/103 is closed.
+	 */
+	@Test
+	@Ignore
+	public void testExampleFL9SpectrumBasedOchiaiDefaultMode() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath("./examples/exampleFL9NotMavenMultiple/");
+		config.setSrcJavaDir(Arrays.asList("exampleFL9NotMavenMultiple/java2", "exampleFL9NotMavenMultiple/java1"));
+		config.setSrcTestDir(Arrays.asList("exampleFL9NotMavenMultiple/test2", "exampleFL9NotMavenMultiple/test1"));
+		config.setSrcTestDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/bin/classes2", "./examples/exampleFL9NotMavenMultiple/bin/classes1"));
+		config.setSrcTestDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/bin/test-classes2", "./examples/exampleFL9NotMavenMultiple/bin/test-classes1"));
+		config.setTestRunnerVerbose(true);
+		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
+		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+
+		// Run Flacoco
+		Flacoco flacoco = new Flacoco();
+
+		// Run default mode
+		Map<String, Suspiciousness> susp = flacoco.runDefault();
+
+		for (String line : susp.keySet()) {
+			System.out.println("" + line + " " + susp.get(line));
+		}
+
+		assertEquals(4, susp.size());
+
+		// Line executed only by the failing
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+
+		// Line executed by a mix of failing and passing
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
+		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+
+		// Lines executed by all test
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
 	}
 
 }

@@ -25,7 +25,7 @@ public class JUnit5Strategy extends TestFrameworkStrategy {
 
 		return EntryPoint.runCoveredTestResultPerTestMethods(
 				this.computeClasspath(),
-				config.getBinJavaDir() + File.pathSeparatorChar + config.getBinTestDir(),
+				config.getBinJavaDir().get(0) + File.pathSeparatorChar + config.getBinTestDir().get(0),
 				testContext.getTestMethods().stream().map(TestMethod::getFullyQualifiedClassName).distinct().toArray(String[]::new)
 		);
 	}

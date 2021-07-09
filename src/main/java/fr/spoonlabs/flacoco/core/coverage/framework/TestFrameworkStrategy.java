@@ -35,25 +35,6 @@ public abstract class TestFrameworkStrategy {
 		}
 	}
 
-
-	/**
-	 * Computes the absolute path to the classes directory
-	 * @return Absolute path to the classes directory
-	 */
-	protected String getPathToClasses() {
-		return new File(this.config.getProjectPath() + File.separator + "target/classes/")
-				.getAbsolutePath();
-	}
-
-	/**
-	 * Computes the absolute path to the test-classes directory
-	 * @return Absolute path to the test-classes directory
-	 */
-	protected String getPathToTestClasses() {
-		return  new File(this.config.getProjectPath() + File.separator + "target/test-classes/")
-				.getAbsolutePath();
-	}
-
 	/**
 	 * Auxiliary method to compute the classpath according to the test framework and the custom confirguration
 	 *
