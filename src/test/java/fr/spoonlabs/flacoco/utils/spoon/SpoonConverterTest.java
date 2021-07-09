@@ -27,10 +27,6 @@ public class SpoonConverterTest {
 
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
-		String dep1 = new File("./examples/libs/junit-4.12.jar").getAbsolutePath();
-		String dep2 = new File("./examples/libs/hamcrest-core-1.3.jar").getAbsolutePath();
-		String dep3 = new File("./examples/libs/junit-jupiter-api-5.7.2.jar").getAbsolutePath();
-		config.setClasspath(dep1 + File.pathSeparatorChar + dep2 + File.pathSeparatorChar + dep3);
 	}
 
 	@After

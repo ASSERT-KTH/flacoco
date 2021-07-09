@@ -17,14 +17,13 @@ public class JUnit4Strategy extends TestFrameworkStrategy {
 
 	@Override
 	public CoveredTestResultPerTestMethod execute(TestContext testContext) throws TimeoutException {
-		this.logger.info("Running : " + testContext);
+		this.logger.debug("Running " + testContext);
 		this.setupTestRunnerEntryPoint();
 
 		return EntryPoint.runCoveredTestResultPerTestMethods(
 				this.computeClasspath(),
-				this.getPathToClasses() + File.pathSeparatorChar + this.getPathToTestClasses(),
-				testContext.getTestMethods().stream().map(TestMethod::getFullyQualifiedClassName).toArray(String[]::new),
-				testContext.getTestMethods().stream().map(TestMethod::getFullyQualifiedMethodName).toArray(String[]::new)
+				config.getBinJavaDir() + File.pathSeparatorChar + config.getBinTestDir(),
+				testContext.getTestMethods().stream().map(TestMethod::getFullyQualifiedClassName).distinct().toArray(String[]::new)
 		);
 	}
 

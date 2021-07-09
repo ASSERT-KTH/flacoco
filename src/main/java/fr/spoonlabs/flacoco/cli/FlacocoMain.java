@@ -28,14 +28,26 @@ public class FlacocoMain implements Callable<Integer> {
 	@Option(names = {"-w", "--workspace"}, description = "Path to the workspace directory of flacoco.", defaultValue = "./")
 	String workspace;
 
-	@Option(names = {"-p", "--projectpath"}, description = "Path to the project to analyze.")
-	String projectPath = null;
+	@Option(names = {"-p", "--projectpath"}, description = "Path to the project to analyze.", defaultValue = "./")
+	String projectPath;
 
 	@Option(names = {"-f", "--formula"}, description = "Spectrum formula to use. Valid values: ${COMPLETION-CANDIDATES}", defaultValue = "OCHIAI")
 	SpectrumFormula spectrumFormula;
 
 	@Option(names = {"-c", "--classpath"}, description = "Classpath of the project under analyzis.")
 	String classpath;
+
+	@Option(names = {"--srcJavaDir"}, description = "Path to the directory containing java source files. Defaults to {projectpath}/src/main/java")
+	String srcJavaDir;
+
+	@Option(names = {"--srcTestDir"}, description = "Path to the directory containing java test source files. Defaults to {projectpath}/src/test")
+	String srcTestDir;
+
+	@Option(names = {"--binJavaDir"}, description = "Path to the directory containing java class files. Defaults to {projectpath}/target/classes")
+	String binJavaDir;
+
+	@Option(names = {"--binTestDir"}, description = "Path to the directory containing java test class files. Defaults to {projectpath}/target/test-classes")
+	String binTestDir;
 
 	@Option(names = {"--junitClasspath"}, description = "Classpath to junit dependencies.")
 	String customJUnitClasspath;
@@ -57,6 +69,9 @@ public class FlacocoMain implements Callable<Integer> {
 
 	@Option(names = {"--testRunnerJVMArgs"}, description = "JVM args for test-runner's test execution VMs.")
 	String testRunnerJVMArgs = null;
+
+	@Option(names = {"--threshold"}, description = "Threshold for suspiciousness score. Flacoco will only return suspicious results with score > threshold.", defaultValue = "0.0")
+	double threshold = 0.0;
 
 	@Option(names = {"-o", "--output"},
 			description = "Path to the output file. If no path is provided but the flag is, the result will be stored in flacoco_result.{extension}",
@@ -114,10 +129,18 @@ public class FlacocoMain implements Callable<Integer> {
 		config.setWorkspace(new File(this.workspace).getAbsolutePath());
 		config.setProjectPath(new File(this.projectPath).getAbsolutePath());
 
+		if (this.srcJavaDir != null && !this.srcJavaDir.trim().isEmpty())
+			config.setSrcJavaDir(this.srcJavaDir);
+		if (this.srcTestDir != null && !this.srcTestDir.trim().isEmpty())
+			config.setSrcTestDir(this.srcTestDir);
+		if (this.binJavaDir != null && !this.binJavaDir.trim().isEmpty())
+			config.setBinJavaDir(this.binJavaDir);
+		if (this.binTestDir != null && !this.binTestDir.trim().isEmpty())
+			config.setBinTestDir(this.binTestDir);
 		if (this.classpath != null && !this.classpath.trim().isEmpty())
 			config.setClasspath(classpath);
 		if (this.customJUnitClasspath != null && !this.customJUnitClasspath.trim().isEmpty())
-			config.setCustomJacocoClasspath(this.customJUnitClasspath);
+			config.setCustomJUnitClasspath(this.customJUnitClasspath);
 		if (this.customJacocoClasspath != null && !this.customJacocoClasspath.trim().isEmpty())
 			config.setCustomJacocoClasspath(this.customJacocoClasspath);
 		if (this.mavenHome != null && !this.mavenHome.trim().isEmpty())
@@ -128,6 +151,7 @@ public class FlacocoMain implements Callable<Integer> {
 		config.setTestRunnerTimeoutInMs(testRunnerTimeoutInMs);
 		if (this.testRunnerJVMArgs != null && !this.testRunnerJVMArgs.trim().isEmpty())
 			config.setTestRunnerJVMArgs(testRunnerJVMArgs);
+		config.setThreshold(threshold);
 
 		config.setSpectrumFormula(this.spectrumFormula);
 	}

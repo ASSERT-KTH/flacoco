@@ -28,6 +28,7 @@ public class CoverageRunner {
 
 		// For each test context
 		for (TestContext testContext : testContexts) {
+			this.logger.debug("Running " + testContext);
 
 			try {
 				// We run the test cases according to the specific test framework strategy
@@ -37,23 +38,27 @@ public class CoverageRunner {
 
 				// Process each method individually
 				for (TestMethod testMethod : testContext.getTestMethods()) {
-					CoverageFromSingleTestUnit coverageFromSingleTestWrapper =
-							new CoverageFromSingleTestUnit(
-									testMethod,
-									(CoverageDetailed) result.getCoverageOf(testMethod.getFullyQualifiedMethodName())
-							);
+					if (result.getCoverageResultsMap().containsKey(testMethod.getFullyQualifiedMethodName())) {
+						CoverageFromSingleTestUnit coverageFromSingleTestWrapper =
+								new CoverageFromSingleTestUnit(
+										testMethod,
+										(CoverageDetailed) result.getCoverageOf(testMethod.getFullyQualifiedMethodName())
+								);
 
-					boolean isPassing = result.getPassingTests().contains(testMethod.getFullyQualifiedMethodName())
-							&& result.getFailingTests().stream().map(x -> x.testClassName + "#" + x.testCaseName)
-							.noneMatch(x -> x.equals(testMethod.getFullyQualifiedMethodName()))
-							&& result.getAssumptionFailingTests().stream().map(x -> x.testClassName + "#" + x.testCaseName)
-							.noneMatch(x -> x.equals(testMethod.getFullyQualifiedMethodName()));
-					coverageFromSingleTestWrapper.setPassing(isPassing);
+						boolean isPassing = result.getPassingTests().contains(testMethod.getFullyQualifiedMethodName())
+								&& result.getFailingTests().stream().map(x -> x.testClassName + "#" + x.testCaseName)
+								.noneMatch(x -> x.equals(testMethod.getFullyQualifiedMethodName()))
+								&& result.getAssumptionFailingTests().stream().map(x -> x.testClassName + "#" + x.testCaseName)
+								.noneMatch(x -> x.equals(testMethod.getFullyQualifiedMethodName()));
+						coverageFromSingleTestWrapper.setPassing(isPassing);
 
-					boolean isSkip = result.getIgnoredTests().contains(testMethod.getFullyQualifiedMethodName());
-					coverageFromSingleTestWrapper.setSkip(isSkip);
+						boolean isSkip = result.getIgnoredTests().contains(testMethod.getFullyQualifiedMethodName());
+						coverageFromSingleTestWrapper.setSkip(isSkip);
 
-					matrixExecutionResult.processSingleTest(coverageFromSingleTestWrapper);
+						matrixExecutionResult.processSingleTest(coverageFromSingleTestWrapper);
+					} else {
+						this.logger.warn("Test " + testMethod + " result was not reported by test-runner.");
+					}
 				}
 			} catch (TimeoutException e) {
 				this.logger.error(e);

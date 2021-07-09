@@ -27,8 +27,8 @@ public class TestDetector {
 	public List<TestContext> findTests() {
 		// Create Spoon model to retrieve information about the tests
 		Launcher laucher = new Launcher();
-		laucher.addInputResource(new File(this.config.getProjectPath() + File.separator + "src/main").getAbsolutePath());
-		laucher.addInputResource(new File(this.config.getProjectPath() + File.separator + "src/test").getAbsolutePath());
+		laucher.addInputResource(config.getSrcJavaDir());
+		laucher.addInputResource(config.getSrcTestDir());
 		laucher.buildModel();
 
 		// Init test framework
