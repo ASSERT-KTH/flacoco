@@ -3,6 +3,10 @@ package fr.spoonlabs.flacoco.core.config;
 import fr.spoonlabs.flacoco.localization.spectrum.SpectrumFormula;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Config manager for Flacoco.
@@ -19,6 +23,10 @@ public class FlacocoConfig {
 
 	private String workspace;
 	private String projectPath;
+	private List<String> srcJavaDir;
+	private List<String> srcTestDir;
+	private List<String> binJavaDir;
+	private List<String> binTestDir;
 	private String classpath;
 	private String customJUnitClasspath;
 	private String customJacocoClasspath;
@@ -27,6 +35,7 @@ public class FlacocoConfig {
 	private boolean testRunnerVerbose;
 	private int testRunnerTimeoutInMs;
 	private String testRunnerJVMArgs;
+	private double threshold;
 
 	private FaultLocalizationFamily family;
 	//------Options for spectrum-based fault localization------
@@ -46,7 +55,11 @@ public class FlacocoConfig {
 	private void initDefaults() {
 		this.workspace = new File("./").getAbsolutePath();
 		this.projectPath = new File("./").getAbsolutePath();
-		this.classpath = new File("./").getAbsolutePath();
+		this.classpath = "";
+		this.srcJavaDir = new ArrayList<>(); // will default to {this.projectPath}/src/main/java if not set; see getter
+		this.srcTestDir = new ArrayList<>(); // will default to {this.projectPath}/src/test if not set; see getter
+		this.binJavaDir = new ArrayList<>(); // will default to {this.projectPath}/target/classes if not set; see getter
+		this.binTestDir = new ArrayList<>(); // will default to {this.projectPath}/target/test-classes if not set; see getter
 		this.customJUnitClasspath = null;
 		this.customJacocoClasspath = null;
 		this.mavenHome = System.getProperty("user.home") + "/.m2/repository/";
@@ -54,6 +67,7 @@ public class FlacocoConfig {
 		this.testRunnerVerbose = false;
 		this.testRunnerTimeoutInMs = 10000;
 		this.testRunnerJVMArgs = null;
+		this.threshold = 0.0;
 
 		this.family = FaultLocalizationFamily.SPECTRUM_BASED;
 		this.spectrumFormula = SpectrumFormula.OCHIAI;
@@ -72,7 +86,7 @@ public class FlacocoConfig {
 	}
 
 	public void setProjectPath(String projectPath) {
-		this.projectPath = projectPath;
+		this.projectPath = new File(projectPath).getAbsolutePath();
 	}
 
 	public String getClasspath() {
@@ -81,6 +95,66 @@ public class FlacocoConfig {
 
 	public void setClasspath(String classpath) {
 		this.classpath = classpath;
+	}
+
+	public List<String> getSrcJavaDir() {
+		if (srcJavaDir.isEmpty()) {
+			return Collections.singletonList(
+					new File(getProjectPath() + File.separatorChar + "src/main/java/")
+							.getAbsolutePath()
+			);
+		} else {
+			return srcJavaDir;
+		}
+	}
+
+	public void setSrcJavaDir(List<String> srcJavaDir) {
+		this.srcJavaDir = listOfPathsToListOfAbsolutePaths(srcJavaDir);
+	}
+
+	public List<String> getSrcTestDir() {
+		if (srcTestDir.isEmpty()) {
+			return Collections.singletonList(
+					new File(getProjectPath() + File.separatorChar + "src/test/")
+							.getAbsolutePath()
+			);
+		} else {
+			return srcTestDir;
+		}
+	}
+
+	public void setSrcTestDir(List<String> srcTestDir) {
+		this.srcTestDir = listOfPathsToListOfAbsolutePaths(srcTestDir);
+	}
+
+	public List<String> getBinJavaDir() {
+		if (binJavaDir.isEmpty()) {
+			return Collections.singletonList(
+					new File(getProjectPath() + File.separatorChar + "target/classes/")
+							.getAbsolutePath()
+			);
+		} else {
+			return binJavaDir;
+		}
+	}
+
+	public void setBinJavaDir(List<String> binJavaDir) {
+		this.binJavaDir = listOfPathsToListOfAbsolutePaths(binJavaDir);
+	}
+
+	public List<String> getBinTestDir() {
+		if (binTestDir.isEmpty()) {
+			return Collections.singletonList(
+					new File(getProjectPath() + File.separatorChar + "target/test-classes/")
+							.getAbsolutePath()
+			);
+		} else {
+			return binTestDir;
+		}
+	}
+
+	public void setBinTestDir(List<String> binTestDir) {
+		this.binTestDir = listOfPathsToListOfAbsolutePaths(binTestDir);
 	}
 
 	public String getCustomJUnitClasspath() {
@@ -104,7 +178,7 @@ public class FlacocoConfig {
 	}
 
 	public void setMavenHome(String mavenHome) {
-		this.mavenHome = mavenHome;
+		this.mavenHome = new File(mavenHome).getAbsolutePath();
 	}
 
 	public boolean isCoverTests() {
@@ -155,11 +229,23 @@ public class FlacocoConfig {
 		this.spectrumFormula = spectrumFormula;
 	}
 
+	public double getThreshold() {
+		return threshold;
+	}
+
+	public void setThreshold(double threshold) {
+		this.threshold = threshold;
+	}
+
 	@Override
 	public String toString() {
 		return "FlacocoConfig{" +
 				"workspace='" + workspace + '\'' +
 				", projectPath='" + projectPath + '\'' +
+				", srcJavaDir='" + getSrcJavaDir() + '\'' +
+				", srcTestDir='" + getSrcTestDir() + '\'' +
+				", binJavaDir='" + getBinJavaDir() + '\'' +
+				", binTestDir='" + getBinTestDir() + '\'' +
 				", classpath='" + classpath + '\'' +
 				", customJUnitClasspath='" + customJUnitClasspath + '\'' +
 				", customJacocoClasspath='" + customJacocoClasspath + '\'' +
@@ -168,6 +254,7 @@ public class FlacocoConfig {
 				", testRunnerVerbose=" + testRunnerVerbose +
 				", testRunnerTimeoutInMs=" + testRunnerTimeoutInMs +
 				", testRunnerJVMArgs='" + testRunnerJVMArgs + '\'' +
+				", threshold=" + threshold +
 				", family=" + family +
 				", spectrumFormula=" + spectrumFormula +
 				'}';
@@ -176,5 +263,9 @@ public class FlacocoConfig {
 	// For test purposes only
 	public static void deleteInstance() {
 		instance = null;
+	}
+
+	private static List<String> listOfPathsToListOfAbsolutePaths(List<String> paths) {
+		return paths.stream().map(x -> new File(x).getAbsolutePath()).collect(Collectors.toList());
 	}
 }

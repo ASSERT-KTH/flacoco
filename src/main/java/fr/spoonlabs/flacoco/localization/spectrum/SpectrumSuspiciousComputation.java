@@ -1,9 +1,11 @@
 package fr.spoonlabs.flacoco.localization.spectrum;
 
 import fr.spoonlabs.flacoco.api.Suspiciousness;
+import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.coverage.CoverageMatrix;
 import fr.spoonlabs.flacoco.core.test.TestMethod;
 import fr.spoonlabs.flacoco.localization.spectrum.formulas.Formula;
+import org.apache.log4j.Logger;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -14,6 +16,9 @@ import java.util.stream.Collectors;
  * @author Matias Martinez
  */
 public class SpectrumSuspiciousComputation {
+
+	private Logger logger = Logger.getLogger(SpectrumSuspiciousComputation.class);
+	private FlacocoConfig config = FlacocoConfig.getInstance();
 
 	/**
 	 * @param matrix  matrix with the coverage
@@ -70,12 +75,10 @@ public class SpectrumSuspiciousComputation {
 
 			result.put(keyline, new Suspiciousness(score, testsPassingExecuting, testsFailingExecuting));
 		}
-		// Removes the entries which suspicious is zero
-		if (!includeSuspiciousEqualsToZero)
-			result.values().removeIf(x -> x.getScore() == 0);
 
-		// Sort by suspicious and return
+		// Filter according to threshold, sort by suspicious and return
 		return result.entrySet().stream()
+				.filter(x -> x.getValue().getScore() > config.getThreshold())
 				.sorted(Map.Entry.<String, Suspiciousness>comparingByValue().reversed())
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 
