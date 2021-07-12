@@ -715,23 +715,15 @@ public class FlacocoTest {
 		}
 	}
 
-	/**
-	 * This tests shows an example when several source and classes directories exists. Flacoco does not fully support
-	 * this atm, due to test-runner not supporting it.
-	 * <p>
-	 * To be completed and un-ingnored when https://github.com/STAMP-project/test-runner/issues/103 is closed.
-	 */
 	@Test
-	@Ignore
 	public void testExampleFL9SpectrumBasedOchiaiDefaultMode() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		config.setProjectPath("./examples/exampleFL9NotMavenMultiple/");
-		config.setSrcJavaDir(Arrays.asList("exampleFL9NotMavenMultiple/java2", "exampleFL9NotMavenMultiple/java1"));
-		config.setSrcTestDir(Arrays.asList("exampleFL9NotMavenMultiple/test2", "exampleFL9NotMavenMultiple/test1"));
-		config.setSrcTestDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/bin/classes2", "./examples/exampleFL9NotMavenMultiple/bin/classes1"));
-		config.setSrcTestDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/bin/test-classes2", "./examples/exampleFL9NotMavenMultiple/bin/test-classes1"));
-		config.setTestRunnerVerbose(true);
+		config.setSrcJavaDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/java"));
+		config.setSrcTestDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/test2", "./examples/exampleFL9NotMavenMultiple/test1"));
+		config.setBinJavaDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/bin/classes"));
+		config.setBinTestDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/bin/test-classes2", "./examples/exampleFL9NotMavenMultiple/bin/test-classes1"));
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
@@ -756,6 +748,51 @@ public class FlacocoTest {
 
 		// Lines executed by all test
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+	}
+
+	@Test
+	public void testExampleFL9SpectrumBasedOchiaiSpoonMode() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath("./examples/exampleFL9NotMavenMultiple/");
+		config.setSrcJavaDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/java"));
+		config.setSrcTestDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/test2", "./examples/exampleFL9NotMavenMultiple/test1"));
+		config.setBinJavaDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/bin/classes"));
+		config.setBinTestDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/bin/test-classes2", "./examples/exampleFL9NotMavenMultiple/bin/test-classes1"));
+		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
+		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+
+		// Run Flacoco
+		Flacoco flacoco = new Flacoco();
+
+		// Run default mode
+		Map<CtStatement, Suspiciousness> susp = flacoco.runSpoon();
+
+		assertEquals(4, susp.size());
+
+		for (CtStatement ctStatement : susp.keySet()) {
+			System.out.println("" + ctStatement + " " + susp.get(ctStatement));
+			// Assert location is Calculator.java, regex for matching both unix and dos paths
+			assertTrue(ctStatement.getPosition().getFile().getAbsolutePath()
+					.matches(".*(fr)[\\\\/](spoonlabs)[\\\\/](FLtest1)[\\\\/](Calculator)\\.(java)$"));
+			switch (ctStatement.getPosition().getLine()) {
+				// Line executed only by the failing
+				case 15:
+					assertEquals(1.0, susp.get(ctStatement).getScore(), 0);
+					break;
+				// Line executed by failing and passing
+				case 14:
+					assertEquals(0.70, susp.get(ctStatement).getScore(), 0.01);
+					break;
+				case 12:
+					assertEquals(0.57, susp.get(ctStatement).getScore(), 0.01);
+					break;
+				// Lines executed by all test
+				case 10:
+					assertEquals(0.5, susp.get(ctStatement).getScore(), 0);
+					break;
+			}
+		}
 	}
 
 }

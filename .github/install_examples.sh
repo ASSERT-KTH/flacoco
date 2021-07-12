@@ -15,3 +15,11 @@ rm -r examples/exampleFL8NotMaven/bin/
 mkdir -p examples/exampleFL8NotMaven/bin/
 cp -r examples/exampleFL1/FLtest1/target/classes examples/exampleFL8NotMaven/bin/classes
 cp -r examples/exampleFL1/FLtest1/target/test-classes examples/exampleFL8NotMaven/bin/test-classes
+
+rm -r examples/exampleFL9NotMavenMultiple/bin/
+mkdir -p examples/exampleFL9NotMavenMultiple/bin/
+cp -r examples/exampleFL7SameNamedMethods/FLtest1/target/classes examples/exampleFL9NotMavenMultiple/bin/classes
+cp -r examples/exampleFL7SameNamedMethods/FLtest1/target/test-classes examples/exampleFL9NotMavenMultiple/bin/test-classes1
+rm examples/exampleFL9NotMavenMultiple/bin/test-classes1/fr/spoonlabs/FLtest1/CalculatorDuplicatedTest.class
+cp -r examples/exampleFL7SameNamedMethods/FLtest1/target/test-classes examples/exampleFL9NotMavenMultiple/bin/test-classes2
+rm examples/exampleFL9NotMavenMultiple/bin/test-classes2/fr/spoonlabs/FLtest1/CalculatorTest.class

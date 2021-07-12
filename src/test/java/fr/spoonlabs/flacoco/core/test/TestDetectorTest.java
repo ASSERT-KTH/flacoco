@@ -12,6 +12,8 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -190,5 +192,50 @@ public class TestDetectorTest {
 		assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
 	}
 
+	@Test
+	public void testExampleFL8() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath("./examples/exampleFL8NotMaven/");
+		config.setSrcJavaDir(Collections.singletonList("./examples/exampleFL8NotMaven/java"));
+		config.setSrcTestDir(Collections.singletonList("./examples/exampleFL8NotMaven/test"));
+		config.setBinJavaDir(Collections.singletonList("./examples/exampleFL8NotMaven/bin/classes"));
+		config.setBinTestDir(Collections.singletonList("./examples/exampleFL8NotMaven/bin/test-classes"));
+
+		// Find the tests
+		TestDetector testDetector = new TestDetector();
+		List<TestContext> testContexts = testDetector.findTests();
+
+		// Check that there is only one test context
+		assertEquals(1, testContexts.size());
+		// Check that there are 4 test methods in the test context
+		TestContext testContext = testContexts.get(0);
+		assertEquals(4, testContext.getTestMethods().size());
+		// Check that the correct test framework is set
+		assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
+	}
+
+	@Test
+	public void testExampleFL9() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath("./examples/exampleFL9NotMavenMultiple/");
+		config.setSrcJavaDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/java"));
+		config.setSrcTestDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/test2", "./examples/exampleFL9NotMavenMultiple/test1"));
+		config.setBinJavaDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/bin/classes"));
+		config.setBinTestDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/bin/test-classes2", "./examples/exampleFL9NotMavenMultiple/bin/test-classes1"));
+
+		// Find the tests
+		TestDetector testDetector = new TestDetector();
+		List<TestContext> testContexts = testDetector.findTests();
+
+		// Check that there is only one test context
+		assertEquals(1, testContexts.size());
+		// Check that there are 8 test methods in the test context
+		TestContext testContext = testContexts.get(0);
+		assertEquals(8, testContext.getTestMethods().size());
+		// Check that the correct test framework is set
+		assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
+	}
 
 }
