@@ -4,7 +4,6 @@ package fr.spoonlabs.flacoco.core.coverage.framework;
 import eu.stamp_project.testrunner.EntryPoint;
 import eu.stamp_project.testrunner.listener.CoveredTestResultPerTestMethod;
 import eu.stamp_project.testrunner.runner.ParserOptions;
-import eu.stamp_project.testrunner.utils.ConstantsHelper;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.test.TestContext;
 import org.apache.log4j.Logger;
@@ -41,7 +40,10 @@ public abstract class TestFrameworkStrategy {
 	 * @return Classpath for test-runner execution
 	 */
 	protected String computeClasspath() {
-		String classpath = this.config.getClasspath() + File.pathSeparatorChar + this.config.getBinJavaDir();
+		String classpath = this.config.getClasspath() + File.pathSeparatorChar +
+				this.config.getBinJavaDir().stream().reduce((x, y) -> x + File.pathSeparatorChar + y) +
+				File.pathSeparatorChar +
+				this.config.getBinTestDir().stream().reduce((x, y) -> x + File.pathSeparatorChar + y);
 		String mavenHome = this.config.getMavenHome();
 		String junitClasspath;
 		String jacocoClassPath;
@@ -60,19 +62,14 @@ public abstract class TestFrameworkStrategy {
 		jacocoClassPath = mavenHome + "org/jacoco/org.jacoco.core/0.8.3/org.jacoco.core-0.8.3.jar";
 
 		// Add JUnit dependencies
-		if (this.config.getCustomJUnitClasspath() != null) {
-			classpath += File.pathSeparatorChar + this.config.getCustomJUnitClasspath();
-		} else {
-			classpath += File.pathSeparatorChar + junitClasspath;
-		}
+		if (this.config.getCustomJUnitClasspath() != null)
+			junitClasspath = this.config.getCustomJUnitClasspath();
 		// Add jacoco dependencies
-		if (this.config.getCustomJacocoClasspath() != null) {
-			classpath += File.pathSeparatorChar + this.config.getCustomJacocoClasspath();
-		} else {
-			classpath += File.pathSeparatorChar + jacocoClassPath;
-		}
+		if (this.config.getCustomJacocoClasspath() != null)
+			jacocoClassPath = this.config.getCustomJacocoClasspath();
 
-		return classpath + File.pathSeparatorChar;
+		return junitClasspath + File.pathSeparatorChar + jacocoClassPath + File.pathSeparatorChar +
+				classpath + File.pathSeparatorChar;
 	}
 
 }
