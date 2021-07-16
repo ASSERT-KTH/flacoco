@@ -23,7 +23,7 @@ public abstract class TestFrameworkStrategy {
 	 * Auxiliary method to setup test-runners default options
 	 */
 	protected void setupTestRunnerEntryPoint() {
-		EntryPoint.coverageDetail = ParserOptions.CoverageTransformerDetail.DETAIL;
+		EntryPoint.coverageDetail = ParserOptions.CoverageTransformerDetail.DETAIL_COMPRESSED;
 		EntryPoint.workingDirectory = new File(this.config.getWorkspace());
 		EntryPoint.verbose = this.config.isTestRunnerVerbose();
 		EntryPoint.timeoutInMs = this.config.getTestRunnerTimeoutInMs();
