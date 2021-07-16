@@ -65,8 +65,8 @@ public class FlacocoMain implements Callable<Integer> {
 	@Option(names = {"--testRunnerVerbose"}, description = "Test-runner verbose mode.", defaultValue = "false")
 	boolean testRunnerVerbose = false;
 
-	@Option(names = {"--testRunnerTimeoutInMs"}, description = "Timeout for each test execution with test-runner.", defaultValue = "10000")
-	int testRunnerTimeoutInMs = 10000;
+	@Option(names = {"--testRunnerTimeoutInMs"}, description = "Timeout for each test execution with test-runner. Must be greater than 0. Default value is 1000000", defaultValue = "1000000")
+	int testRunnerTimeoutInMs = 1000000;
 
 	@Option(names = {"--testRunnerJVMArgs"}, description = "JVM args for test-runner's test execution VMs.")
 	String testRunnerJVMArgs = null;
@@ -149,6 +149,8 @@ public class FlacocoMain implements Callable<Integer> {
 
 		config.setCoverTests(coverTest);
 		config.setTestRunnerVerbose(testRunnerVerbose);
+		if (this.testRunnerTimeoutInMs > 0)
+			config.setTestRunnerTimeoutInMs(this.testRunnerTimeoutInMs);
 		config.setTestRunnerTimeoutInMs(testRunnerTimeoutInMs);
 		if (this.testRunnerJVMArgs != null && !this.testRunnerJVMArgs.trim().isEmpty())
 			config.setTestRunnerJVMArgs(testRunnerJVMArgs);
