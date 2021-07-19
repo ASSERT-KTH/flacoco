@@ -99,6 +99,44 @@ public class FlacocoTest {
 		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
 	}
 
+	@Test
+	public void testExampleFL1SpectrumBasedOchiaiDefaultModeManualTestConfig() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
+		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
+		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+		config.setjUnit4Tests(Arrays.asList(
+				"fr.spoonlabs.FLtest1.CalculatorTest#testSum",
+				"fr.spoonlabs.FLtest1.CalculatorTest#testSubs",
+				"fr.spoonlabs.FLtest1.CalculatorTest#testMul",
+				"fr.spoonlabs.FLtest1.CalculatorTest#testDiv"
+				)
+		);
+
+		// Run Flacoco
+		Flacoco flacoco = new Flacoco();
+
+		// Run default mode
+		Map<String, Suspiciousness> susp = flacoco.runDefault();
+
+		for (String line : susp.keySet()) {
+			System.out.println("" + line + " " + susp.get(line));
+		}
+
+		assertEquals(4, susp.size());
+
+		// Line executed only by the failing
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+
+		// Line executed by a mix of failing and passing
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
+		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+
+		// Lines executed by all test
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+	}
+
 	/**
 	 * This test captures the functionality of computing the coverage even when an exception is
 	 * thrown during execution
@@ -250,6 +288,44 @@ public class FlacocoTest {
 		config.setProjectPath(new File("./examples/exampleFL4JUnit5/FLtest1").getAbsolutePath());
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+
+		// Run Flacoco
+		Flacoco flacoco = new Flacoco();
+
+		// Run default mode
+		Map<String, Suspiciousness> susp = flacoco.runDefault();
+
+		for (String line : susp.keySet()) {
+			System.out.println("" + line + " " + susp.get(line));
+		}
+
+		assertEquals(4, susp.size());
+
+		// Line executed only by the failing
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+
+		// Line executed by a mix of failing and passing
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
+		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+
+		// Lines executed by all test
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+	}
+
+	@Test
+	public void testExampleFL4JUnit5SpectrumBasedOchiaiDefaultModeManualTestConfig() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath(new File("./examples/exampleFL4JUnit5/FLtest1").getAbsolutePath());
+		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
+		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+		config.setjUnit5Tests(Arrays.asList(
+				"fr.spoonlabs.FLtest1.CalculatorTest#testSum",
+				"fr.spoonlabs.FLtest1.CalculatorTest#testSubs",
+				"fr.spoonlabs.FLtest1.CalculatorTest#testMul",
+				"fr.spoonlabs.FLtest1.CalculatorTest#testDiv"
+				)
+		);
 
 		// Run Flacoco
 		Flacoco flacoco = new Flacoco();
@@ -464,6 +540,47 @@ public class FlacocoTest {
 		config.setProjectPath(new File("./examples/exampleFL6Mixed/FLtest1").getAbsolutePath());
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+
+		// Run Flacoco
+		Flacoco flacoco = new Flacoco();
+
+		// Run default mode
+		Map<String, Suspiciousness> susp = flacoco.runDefault();
+
+		for (String line : susp.keySet()) {
+			System.out.println("" + line + " " + susp.get(line));
+		}
+
+		assertEquals(4, susp.size());
+
+		// Line executed only by the failing
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+
+		// Line executed by a mix of failing and passing
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
+		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+
+		// Lines executed by all test
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+	}
+
+	@Test
+	public void testExampleFL6MixedSpectrumBasedOchiaiDefaultModeManualTestConfig() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath(new File("./examples/exampleFL6Mixed/FLtest1").getAbsolutePath());
+		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
+		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+		config.setjUnit4Tests(Arrays.asList(
+				"fr.spoonlabs.FLtest1.CalculatorJUnit3Test#testSum",
+				"fr.spoonlabs.FLtest1.CalculatorMixedTest#testSubs"
+				)
+		);
+		config.setjUnit5Tests(Arrays.asList(
+				"fr.spoonlabs.FLtest1.CalculatorMixedTest#testMul",
+				"fr.spoonlabs.FLtest1.CalculatorJUnit5Test#testDiv"
+				)
+		);
 
 		// Run Flacoco
 		Flacoco flacoco = new Flacoco();

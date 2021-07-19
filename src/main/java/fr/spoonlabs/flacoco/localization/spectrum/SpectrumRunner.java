@@ -30,7 +30,7 @@ public class SpectrumRunner implements FaultLocalizationRunner {
 
 		// Get the tests
 		TestDetector testDetector = new TestDetector();
-		List<TestContext> tests = testDetector.findTests();
+		List<TestContext> tests = testDetector.getTests();
 
 		CoverageRunner detector = new CoverageRunner();
 

@@ -47,7 +47,7 @@ public class CoverageRunnerTest {
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();
-		List<TestContext> tests = testDetector.findTests();
+		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
 
@@ -148,7 +148,7 @@ public class CoverageRunnerTest {
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();
-		List<TestContext> tests = testDetector.findTests();
+		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
 
@@ -181,7 +181,7 @@ public class CoverageRunnerTest {
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();
-		List<TestContext> tests = testDetector.findTests();
+		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
 
@@ -218,7 +218,7 @@ public class CoverageRunnerTest {
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();
-		List<TestContext> tests = testDetector.findTests();
+		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
 
@@ -257,7 +257,7 @@ public class CoverageRunnerTest {
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();
-		List<TestContext> tests = testDetector.findTests();
+		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
 
@@ -354,7 +354,7 @@ public class CoverageRunnerTest {
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();
-		List<TestContext> tests = testDetector.findTests();
+		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
 
@@ -451,7 +451,7 @@ public class CoverageRunnerTest {
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();
-		List<TestContext> tests = testDetector.findTests();
+		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
 
@@ -549,7 +549,7 @@ public class CoverageRunnerTest {
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();
-		List<TestContext> tests = testDetector.findTests();
+		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
 
@@ -567,7 +567,7 @@ public class CoverageRunnerTest {
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();
-		List<TestContext> tests = testDetector.findTests();
+		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
 
@@ -665,7 +665,7 @@ public class CoverageRunnerTest {
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();
-		List<TestContext> tests = testDetector.findTests();
+		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
 
@@ -767,7 +767,7 @@ public class CoverageRunnerTest {
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();
-		List<TestContext> tests = testDetector.findTests();
+		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
 
@@ -868,7 +868,7 @@ public class CoverageRunnerTest {
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();
-		List<TestContext> tests = testDetector.findTests();
+		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
 
