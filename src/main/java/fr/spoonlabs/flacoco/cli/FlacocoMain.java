@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -102,6 +103,23 @@ public class FlacocoMain implements Callable<Integer> {
 		String customExporter;
 	}
 
+	@CommandLine.ArgGroup(exclusive = false, multiplicity = "0..1", heading = "Setting any of these options will result in test detection being bypassed.")
+	Tests tests = new Tests();
+
+	static class Tests {
+		// default value for tests, empty lists mean no option was set
+		public Tests() {
+			this.jUnit4Tests = new ArrayList<>();
+			this.jUnit5Tests = new ArrayList<>();
+		}
+
+		@Option(names = {"--junit4tests"}, description = "JUnit4 or JUnit3 tests to be ran.")
+		List<String> jUnit4Tests;
+
+		@Option(names = {"--junit5tests"}, description = "JUnit5 tests to be ran.")
+		List<String> jUnit5Tests;
+	}
+
 	@Option(names = "-v", scope = CommandLine.ScopeType.INHERIT, description = "Verbose mode.")
 	public void setVerbose(boolean[] verbose) {
 		// For now we have these two levels, but in the future we might want to add more
@@ -155,6 +173,9 @@ public class FlacocoMain implements Callable<Integer> {
 		if (this.testRunnerJVMArgs != null && !this.testRunnerJVMArgs.trim().isEmpty())
 			config.setTestRunnerJVMArgs(testRunnerJVMArgs);
 		config.setThreshold(threshold);
+
+		config.setjUnit4Tests(this.tests.jUnit4Tests);
+		config.setjUnit5Tests(this.tests.jUnit5Tests);
 
 		config.setSpectrumFormula(this.spectrumFormula);
 	}

@@ -37,6 +37,9 @@ public class FlacocoConfig {
 	private String testRunnerJVMArgs;
 	private double threshold;
 
+	private List<String> jUnit4Tests;
+	private List<String> jUnit5Tests;
+
 	private FaultLocalizationFamily family;
 	//------Options for spectrum-based fault localization------
 	private SpectrumFormula spectrumFormula;
@@ -68,6 +71,9 @@ public class FlacocoConfig {
 		this.testRunnerTimeoutInMs = 1000000;
 		this.testRunnerJVMArgs = null;
 		this.threshold = 0.0;
+
+		this.jUnit4Tests = new ArrayList<>();
+		this.jUnit5Tests = new ArrayList<>();
 
 		this.family = FaultLocalizationFamily.SPECTRUM_BASED;
 		this.spectrumFormula = SpectrumFormula.OCHIAI;
@@ -213,6 +219,22 @@ public class FlacocoConfig {
 		this.testRunnerJVMArgs = testRunnerJVMArgs;
 	}
 
+	public List<String> getjUnit4Tests() {
+		return jUnit4Tests;
+	}
+
+	public void setjUnit4Tests(List<String> jUnit4Tests) {
+		this.jUnit4Tests = jUnit4Tests;
+	}
+
+	public List<String> getjUnit5Tests() {
+		return jUnit5Tests;
+	}
+
+	public void setjUnit5Tests(List<String> jUnit5Tests) {
+		this.jUnit5Tests = jUnit5Tests;
+	}
+
 	public FaultLocalizationFamily getFamily() {
 		return family;
 	}
@@ -255,6 +277,8 @@ public class FlacocoConfig {
 				", testRunnerTimeoutInMs=" + testRunnerTimeoutInMs +
 				", testRunnerJVMArgs='" + testRunnerJVMArgs + '\'' +
 				", threshold=" + threshold +
+				", jUnit4Tests='" + jUnit4Tests + '\'' +
+				", jUnit5Tests='" + jUnit5Tests + '\'' +
 				", family=" + family +
 				", spectrumFormula=" + spectrumFormula +
 				'}';

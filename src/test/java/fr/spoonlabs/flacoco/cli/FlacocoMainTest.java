@@ -67,7 +67,11 @@ public class FlacocoMainTest {
 				"--jacocoClasspath", jacocoClassPath,
 				"--testRunnerVerbose",
 				"--testRunnerTimeoutInMs", "10000",
-				"--testRunnerJVMArgs", "-Xms16M"
+				"--testRunnerJVMArgs", "-Xms16M",
+				"--junit4tests", "fr.spoonlabs.FLtest1.CalculatorTest#testSum" + " " +
+								 "fr.spoonlabs.FLtest1.CalculatorTest#testSubs" + " " +
+								 "fr.spoonlabs.FLtest1.CalculatorTest#testMul" + " " +
+							     "fr.spoonlabs.FLtest1.CalculatorTest#testDiv",
 		});
 	}
 
