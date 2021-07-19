@@ -7,7 +7,6 @@ import fr.spoonlabs.flacoco.core.test.TestContext;
 import fr.spoonlabs.flacoco.core.test.TestMethod;
 import org.apache.log4j.Logger;
 
-import java.io.File;
 import java.util.concurrent.TimeoutException;
 
 public class JUnit4Strategy extends TestFrameworkStrategy {
@@ -22,8 +21,10 @@ public class JUnit4Strategy extends TestFrameworkStrategy {
 
 		return EntryPoint.runCoveredTestResultPerTestMethods(
 				this.computeClasspath(),
-				config.getBinJavaDir().get(0) + File.pathSeparatorChar + config.getBinTestDir().get(0),
-				testContext.getTestMethods().stream().map(TestMethod::getFullyQualifiedClassName).distinct().toArray(String[]::new)
+				config.getBinJavaDir(),
+				config.getBinTestDir(),
+				testContext.getTestMethods().stream().map(TestMethod::getFullyQualifiedClassName).distinct().toArray(String[]::new),
+				new String[0]
 		);
 	}
 

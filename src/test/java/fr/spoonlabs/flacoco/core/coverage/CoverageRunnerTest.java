@@ -11,6 +11,8 @@ import org.junit.*;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -658,6 +660,209 @@ public class CoverageRunnerTest {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		config.setProjectPath(new File("./examples/exampleFL7SameNamedMethods/FLtest1").getAbsolutePath());
+
+		CoverageRunner detector = new CoverageRunner();
+
+		// Find the tests
+		TestDetector testDetector = new TestDetector();
+		List<TestContext> tests = testDetector.findTests();
+
+		assertTrue(tests.size() > 0);
+
+		CoverageMatrix matrix = detector.getCoverageMatrix(tests);
+
+		// verify nr of test
+		assertEquals(8, matrix.getTests().size());
+		assertEquals(2, matrix.getFailingTestCases().size());
+
+		// 8 executed lines
+		assertEquals(8, matrix.getResultExecution().keySet().size());
+
+		// This line is the first if, so it's covered by all tests
+		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
+
+		assertEquals(8, firstLineExecuted.size());
+
+		Set<String> executedTestKeys = firstLineExecuted.stream()
+				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
+
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSubs"));
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSum"));
+
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
+
+		// This one is only executed by the sum
+		Set<TestMethod> returnSum = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@11");
+
+		executedTestKeys = returnSum.stream()
+				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
+
+		assertEquals(2, returnSum.size());
+
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSum"));
+
+		// This line is the second if, so it's covered by all tests, except the first one
+		Set<TestMethod> secondIfExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@12");
+		assertEquals(6, secondIfExecuted.size());
+
+		executedTestKeys = secondIfExecuted.stream()
+				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
+
+		// The first one returns before
+		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSum"));
+
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSubs"));
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
+
+		Set<TestMethod> oneMultCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@14");
+		assertEquals(4, oneMultCond.size());
+		executedTestKeys = oneMultCond.stream()
+				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
+		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSum"));
+		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSubs"));
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
+
+		// This line is inside one if, so it's executed only one
+		Set<TestMethod> oneReturnLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@15");
+		assertEquals(2, oneReturnLineExecuted.size());
+
+		executedTestKeys = oneReturnLineExecuted.stream()
+				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
+
+		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSum"));
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
+		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSubs"));
+		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
+
+		Set<TestMethod> divisionCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@16");
+		assertEquals(2, divisionCond.size());
+		executedTestKeys = divisionCond.stream()
+				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
+
+		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSum"));
+		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
+		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSubs"));
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
+
+		// Any test executes that
+		Set<TestMethod> modCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@18");
+		assertNull(modCond);
+	}
+
+	@Test
+	public void testExampleFL8() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath("./examples/exampleFL8NotMaven/");
+		config.setSrcJavaDir(Collections.singletonList("./examples/exampleFL8NotMaven/java"));
+		config.setSrcTestDir(Collections.singletonList("./examples/exampleFL8NotMaven/test"));
+		config.setBinJavaDir(Collections.singletonList("./examples/exampleFL8NotMaven/bin/classes"));
+		config.setBinTestDir(Collections.singletonList("./examples/exampleFL8NotMaven/bin/test-classes"));
+		config.setTestRunnerVerbose(true);
+
+		CoverageRunner detector = new CoverageRunner();
+
+		// Find the tests
+		TestDetector testDetector = new TestDetector();
+		List<TestContext> tests = testDetector.findTests();
+
+		assertTrue(tests.size() > 0);
+
+		CoverageMatrix matrix = detector.getCoverageMatrix(tests);
+
+		// verify nr of test
+		assertEquals(4, matrix.getTests().size());
+		assertEquals(1, matrix.getFailingTestCases().size());
+
+		// 8 executed lines
+		assertEquals(8, matrix.getResultExecution().keySet().size());
+
+		// This line is the first if, so it's covered by all tests
+		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
+
+		assertEquals(4, firstLineExecuted.size());
+
+		Set<String> executedTestKeys = firstLineExecuted.stream()
+				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
+
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSubs"));
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSum"));
+
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
+
+		// This one is only executed by the sum
+		Set<TestMethod> returnSum = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@11");
+
+		executedTestKeys = returnSum.stream()
+				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
+
+		assertEquals(1, returnSum.size());
+
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSum"));
+
+		// This line is the second if, so it's covered by all tests, except the first one
+		Set<TestMethod> secondIfExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@12");
+		assertEquals(3, secondIfExecuted.size());
+
+		executedTestKeys = secondIfExecuted.stream()
+				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
+
+		// The first one returns before
+		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSum"));
+
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSubs"));
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
+
+		Set<TestMethod> oneMultCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@14");
+		assertEquals(2, oneMultCond.size());
+		executedTestKeys = oneMultCond.stream()
+				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
+		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSum"));
+		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSubs"));
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
+
+		// This line is inside one if, so it's executed only one
+		Set<TestMethod> oneReturnLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@15");
+		assertEquals(1, oneReturnLineExecuted.size());
+
+		executedTestKeys = oneReturnLineExecuted.stream()
+				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
+
+		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSum"));
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
+		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSubs"));
+		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
+
+		Set<TestMethod> divisionCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@16");
+		assertEquals(1, divisionCond.size());
+		executedTestKeys = divisionCond.stream()
+				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
+
+		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSum"));
+		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
+		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSubs"));
+		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
+
+		// Any test executes that
+		Set<TestMethod> modCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@18");
+		assertNull(modCond);
+	}
+
+	@Test
+	public void testExampleFL9() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath("./examples/exampleFL9NotMavenMultiple/");
+		config.setSrcJavaDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/java"));
+		config.setSrcTestDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/test2", "./examples/exampleFL9NotMavenMultiple/test1"));
+		config.setBinJavaDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/bin/classes"));
+		config.setBinTestDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/bin/test-classes2", "./examples/exampleFL9NotMavenMultiple/bin/test-classes1"));
 
 		CoverageRunner detector = new CoverageRunner();
 
