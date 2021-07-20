@@ -1,4 +1,4 @@
-# flacoco · [![Build Status](https://travis-ci.com/SpoonLabs/flacoco.svg?branch=master)](https://travis-ci.com/SpoonLabs/flacoco) [![codecov](https://codecov.io/gh/SpoonLabs/flacoco/branch/master/graph/badge.svg?token=7WWFGI1KWW)](https://codecov.io/gh/SpoonLabs/flacoco)
+# flacoco · [![tests](https://github.com/SpoonLabs/flacoco/actions/workflows/tests.yml/badge.svg)](https://github.com/SpoonLabs/flacoco/actions/workflows/tests.yml) [![codecov](https://codecov.io/gh/SpoonLabs/flacoco/branch/master/graph/badge.svg?token=7WWFGI1KWW)](https://codecov.io/gh/SpoonLabs/flacoco)
 
 **flacoco** is a fault localization tool for Java based on [Jacoco](https://github.com/jacoco/jacoco) and [test-runner](https://github.com/STAMP-project/test-runner) that aims at encompassing several fault localization techniques.
 
