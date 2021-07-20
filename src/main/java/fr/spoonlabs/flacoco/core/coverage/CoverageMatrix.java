@@ -99,16 +99,7 @@ public class CoverageMatrix {
 							);
 
 							this.logger.debug("Adding a line where an exception was thrown: " + lineKey);
-
-							this.add(
-									lineKey,
-									testMethod,
-									1,
-									false
-							);
-
-							// we only want the first one
-							break;
+							this.add(lineKey, testMethod, 1, false);
 						}
 					}
 				}
@@ -133,8 +124,9 @@ public class CoverageMatrix {
 
 	/**
 	 * Auxiliary method to introduce the gathered information about a test unit run in the coverage matrix
-	 *
+	 * <p>
 	 * The modifier is public for testing purposes
+	 *
 	 * @param lineKey
 	 * @param testMethod
 	 * @param instExecutedAtLineI
