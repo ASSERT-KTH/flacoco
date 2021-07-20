@@ -1,5 +1,7 @@
 package fr.spoonlabs.flacoco.core.coverage;
 
+import ch.scheitlin.alex.java.StackTrace;
+import ch.scheitlin.alex.java.StackTraceParser;
 import eu.stamp_project.testrunner.listener.CoveredTestResultPerTestMethod;
 import eu.stamp_project.testrunner.listener.impl.CoverageDetailed;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
@@ -39,23 +41,7 @@ public class CoverageRunner {
 				// Process each method individually
 				for (TestMethod testMethod : testContext.getTestMethods()) {
 					if (result.getCoverageResultsMap().containsKey(testMethod.getFullyQualifiedMethodName())) {
-						CoverageFromSingleTestUnit coverageFromSingleTestWrapper =
-								new CoverageFromSingleTestUnit(
-										testMethod,
-										(CoverageDetailed) result.getCoverageOf(testMethod.getFullyQualifiedMethodName())
-								);
-
-						boolean isPassing = result.getPassingTests().contains(testMethod.getFullyQualifiedMethodName())
-								&& result.getFailingTests().stream().map(x -> x.testClassName + "#" + x.testCaseName)
-								.noneMatch(x -> x.equals(testMethod.getFullyQualifiedMethodName()))
-								&& result.getAssumptionFailingTests().stream().map(x -> x.testClassName + "#" + x.testCaseName)
-								.noneMatch(x -> x.equals(testMethod.getFullyQualifiedMethodName()));
-						coverageFromSingleTestWrapper.setPassing(isPassing);
-
-						boolean isSkip = result.getIgnoredTests().contains(testMethod.getFullyQualifiedMethodName());
-						coverageFromSingleTestWrapper.setSkip(isSkip);
-
-						matrixExecutionResult.processSingleTest(coverageFromSingleTestWrapper);
+						matrixExecutionResult.processSingleTest(new CoverageFromSingleTestUnit(testMethod, result));
 					} else {
 						this.logger.warn("Test " + testMethod + " result was not reported by test-runner.");
 					}

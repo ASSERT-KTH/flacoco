@@ -75,10 +75,11 @@ public class SpectrumRunnerTest {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(5, susp.size());
+		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@21").getScore(), 0);
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@22").getScore(), 0);
 
 		// Line executed by a mix of failing and passing
 		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@18").getScore(), 0.01);

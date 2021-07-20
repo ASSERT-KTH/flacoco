@@ -31,6 +31,10 @@
 			<releases><enabled>false</enabled></releases>
 			<snapshots><enabled>true</enabled></snapshots>
 		</repository>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -113,7 +117,6 @@
 			</exclusions>
 		</dependency>
 
-
 		<dependency>
 			<groupId>info.picocli</groupId>
 			<artifactId>picocli</artifactId>
@@ -140,6 +143,11 @@
 			<version>2.4.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.github.alexscheitlin</groupId>
+			<artifactId>java-stack-trace-parser</artifactId>
+			<version>v1.0.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>

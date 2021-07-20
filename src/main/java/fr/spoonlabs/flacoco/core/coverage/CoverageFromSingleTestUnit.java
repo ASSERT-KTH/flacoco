@@ -1,36 +1,46 @@
 package fr.spoonlabs.flacoco.core.coverage;
 
-import eu.stamp_project.testrunner.listener.Coverage;
+import eu.stamp_project.testrunner.listener.CoveredTestResultPerTestMethod;
 import eu.stamp_project.testrunner.listener.impl.CoverageDetailed;
 import fr.spoonlabs.flacoco.core.test.TestMethod;
 
 /**
  * Contains the results of the execution of a single test case (i.e., a method).
- * 
- * @author Matias Martinez
  *
+ * @author Matias Martinez
  */
 public class CoverageFromSingleTestUnit {
 	/**
 	 * TestMethod information
 	 */
 	protected TestMethod testMethod;
+
 	/**
 	 * Coverage info
 	 */
-	protected CoverageDetailed cov;
+	protected CoveredTestResultPerTestMethod coveredTestResultPerTestMethod;
+
 	/**
 	 * Result of the execution: true if it's passing
 	 */
 	protected boolean isPassing;
+
 	/**
 	 * Indicates if the test is skipped
 	 */
-	protected boolean isSkip = false;
+	protected boolean isSkip;
 
-	public CoverageFromSingleTestUnit(TestMethod testMethod, CoverageDetailed cov) {
+	public CoverageFromSingleTestUnit(TestMethod testMethod, CoveredTestResultPerTestMethod result) {
 		this.testMethod = testMethod;
-		this.cov = cov;
+		this.coveredTestResultPerTestMethod = result;
+
+		this.isPassing = result.getPassingTests().contains(testMethod.getFullyQualifiedMethodName())
+				&& result.getFailingTests().stream().map(x -> x.testClassName + "#" + x.testCaseName)
+				.noneMatch(x -> x.equals(testMethod.getFullyQualifiedMethodName()))
+				&& result.getAssumptionFailingTests().stream().map(x -> x.testClassName + "#" + x.testCaseName)
+				.noneMatch(x -> x.equals(testMethod.getFullyQualifiedMethodName()));
+
+		this.isSkip = result.getIgnoredTests().contains(testMethod.getFullyQualifiedMethodName());
 	}
 
 	public TestMethod getTestMethod() {
@@ -38,32 +48,29 @@ public class CoverageFromSingleTestUnit {
 	}
 
 	public CoverageDetailed getCov() {
-		return cov;
+		return (CoverageDetailed) coveredTestResultPerTestMethod.getCoverageOf(testMethod.getFullyQualifiedMethodName());
+	}
+
+	public CoveredTestResultPerTestMethod getCoveredTestResultPerTestMethod() {
+		return coveredTestResultPerTestMethod;
 	}
 
 	public boolean isPassing() {
 		return isPassing;
 	}
 
-	public void setPassing(boolean passing) {
-		isPassing = passing;
-	}
-
 	public boolean isSkip() {
 		return isSkip;
-	}
-
-	public void setSkip(boolean skip) {
-		isSkip = skip;
 	}
 
 	@Override
 	public String toString() {
 		return "CoverageFromSingleTestUnit{" +
 				"testMethod=" + testMethod +
-				", cov=" + cov +
-				", isPassing=" + isPassing +
-				", isSkip=" + isSkip +
+				", cov=" + getCov() +
+				", passing=" + isPassing() +
+				", skip=" + isSkip() +
 				'}';
 	}
+
 }
