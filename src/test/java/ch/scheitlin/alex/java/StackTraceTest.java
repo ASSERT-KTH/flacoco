@@ -31,6 +31,8 @@ import java.util.List;
 
 public class StackTraceTest {
 
+    private static String LINE_SEPARATOR_REGEX = "\\r?\\n|\\r";
+
     @Test
     public void getFirstLine() {
         // assign variables with test data
@@ -73,7 +75,7 @@ public class StackTraceTest {
         String actualStackTrace = stackTrace.getOriginalStackTrace();
 
         // assign result
-        Assert.assertEquals(expectedStackTrace, actualStackTrace);
+        Assert.assertArrayEquals(expectedStackTrace.split(LINE_SEPARATOR_REGEX), actualStackTrace.split(LINE_SEPARATOR_REGEX));
     }
 
     @Test

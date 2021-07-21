@@ -83,9 +83,9 @@ public class StackTrace {
     public String getOriginalStackTrace() {
         StringBuilder builder = new StringBuilder();
 
-        builder.append(this.firstLine).append("\n");
+        builder.append(this.firstLine).append(System.lineSeparator());
         for (StackTraceElement element : stackTraceLines) {
-            builder.append("\tat ").append(element).append("\n");
+            builder.append("\tat ").append(element).append(System.lineSeparator());
         }
 
         return builder.substring(0, builder.length() - 1);

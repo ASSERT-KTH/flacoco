@@ -65,6 +65,7 @@ public class StackTraceParser {
     // group 5: file name | null
     // group 6: line number | null
     // group 7: null | string
+    private static String LINE_SEPARATOR_REGEX = "\\r?\\n|\\r";
     private static String STACK_TRACE_LINE_REGEX = "^\\tat (?:((?:[\\d\\w]*\\.)*[\\d\\w]*)\\/)?((?:(?:[\\d\\w]*\\.)*[\\d\\w]*))\\.([\\d\\w\\$]*)\\.([\\d\\w\\$]*)\\((?:(?:([\\d\\w]*\\.java):(\\d*))|([\\d\\w\\s]*))\\)$";
     private static Pattern STACK_TRACE_LINE_PATTERN = Pattern.compile(STACK_TRACE_LINE_REGEX);
 
@@ -80,7 +81,7 @@ public class StackTraceParser {
         StringBuilder builder = new StringBuilder();
 
         for (String line : stackTraceLines) {
-            builder.append(line).append("\n");
+            builder.append(line).append(System.lineSeparator());
         }
 
         return parse(builder.substring(0, builder.length() - 1));
@@ -95,7 +96,7 @@ public class StackTraceParser {
      * @throws Exception if a stack trace line could not be parsed to a {@code java.lang.StackTraceElement}
      */
     public static StackTrace parse(String stackTraceString) throws Exception {
-        String[] lines = stackTraceString.split(System.lineSeparator());
+        String[] lines = stackTraceString.split(LINE_SEPARATOR_REGEX);
 
         String firstLine = lines[0];
         List<StackTraceElement> stackTraceLines = new ArrayList<StackTraceElement>();

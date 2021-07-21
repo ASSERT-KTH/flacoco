@@ -34,13 +34,15 @@ import java.util.List;
 
 public class StackTraceParserTest {
 
+    private static String LINE_SEPARATOR_REGEX = "\\r?\\n|\\r";
+
     @Test
     public void parse_lines() {
         // assign variables with test data
         String expectedStackTrace = getDummyStackTrace();
 
         // execute methods to be tested
-        List<String> stackTraceLines = Arrays.asList(expectedStackTrace.split("\n"));
+        List<String> stackTraceLines = Arrays.asList(expectedStackTrace.split(LINE_SEPARATOR_REGEX));
         String actualStackTrace;
         try {
             actualStackTrace = StackTraceParser.parse(stackTraceLines).getOriginalStackTrace();
@@ -50,7 +52,7 @@ public class StackTraceParserTest {
         }
 
         // assign result
-        Assert.assertEquals(expectedStackTrace, actualStackTrace);
+        Assert.assertArrayEquals(expectedStackTrace.split(LINE_SEPARATOR_REGEX), actualStackTrace.split(LINE_SEPARATOR_REGEX));
     }
 
     @Test
@@ -68,7 +70,7 @@ public class StackTraceParserTest {
         }
 
         // assign result
-        Assert.assertEquals(expectedStackTrace, actualStackTrace);
+        Assert.assertArrayEquals(expectedStackTrace.split(LINE_SEPARATOR_REGEX), actualStackTrace.split(LINE_SEPARATOR_REGEX));
     }
 
     private String getDummyStackTrace() {
