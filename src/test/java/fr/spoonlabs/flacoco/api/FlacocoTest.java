@@ -913,4 +913,37 @@ public class FlacocoTest {
 		}
 	}
 
+	@Test
+	public void testExampleFL10SpectrumBasedOchiaiDefaultMode() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath(new File("./examples/exampleFL10/FLtest1").getAbsolutePath());
+		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
+		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+
+		// Run Flacoco
+		Flacoco flacoco = new Flacoco();
+
+		// Run default mode
+		Map<String, Suspiciousness> susp = flacoco.runDefault();
+
+		for (String line : susp.keySet()) {
+			System.out.println("" + line + " " + susp.get(line));
+		}
+
+		assertEquals(5, susp.size());
+
+		// Line executed only by the failing
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@16").getScore(), 0);
+
+		// Line executed by a mix of failing and passing
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0.01);
+		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@13").getScore(), 0.01);
+
+		// Lines executed by all test
+		// the first one is the while(true)
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@11").getScore(), 0);
+	}
+
 }
