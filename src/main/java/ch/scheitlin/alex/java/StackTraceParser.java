@@ -95,7 +95,7 @@ public class StackTraceParser {
      * @throws Exception if a stack trace line could not be parsed to a {@code java.lang.StackTraceElement}
      */
     public static StackTrace parse(String stackTraceString) throws Exception {
-        String[] lines = stackTraceString.split("\n");
+        String[] lines = stackTraceString.split(System.lineSeparator());
 
         String firstLine = lines[0];
         List<StackTraceElement> stackTraceLines = new ArrayList<StackTraceElement>();
