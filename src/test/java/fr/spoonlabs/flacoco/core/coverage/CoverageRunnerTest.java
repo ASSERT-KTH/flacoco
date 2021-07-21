@@ -158,17 +158,21 @@ public class CoverageRunnerTest {
 		assertEquals(1, matrix.getFailingTestCases().size());
 		assertEquals(5, matrix.getTests().size());
 
-		// 9 executed lines
-		assertEquals(9, matrix.getResultExecution().keySet().size());
+		// 10 executed lines
+		assertEquals(10, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
 		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@12");
 		assertEquals(5, firstLineExecuted.size());
 
-		System.out.println(matrix.getResultExecution());
-
 		Set<TestMethod> secondLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@18");
 		assertEquals(2, secondLineExecuted.size());
+
+
+		// This line is the one that throws an exception
+		System.out.println(matrix.getResultExecution());
+		Set<TestMethod> exceptionThrower = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@22");
+		assertEquals(1, exceptionThrower.size());
 	}
 
 	@Test

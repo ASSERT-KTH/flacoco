@@ -159,10 +159,11 @@ public class FlacocoTest {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(5, susp.keySet().size());
+		assertEquals(6, susp.keySet().size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@21").getScore(), 0);
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@22").getScore(), 0); // exception thrown here
 
 		// Line executed by a mix of failing and passing
 		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@18").getScore(), 0.01);

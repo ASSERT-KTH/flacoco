@@ -1,5 +1,8 @@
 package fr.spoonlabs.flacoco.core.coverage;
 
+import ch.scheitlin.alex.java.StackTrace;
+import ch.scheitlin.alex.java.StackTraceParser;
+import eu.stamp_project.testrunner.listener.CoveredTestResultPerTestMethod;
 import eu.stamp_project.testrunner.listener.impl.CoverageDetailed;
 import eu.stamp_project.testrunner.listener.impl.CoverageFromClass;
 import fr.spoonlabs.flacoco.core.test.TestMethod;
@@ -36,7 +39,7 @@ public class CoverageMatrix {
 	 * @param iLineNumber
 	 * @return The key for iLineNumber in iClassNameCovered
 	 */
-	public String getLineKey(String iClassNameCovered, int iLineNumber) {
+	public static String getLineKey(String iClassNameCovered, int iLineNumber) {
 		return String.format("%s%s%d", iClassNameCovered, JOIN, iLineNumber);
 	}
 
@@ -69,7 +72,40 @@ public class CoverageMatrix {
 				this.add(lineKey, iCovWrapper.getTestMethod(), instExecutedAtLineI, isPassing);
 
 			}
+		}
 
+		// Now, we check if any exception was thrown and, if so, add the line where it was thrown
+		// since JaCoCo does not include them in coverage
+		// Handle tests that throw exceptions
+		CoveredTestResultPerTestMethod result = iCovWrapper.getCoveredTestResultPerTestMethod();
+		TestMethod testMethod = iCovWrapper.getTestMethod();
+		if (!isPassing && result.getFailureOf(testMethod.getFullyQualifiedMethodName()) != null) {
+
+			try {
+				StackTrace trace = StackTraceParser
+						.parse(result.getFailureOf(testMethod.getFullyQualifiedMethodName()).stackTrace);
+
+				for (StackTraceElement element : trace.getStackTraceLines()) {
+					// Search for first non-native element
+					if (!element.isNativeMethod()) {
+						// We want to keep it if and only if it the class was included in the coverage
+						// computation, which will ignore classes like org.junit.Assert
+						if (((CoverageDetailed) result.getCoverageOf(testMethod.getFullyQualifiedMethodName()))
+								.getDetailedCoverage().containsKey(element.getClassName().replace(".", "/"))) {
+
+							String lineKey = CoverageMatrix.getLineKey(
+									element.getClassName().replace(".", "/"),
+									element.getLineNumber()
+							);
+
+							this.logger.debug("Adding a line where an exception was thrown: " + lineKey);
+							this.add(lineKey, testMethod, 1, false);
+						}
+					}
+				}
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 
@@ -88,8 +124,9 @@ public class CoverageMatrix {
 
 	/**
 	 * Auxiliary method to introduce the gathered information about a test unit run in the coverage matrix
-	 *
+	 * <p>
 	 * The modifier is public for testing purposes
+	 *
 	 * @param lineKey
 	 * @param testMethod
 	 * @param instExecutedAtLineI
