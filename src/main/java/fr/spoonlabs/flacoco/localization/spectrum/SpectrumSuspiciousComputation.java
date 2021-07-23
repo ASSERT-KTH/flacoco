@@ -21,27 +21,13 @@ public class SpectrumSuspiciousComputation {
 	private FlacocoConfig config = FlacocoConfig.getInstance();
 
 	/**
-	 * @param matrix  matrix with the coverage
-	 * @param formula the formula to compute the suspiciousness
+	 * @param matrix                        matrix with the coverage
+	 * @param formula                       the formula to compute the
+	 *                                      suspiciousness
 	 * @return a map where the keys are the lines and the values are the suspicious
 	 * values
 	 */
 	public Map<String, Suspiciousness> calculateSuspicious(CoverageMatrix matrix, Formula formula) {
-		return calculateSuspicious(matrix, formula, false);
-	}
-
-	/**
-	 * @param matrix                        matrix with the coverage
-	 * @param formula                       the formula to compute the
-	 *                                      suspiciousness
-	 * @param includeSuspiciousEqualsToZero indicates if the suspicious list
-	 *                                      contains lines with suspicious equals to
-	 *                                      zero
-	 * @return a map where the keys are the lines and the values are the suspicious
-	 * values
-	 */
-	public Map<String, Suspiciousness> calculateSuspicious(CoverageMatrix matrix, Formula formula,
-	                                                       boolean includeSuspiciousEqualsToZero) {
 
 		Map<String, Suspiciousness> result = new HashMap<>();
 		// For each line of code to analyze
@@ -66,7 +52,7 @@ public class SpectrumSuspiciousComputation {
 				} else if (iTestPassing && !nrExecuted) {
 					nrTestPassingNotExecuting++;
 				} else if (!iTestPassing && !nrExecuted) {
-					nrTestPassingNotExecuting++;
+					nrTestFailingNotExecuting++;
 				}
 			}
 

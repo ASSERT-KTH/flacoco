@@ -423,4 +423,36 @@ public class SpectrumRunnerTest {
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
 	}
 
+	@Test
+	public void testExampleFL11Ochiai() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath(new File("./examples/exampleFL11/FLtest1").getAbsolutePath());
+		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+
+		SpectrumRunner runner = new SpectrumRunner();
+
+		Map<String, Suspiciousness> susp = runner.run();
+
+		for (String line : susp.keySet()) {
+			System.out.println("susp " + line + " " + susp.get(line));
+		}
+
+		assertEquals(6, susp.size());
+
+		// Line executed by all failing test cases
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.0);
+
+		// Line executed by one passing and 2 failing tests
+		assertEquals(0.81, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+
+		// Lines executed by one failing test
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0.01);
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@16").getScore(), 0.01);
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@17").getScore(), 0.01);
+
+		// Line executed by all tests (2 passing, 2 failing)
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0.01);
+	}
+
 }
