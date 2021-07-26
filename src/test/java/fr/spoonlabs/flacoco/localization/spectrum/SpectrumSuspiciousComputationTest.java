@@ -26,11 +26,18 @@ public class SpectrumSuspiciousComputationTest {
 		for (int i = 0; i <= 4; i++) {
 			exampleCoverageMatrix.add("test@-@" + i, testMethod, i, true);
 		}
-		// test@-@[1,6] are ran in a passing test case
+		// test@-@[1,6] are ran in a failing test case
 		testMethod = mock(TestMethod.class);
 		when(testMethod.getFullyQualifiedMethodName()).thenReturn("test2");
 		when(testMethod.toString()).thenReturn("test2");
 		for (int i = 0; i <= 6; i++) {
+			exampleCoverageMatrix.add("test@-@" + i, testMethod, i, false);
+		}
+		// test@-@[1,9] are ran in a failing test case
+		testMethod = mock(TestMethod.class);
+		when(testMethod.getFullyQualifiedMethodName()).thenReturn("test4");
+		when(testMethod.toString()).thenReturn("test4");
+		for (int i = 0; i <= 9; i++) {
 			exampleCoverageMatrix.add("test@-@" + i, testMethod, i, false);
 		}
 		// test@-@[1,5] are ran in a passing test case
@@ -52,19 +59,24 @@ public class SpectrumSuspiciousComputationTest {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(6, susp.size());
+		assertEquals(9, susp.size());
 
-		// Line executed only by the failing
+		// Line executed by all the failing test cases
 		assertEquals(1.0, susp.get("test@-@6").getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("test@-@5").getScore(), 0.01);
+		assertEquals(0.81, susp.get("test@-@5").getScore(), 0.01);
+
+		// Lines executed by just one failing test
+		assertEquals(0.70, susp.get("test@-@9").getScore(), 0.01);
+		assertEquals(0.70, susp.get("test@-@8").getScore(), 0.01);
+		assertEquals(0.70, susp.get("test@-@7").getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.57, susp.get("test@-@4").getScore(), 0.01);
-		assertEquals(0.57, susp.get("test@-@3").getScore(), 0.01);
-		assertEquals(0.57, susp.get("test@-@2").getScore(), 0.01);
-		assertEquals(0.57, susp.get("test@-@1").getScore(), 0.01);
+		assertEquals(0.70, susp.get("test@-@4").getScore(), 0.01);
+		assertEquals(0.70, susp.get("test@-@3").getScore(), 0.01);
+		assertEquals(0.70, susp.get("test@-@2").getScore(), 0.01);
+		assertEquals(0.70, susp.get("test@-@1").getScore(), 0.01);
 	}
 
 }

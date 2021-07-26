@@ -346,4 +346,23 @@ public class TestDetectorTest {
 		assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
 	}
 
+	@Test
+	public void testExampleFL11() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath(new File("./examples/exampleFL11/FLtest1").getAbsolutePath());
+
+		// Find the tests
+		TestDetector testDetector = new TestDetector();
+		List<TestContext> testContexts = testDetector.getTests();
+
+		// Check that there is only one test context
+		assertEquals(1, testContexts.size());
+		// Check that there are 4 test methods in the test context
+		TestContext testContext = testContexts.get(0);
+		assertEquals(4, testContext.getTestMethods().size());
+		// Check that the correct test framework is set
+		assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
+	}
+
 }
