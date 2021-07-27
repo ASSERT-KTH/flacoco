@@ -71,6 +71,7 @@ public class TestDetector {
 		Launcher launcher = new Launcher();
 		for (String dir : config.getSrcTestDir())
 			launcher.addInputResource(dir);
+		launcher.getEnvironment().setComplianceLevel(config.getComplianceLevel());
 		launcher.buildModel();
 
 		// Init test framework
@@ -82,6 +83,11 @@ public class TestDetector {
 		for (CtType<?> ctType : TestFramework.getAllTestClasses()) {
 
 			if (ctType.isAbstract()) {
+				continue;
+			}
+			// avoid passing non-qualified class names to test-runner
+			if (ctType.getPackage().isUnnamedPackage()) {
+				logger.warn("TestDetector was not able to retrieve the fully qualified class name of : " + ctType.getQualifiedName());
 				continue;
 			}
 

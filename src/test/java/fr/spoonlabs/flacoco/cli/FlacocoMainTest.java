@@ -72,6 +72,8 @@ public class FlacocoMainTest {
 								 "fr.spoonlabs.FLtest1.CalculatorTest#testSubs" + " " +
 								 "fr.spoonlabs.FLtest1.CalculatorTest#testMul" + " " +
 							     "fr.spoonlabs.FLtest1.CalculatorTest#testDiv",
+				"--threshold", "0.0",
+				"--complianceLevel", "8"
 		});
 	}
 

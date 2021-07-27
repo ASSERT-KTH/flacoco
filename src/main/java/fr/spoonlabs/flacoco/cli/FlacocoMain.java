@@ -78,6 +78,9 @@ public class FlacocoMain implements Callable<Integer> {
 	@Option(names = {"--includeZeros"}, description = "Flag for including lines with a suspiciousness sore of 0.", defaultValue = "false")
 	boolean includeZeros = false;
 
+	@Option(names = {"--complianceLevel"}, description = "Compliance level for Spoon. Default value is 8", defaultValue = "8")
+	int complianceLevel = 8;
+
 	@Option(names = {"-o", "--output"},
 			description = "Path to the output file. If no path is provided but the flag is, the result will be stored in flacoco_result.{extension}",
 			arity = "0..1",
@@ -177,6 +180,7 @@ public class FlacocoMain implements Callable<Integer> {
 			config.setTestRunnerJVMArgs(testRunnerJVMArgs);
 		config.setThreshold(threshold);
 		config.setIncludeZeros(includeZeros);
+		config.setComplianceLevel(complianceLevel);
 
 		config.setjUnit4Tests(this.tests.jUnit4Tests);
 		config.setjUnit5Tests(this.tests.jUnit5Tests);

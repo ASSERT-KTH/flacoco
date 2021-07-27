@@ -37,6 +37,7 @@ public class FlacocoConfig {
 	private String testRunnerJVMArgs;
 	private double threshold;
 	private boolean includeZeros;
+	private int complianceLevel;
 
 	private List<String> jUnit4Tests;
 	private List<String> jUnit5Tests;
@@ -73,6 +74,7 @@ public class FlacocoConfig {
 		this.testRunnerJVMArgs = null;
 		this.threshold = 0.0;
 		this.includeZeros = false;
+		this.complianceLevel = 8;
 
 		this.jUnit4Tests = new ArrayList<>();
 		this.jUnit5Tests = new ArrayList<>();
@@ -269,6 +271,14 @@ public class FlacocoConfig {
 		this.includeZeros = includeZeros;
 	}
 
+	public int getComplianceLevel() {
+		return complianceLevel;
+	}
+
+	public void setComplianceLevel(int complianceLevel) {
+		this.complianceLevel = complianceLevel;
+	}
+
 	@Override
 	public String toString() {
 		return "FlacocoConfig{" +
@@ -288,6 +298,7 @@ public class FlacocoConfig {
 				", testRunnerJVMArgs='" + testRunnerJVMArgs + '\'' +
 				", threshold=" + threshold +
 				", includeZero=" + includeZeros +
+				", complianceLevel=" + complianceLevel +
 				", jUnit4Tests='" + jUnit4Tests + '\'' +
 				", jUnit5Tests='" + jUnit5Tests + '\'' +
 				", family=" + family +

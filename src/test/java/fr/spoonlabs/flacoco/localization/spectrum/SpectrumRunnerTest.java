@@ -455,4 +455,33 @@ public class SpectrumRunnerTest {
 		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0.01);
 	}
 
+	@Test
+	public void testExampleFL12Ochiai() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath(new File("./examples/exampleFL12Compliance4/FLtest1").getAbsolutePath());
+		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+		config.setComplianceLevel(4);
+
+		SpectrumRunner runner = new SpectrumRunner();
+
+		Map<String, Suspiciousness> susp = runner.run();
+
+		for (String line : susp.keySet()) {
+			System.out.println("susp " + line + " " + susp.get(line));
+		}
+
+		assertEquals(4, susp.size());
+
+		// Line executed only by the failing
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/enum/Calculator@-@15").getScore(), 0);
+
+		// Line executed by a mix of failing and passing
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/enum/Calculator@-@14").getScore(), 0.01);
+		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/enum/Calculator@-@12").getScore(), 0.01);
+
+		// Lines executed by all test
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/enum/Calculator@-@10").getScore(), 0);
+	}
+
 }
