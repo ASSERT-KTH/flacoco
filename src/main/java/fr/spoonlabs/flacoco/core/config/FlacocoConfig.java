@@ -36,7 +36,7 @@ public class FlacocoConfig {
 	private int testRunnerTimeoutInMs;
 	private String testRunnerJVMArgs;
 	private double threshold;
-	private boolean includeZero;
+	private boolean includeZeros;
 
 	private List<String> jUnit4Tests;
 	private List<String> jUnit5Tests;
@@ -72,7 +72,7 @@ public class FlacocoConfig {
 		this.testRunnerTimeoutInMs = 1000000;
 		this.testRunnerJVMArgs = null;
 		this.threshold = 0.0;
-		this.includeZero = false;
+		this.includeZeros = false;
 
 		this.jUnit4Tests = new ArrayList<>();
 		this.jUnit5Tests = new ArrayList<>();
@@ -261,12 +261,12 @@ public class FlacocoConfig {
 		this.threshold = threshold;
 	}
 
-	public boolean isIncludeZero() {
-		return includeZero;
+	public boolean isIncludeZeros() {
+		return includeZeros;
 	}
 
-	public void setIncludeZero(boolean includeZero) {
-		this.includeZero = includeZero;
+	public void setIncludeZeros(boolean includeZeros) {
+		this.includeZeros = includeZeros;
 	}
 
 	@Override
@@ -287,7 +287,7 @@ public class FlacocoConfig {
 				", testRunnerTimeoutInMs=" + testRunnerTimeoutInMs +
 				", testRunnerJVMArgs='" + testRunnerJVMArgs + '\'' +
 				", threshold=" + threshold +
-				", includeZero=" + includeZero +
+				", includeZero=" + includeZeros +
 				", jUnit4Tests='" + jUnit4Tests + '\'' +
 				", jUnit5Tests='" + jUnit5Tests + '\'' +
 				", family=" + family +

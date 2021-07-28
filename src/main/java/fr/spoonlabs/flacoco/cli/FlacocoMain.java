@@ -176,7 +176,7 @@ public class FlacocoMain implements Callable<Integer> {
 		if (this.testRunnerJVMArgs != null && !this.testRunnerJVMArgs.trim().isEmpty())
 			config.setTestRunnerJVMArgs(testRunnerJVMArgs);
 		config.setThreshold(threshold);
-		config.setIncludeZero(includeZeros);
+		config.setIncludeZeros(includeZeros);
 
 		config.setjUnit4Tests(this.tests.jUnit4Tests);
 		config.setjUnit5Tests(this.tests.jUnit5Tests);

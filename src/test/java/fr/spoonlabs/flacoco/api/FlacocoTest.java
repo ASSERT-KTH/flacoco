@@ -105,7 +105,7 @@ public class FlacocoTest {
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 		config.setThreshold(0.0);
-		config.setIncludeZero(true);
+		config.setIncludeZeros(true);
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 

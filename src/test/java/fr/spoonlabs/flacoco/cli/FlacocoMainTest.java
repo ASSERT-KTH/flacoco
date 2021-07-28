@@ -107,7 +107,7 @@ public class FlacocoMainTest {
 				"--testRunnerTimeoutInMs", "10000",
 				"--testRunnerJVMArgs", "-Xms16M",
 				"-v",
-				"--includeZero"
+				"--includeZeros"
 		});
 	}
 
