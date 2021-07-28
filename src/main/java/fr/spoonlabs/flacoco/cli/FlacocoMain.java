@@ -72,8 +72,11 @@ public class FlacocoMain implements Callable<Integer> {
 	@Option(names = {"--testRunnerJVMArgs"}, description = "JVM args for test-runner's test execution VMs.")
 	String testRunnerJVMArgs = null;
 
-	@Option(names = {"--threshold"}, description = "Threshold for suspiciousness score. Flacoco will only return suspicious results with score > threshold.", defaultValue = "0.0")
+	@Option(names = {"--threshold"}, description = "Threshold for suspiciousness score. Flacoco will only return suspicious results with score >= threshold. Results with a score of 0 are only included if the -includeZeros flag is set.", defaultValue = "0.0")
 	double threshold = 0.0;
+
+	@Option(names = {"--includeZeros"}, description = "Flag for including lines with a suspiciousness sore of 0.", defaultValue = "false")
+	boolean includeZeros = false;
 
 	@Option(names = {"-o", "--output"},
 			description = "Path to the output file. If no path is provided but the flag is, the result will be stored in flacoco_result.{extension}",
@@ -173,6 +176,7 @@ public class FlacocoMain implements Callable<Integer> {
 		if (this.testRunnerJVMArgs != null && !this.testRunnerJVMArgs.trim().isEmpty())
 			config.setTestRunnerJVMArgs(testRunnerJVMArgs);
 		config.setThreshold(threshold);
+		config.setIncludeZero(includeZeros);
 
 		config.setjUnit4Tests(this.tests.jUnit4Tests);
 		config.setjUnit5Tests(this.tests.jUnit5Tests);

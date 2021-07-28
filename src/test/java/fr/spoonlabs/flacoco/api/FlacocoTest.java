@@ -74,7 +74,7 @@ public class FlacocoTest {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
-		config.setThreshold(0.5);
+		config.setThreshold(0.51);
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
@@ -88,7 +88,7 @@ public class FlacocoTest {
 			System.out.println("" + line + " " + susp.get(line));
 		}
 
-		// no lines below or equal to 0.5 in suspiciousness are returned
+		// no lines below to 0.51 in suspiciousness are returned
 		assertEquals(3, susp.size());
 
 		// Line executed only by the failing
@@ -97,6 +97,46 @@ public class FlacocoTest {
 		// Line executed by a mix of failing and passing
 		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
 		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+	}
+
+	@Test
+	public void testExampleFL1SpectrumBasedOchiaiDefaultModeIncludeZero() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
+		config.setThreshold(0.0);
+		config.setIncludeZero(true);
+		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
+		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+
+		// Run Flacoco
+		Flacoco flacoco = new Flacoco();
+
+		// Run default mode
+		Map<String, Suspiciousness> susp = flacoco.runDefault();
+
+		for (String line : susp.keySet()) {
+			System.out.println("" + line + " " + susp.get(line));
+		}
+
+		// all lines are returned
+		assertEquals(8, susp.size());
+
+		// Line executed only by the failing
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+
+		// Line executed by a mix of failing and passing
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
+		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+
+		// Lines executed by all test
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+
+		// Lines with no failing test executing them have a 0.0 score
+		assertEquals(0.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@11").getScore(), 0);
+		assertEquals(0.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@13").getScore(), 0);
+		assertEquals(0.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@16").getScore(), 0);
+		assertEquals(0.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@17").getScore(), 0);
 	}
 
 	@Test
