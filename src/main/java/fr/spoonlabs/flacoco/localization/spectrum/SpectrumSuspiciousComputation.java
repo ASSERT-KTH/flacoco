@@ -64,7 +64,7 @@ public class SpectrumSuspiciousComputation {
 
 		// Filter according to threshold, sort by suspicious and return
 		return result.entrySet().stream()
-				.filter(x -> x.getValue().getScore() > config.getThreshold())
+				.filter(x -> x.getValue().getScore() >= config.getThreshold() && (x.getValue().getScore() > 0.0 || config.isIncludeZeros()))
 				.sorted(Map.Entry.<String, Suspiciousness>comparingByValue().reversed())
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 
