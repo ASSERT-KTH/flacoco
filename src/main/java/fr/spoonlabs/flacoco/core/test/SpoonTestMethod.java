@@ -15,11 +15,17 @@ public class SpoonTestMethod implements TestMethod {
 
 	private CtType<?> testClassModel;
 
+	private String fullyQualifiedClassName;
+
 	private CtMethod<?> testMethodModel;
+
+	private String fullyQualifiedMethodName;
 
 	public SpoonTestMethod(CtType<?> testClassModel, CtMethod<?> testMethodModel) {
 		this.testClassModel = testClassModel;
 		this.testMethodModel = testMethodModel;
+		this.fullyQualifiedClassName = testClassModel.getQualifiedName();
+		this.fullyQualifiedMethodName = fullyQualifiedClassName + "#" + testMethodModel.getSimpleName();
 	}
 
 	public CtType<?> getTestClassModel() {
@@ -31,11 +37,11 @@ public class SpoonTestMethod implements TestMethod {
 	}
 
 	public String getFullyQualifiedClassName() {
-		return testClassModel.getQualifiedName();
+		return fullyQualifiedClassName;
 	}
 
 	public String getFullyQualifiedMethodName() {
-		return testClassModel.getQualifiedName() + "#" + testMethodModel.getSimpleName();
+		return fullyQualifiedMethodName;
 	}
 
 	@Override
