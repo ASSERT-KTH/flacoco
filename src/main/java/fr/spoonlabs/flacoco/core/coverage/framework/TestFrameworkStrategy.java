@@ -41,9 +41,9 @@ public abstract class TestFrameworkStrategy {
 	 */
 	protected String computeClasspath() {
 		String classpath = this.config.getClasspath() + File.pathSeparatorChar +
-				this.config.getBinJavaDir().stream().reduce((x, y) -> x + File.pathSeparatorChar + y) +
+				this.config.getBinJavaDir().stream().reduce((x, y) -> x + File.pathSeparatorChar + y).orElse("") +
 				File.pathSeparatorChar +
-				this.config.getBinTestDir().stream().reduce((x, y) -> x + File.pathSeparatorChar + y);
+				this.config.getBinTestDir().stream().reduce((x, y) -> x + File.pathSeparatorChar + y).orElse("");
 		String mavenHome = this.config.getMavenHome();
 		String junitClasspath;
 		String jacocoClassPath;
@@ -59,7 +59,7 @@ public abstract class TestFrameworkStrategy {
 				+ mavenHome + "org/junit/platform/junit-platform-engine/1.3.2/junit-platform-engine-1.3.2.jar" + File.pathSeparatorChar
 				+ mavenHome + "org/junit/platform/junit-platform-launcher/1.3.2/junit-platform-launcher-1.3.2.jar";
 
-		jacocoClassPath = mavenHome + "org/jacoco/org.jacoco.core/0.8.3/org.jacoco.core-0.8.3.jar";
+		jacocoClassPath = mavenHome + "org/jacoco/org.jacoco.core/0.8.7/org.jacoco.core-0.8.7.jar";
 
 		// Add JUnit dependencies
 		if (this.config.getCustomJUnitClasspath() != null)
