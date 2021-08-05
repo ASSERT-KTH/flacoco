@@ -33,13 +33,7 @@ public class CoverageFromSingleTestUnit {
 	public CoverageFromSingleTestUnit(TestMethod testMethod, CoveredTestResultPerTestMethod result) {
 		this.testMethod = testMethod;
 		this.coveredTestResultPerTestMethod = result;
-
-		this.isPassing = result.getPassingTests().contains(testMethod.getFullyQualifiedMethodName())
-				&& result.getFailingTests().stream().map(x -> x.testClassName + "#" + x.testCaseName)
-				.noneMatch(x -> x.equals(testMethod.getFullyQualifiedMethodName()))
-				&& result.getAssumptionFailingTests().stream().map(x -> x.testClassName + "#" + x.testCaseName)
-				.noneMatch(x -> x.equals(testMethod.getFullyQualifiedMethodName()));
-
+		this.isPassing = result.getPassingTests().contains(testMethod.getFullyQualifiedMethodName());
 		this.isSkip = result.getIgnoredTests().contains(testMethod.getFullyQualifiedMethodName());
 	}
 
