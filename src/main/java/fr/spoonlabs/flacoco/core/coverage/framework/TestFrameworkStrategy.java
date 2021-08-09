@@ -59,7 +59,7 @@ public abstract class TestFrameworkStrategy {
 				+ mavenHome + "org/junit/platform/junit-platform-engine/1.3.2/junit-platform-engine-1.3.2.jar" + File.pathSeparatorChar
 				+ mavenHome + "org/junit/platform/junit-platform-launcher/1.3.2/junit-platform-launcher-1.3.2.jar";
 
-		jacocoClassPath = mavenHome + "org/jacoco/org.jacoco.core/0.8.7/org.jacoco.core-0.8.7.jar";
+		jacocoClassPath = mavenHome + "org/jacoco/org.jacoco.core/0.8.8-SNAPSHOT/org.jacoco.core-0.8.8-SNAPSHOT.jar";
 
 		// Add JUnit dependencies
 		if (this.config.getCustomJUnitClasspath() != null)
