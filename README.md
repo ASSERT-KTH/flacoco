@@ -25,22 +25,7 @@ $ mvn install
 
 ## Documentation
 
-flacoco is currently available through it's [API](src/main/java/fr/spoonlabs/flacoco/api/Flacoco.java) and configurable through [FlacocoConfig](src/main/java/fr/spoonlabs/flacoco/core/config/FlacocoConfig.java).
-
-Example usage:
-```java
-Flacoco flacoco = new Flacoco();
-FlacocoConfig config = FlacocoConfig.getInstance();
-
-config.setProjectPath("./examples/exampleFL1/FLtest1");
-config.setClasspath(classpath);
-config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-config.setSpectrumFormula(SpectrumFormula.OCHIAI);
-
-Map<String, Suspiciousness> susp = flacoco.runDefault();
-```
-
-A more extensive listing of configurable options, as well as detailed explanation of flacoco use-cases, features and limitation is available and under active development in https://github.com/SpoonLabs/flacoco/wiki.
+The documentation lives in the Github wiki at <https://github.com/SpoonLabs/flacoco/wiki>
 
 ## Contributing
 
