@@ -10,7 +10,12 @@ mvn clean test -DskipTests -Dmaven.compiler.source=$SRC_VERSION -Dmaven.compiler
 mvn clean test -DskipTests -Dmaven.compiler.source=$SRC_VERSION -Dmaven.compiler.target=$SRC_VERSION -B -f examples/exampleFL6Mixed/FLtest1/
 mvn clean test -DskipTests -Dmaven.compiler.source=$SRC_VERSION -Dmaven.compiler.target=$SRC_VERSION -B -f examples/exampleFL7SameNamedMethods/FLtest1/
 mvn clean test -DskipTests -Dmaven.compiler.source=$SRC_VERSION -Dmaven.compiler.target=$SRC_VERSION -B -f examples/exampleFL11/FLtest1/
-mvn clean test -DskipTests -Dmaven.compiler.source=1.4 -Dmaven.compiler.target=$SRC_VERSION -B -f examples/exampleFL12Compliance4/FLtest1/
+
+# We only execute this example test if the java version is lower than 11, since the compliance level 1.4 was dropped in 11
+JAVA_MAJOR_VERSION=$(java -version 2>&1 | head -1 | cut -d'"' -f2 | sed 's/^1\.//' | cut -d'.' -f1)
+if [ $JAVA_MAJOR_VERSION -lt "11" ]; then
+    mvn clean test -DskipTests -Dmaven.compiler.source=1.4 -Dmaven.compiler.target=1.4 -B -f examples/exampleFL12Compliance4/FLtest1/
+fi
 
 # Copy compiled classes to non-maven mirror projects
 rm -r examples/exampleFL8NotMaven/bin/

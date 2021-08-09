@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 
+import static fr.spoonlabs.flacoco.TestUtils.isLessThanJava11;
 import static org.junit.Assert.assertEquals;
 
 public class SpectrumRunnerTest {
@@ -457,6 +458,10 @@ public class SpectrumRunnerTest {
 
 	@Test
 	public void testExampleFL12Ochiai() {
+		// We can only run this test on java version less than 11
+		// since java 11 dropped support for compliance level 1.4
+		Assume.assumeTrue(isLessThanJava11());
+
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		config.setProjectPath(new File("./examples/exampleFL12Compliance4/FLtest1").getAbsolutePath());
