@@ -40,10 +40,7 @@ public abstract class TestFrameworkStrategy {
 	 * @return Classpath for test-runner execution
 	 */
 	protected String computeClasspath() {
-		String classpath = this.config.getClasspath() + File.pathSeparatorChar +
-				this.config.getBinJavaDir().stream().reduce((x, y) -> x + File.pathSeparatorChar + y).orElse("") +
-				File.pathSeparatorChar +
-				this.config.getBinTestDir().stream().reduce((x, y) -> x + File.pathSeparatorChar + y).orElse("");
+		String classpath = this.config.getClasspath();
 		String mavenHome = this.config.getMavenHome();
 		String junitClasspath;
 		String jacocoClassPath;
@@ -68,8 +65,9 @@ public abstract class TestFrameworkStrategy {
 		if (this.config.getCustomJacocoClasspath() != null)
 			jacocoClassPath = this.config.getCustomJacocoClasspath();
 
-		return junitClasspath + File.pathSeparatorChar + jacocoClassPath + File.pathSeparatorChar +
-				classpath + File.pathSeparatorChar;
+		return junitClasspath + File.pathSeparatorChar
+				+ jacocoClassPath + File.pathSeparatorChar
+				+ classpath + File.pathSeparatorChar;
 	}
 
 }

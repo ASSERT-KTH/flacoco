@@ -29,6 +29,8 @@ public class CoverageRunner {
 		CoverageMatrix matrixExecutionResult = new CoverageMatrix();
 
 		// For each test context
+		int executedTests = 0;
+		int testsFound = 0;
 		for (TestContext testContext : testContexts) {
 			this.logger.debug("Running " + testContext);
 
@@ -40,8 +42,11 @@ public class CoverageRunner {
 
 				// Process each method individually
 				for (TestMethod testMethod : testContext.getTestMethods()) {
+					testsFound++;
+
 					if (result.getCoverageResultsMap().containsKey(testMethod.getFullyQualifiedMethodName())) {
 						matrixExecutionResult.processSingleTest(new CoverageFromSingleTestUnit(testMethod, result));
+						executedTests++;
 					} else {
 						this.logger.warn("Test " + testMethod + " result was not reported by test-runner.");
 					}
@@ -51,6 +56,8 @@ public class CoverageRunner {
 			}
 		}
 
+		this.logger.info("Tests found: " + testsFound);
+		this.logger.info("Tests executed: " + executedTests);
 		return matrixExecutionResult;
 	}
 
