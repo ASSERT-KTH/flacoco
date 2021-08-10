@@ -4,15 +4,13 @@ import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.localization.spectrum.SpectrumFormula;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.util.Map;
 
+import static fr.spoonlabs.flacoco.TestUtils.getJavaVersion;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -39,6 +37,9 @@ public class Math70Test {
 
     @Test
     public void testMath70() {
+        // Run only on Java8
+        Assume.assumeTrue(getJavaVersion() == 8);
+
         // Setup config
         FlacocoConfig config = FlacocoConfig.getInstance();
         config.setProjectPath(new File("./examples/math_70").getAbsolutePath());
