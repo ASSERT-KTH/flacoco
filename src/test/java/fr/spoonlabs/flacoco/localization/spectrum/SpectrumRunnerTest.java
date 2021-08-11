@@ -48,7 +48,7 @@ public class SpectrumRunnerTest {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(4, susp.size());
+		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
@@ -59,6 +59,8 @@ public class SpectrumRunnerTest {
 
 		// Lines executed by all test
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0);
 	}
 
 	@Test
@@ -76,11 +78,11 @@ public class SpectrumRunnerTest {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(6, susp.size());
+		assertEquals(8, susp.keySet().size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@21").getScore(), 0);
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@22").getScore(), 0);
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@22").getScore(), 0); // exception thrown here
 
 		// Line executed by a mix of failing and passing
 		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@18").getScore(), 0.01);
@@ -89,6 +91,8 @@ public class SpectrumRunnerTest {
 
 		// Lines executed by all test
 		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0.01);
+		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0.01);
 	}
 
 	@Test
@@ -106,7 +110,7 @@ public class SpectrumRunnerTest {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(5, susp.size());
+		assertEquals(7, susp.keySet().size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@21").getScore(), 0);
@@ -118,6 +122,8 @@ public class SpectrumRunnerTest {
 
 		// Lines executed by all test
 		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0.01);
+		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0.01);
 	}
 
 	@Test
@@ -137,7 +143,7 @@ public class SpectrumRunnerTest {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(6, susp.size());
+		assertEquals(8, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
@@ -150,6 +156,8 @@ public class SpectrumRunnerTest {
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9").getScore(), 0);
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7").getScore(), 0);
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0);
 	}
 
 	@Test
@@ -347,7 +355,7 @@ public class SpectrumRunnerTest {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(4, susp.size());
+		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
@@ -358,6 +366,8 @@ public class SpectrumRunnerTest {
 
 		// Lines executed by all test
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0);
 	}
 
 	@Test
@@ -379,7 +389,7 @@ public class SpectrumRunnerTest {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(4, susp.size());
+		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
@@ -390,6 +400,8 @@ public class SpectrumRunnerTest {
 
 		// Lines executed by all test
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0);
 	}
 
 	@Test
@@ -411,7 +423,7 @@ public class SpectrumRunnerTest {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(4, susp.size());
+		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
@@ -422,6 +434,8 @@ public class SpectrumRunnerTest {
 
 		// Lines executed by all test
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0);
 	}
 
 	@Test
@@ -439,7 +453,7 @@ public class SpectrumRunnerTest {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(6, susp.size());
+		assertEquals(8, susp.size());
 
 		// Line executed by all failing test cases
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.0);
@@ -454,6 +468,8 @@ public class SpectrumRunnerTest {
 
 		// Line executed by all tests (2 passing, 2 failing)
 		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0.01);
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0.01);
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0.01);
 	}
 
 	@Test

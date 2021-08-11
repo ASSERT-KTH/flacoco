@@ -57,7 +57,7 @@ public class FlacocoTest {
 			System.out.println("" + line + " " + susp.get(line));
 		}
 
-		assertEquals(4, susp.size());
+		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
@@ -68,6 +68,8 @@ public class FlacocoTest {
 
 		// Lines executed by all test
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0);
 	}
 
 	@Test
@@ -121,7 +123,7 @@ public class FlacocoTest {
 		}
 
 		// all lines are returned
-		assertEquals(8, susp.size());
+		assertEquals(10, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
@@ -132,6 +134,8 @@ public class FlacocoTest {
 
 		// Lines executed by all test
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0);
 
 		// Lines with no failing test executing them have a 0.0 score
 		assertEquals(0.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@11").getScore(), 0);
@@ -165,7 +169,7 @@ public class FlacocoTest {
 			System.out.println("" + line + " " + susp.get(line));
 		}
 
-		assertEquals(4, susp.size());
+		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
@@ -173,6 +177,8 @@ public class FlacocoTest {
 		// Line executed by a mix of failing and passing
 		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
 		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0);
 
 		// Lines executed by all test
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
@@ -200,7 +206,7 @@ public class FlacocoTest {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(6, susp.keySet().size());
+		assertEquals(8, susp.keySet().size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@21").getScore(), 0);
@@ -213,6 +219,8 @@ public class FlacocoTest {
 
 		// Lines executed by all test
 		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0.01);
+		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0.01);
 	}
 
 	@Test
@@ -233,7 +241,7 @@ public class FlacocoTest {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(5, susp.keySet().size());
+		assertEquals(7, susp.keySet().size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@21").getScore(), 0);
@@ -245,6 +253,8 @@ public class FlacocoTest {
 
 		// Lines executed by all test
 		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0.01);
+		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0.01);
 	}
 
 	@Test
@@ -267,7 +277,7 @@ public class FlacocoTest {
 			System.out.println("" + line + " " + susp.get(line));
 		}
 
-		assertEquals(6, susp.size());
+		assertEquals(8, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
@@ -280,6 +290,8 @@ public class FlacocoTest {
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9").getScore(), 0);
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7").getScore(), 0);
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0);
 	}
 
 	@Test
@@ -296,7 +308,8 @@ public class FlacocoTest {
 		// Run default mode
 		Map<CtStatement, Suspiciousness> susp = flacoco.runSpoon();
 
-		assertEquals(4, susp.size());
+		// The two lines of the (empty) constructor get mapped to the same CtStatement
+		assertEquals(5, susp.size());
 
 		for (CtStatement ctStatement : susp.keySet()) {
 			System.out.println("" + ctStatement + " " + susp.get(ctStatement));
@@ -317,6 +330,7 @@ public class FlacocoTest {
 					break;
 				// Lines executed by all test
 				case 10:
+				case 5:
 					assertEquals(0.5, susp.get(ctStatement).getScore(), 0);
 					break;
 			}
@@ -741,7 +755,7 @@ public class FlacocoTest {
 			System.out.println("" + line + " " + susp.get(line));
 		}
 
-		assertEquals(4, susp.size());
+		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
@@ -752,6 +766,8 @@ public class FlacocoTest {
 
 		// Lines executed by all test
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0);
 	}
 
 	@Test
@@ -777,7 +793,7 @@ public class FlacocoTest {
 			System.out.println("" + line + " " + susp.get(line));
 		}
 
-		assertEquals(4, susp.size());
+		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
@@ -788,6 +804,8 @@ public class FlacocoTest {
 
 		// Lines executed by all test
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0);
 	}
 
 	@Test
@@ -814,7 +832,7 @@ public class FlacocoTest {
 			System.out.println("" + line + " " + susp.get(line));
 		}
 
-		assertEquals(6, susp.size());
+		assertEquals(8, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
@@ -827,6 +845,8 @@ public class FlacocoTest {
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9").getScore(), 0);
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7").getScore(), 0);
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0);
 	}
 
 	@Test
@@ -847,7 +867,8 @@ public class FlacocoTest {
 		// Run default mode
 		Map<CtStatement, Suspiciousness> susp = flacoco.runSpoon();
 
-		assertEquals(4, susp.size());
+		// The two lines of the (empty) constructor get mapped to the same CtStatement
+		assertEquals(5, susp.size());
 
 		for (CtStatement ctStatement : susp.keySet()) {
 			System.out.println("" + ctStatement + " " + susp.get(ctStatement));
@@ -868,6 +889,7 @@ public class FlacocoTest {
 					break;
 				// Lines executed by all test
 				case 10:
+				case 5:
 					assertEquals(0.5, susp.get(ctStatement).getScore(), 0);
 					break;
 			}
@@ -896,7 +918,7 @@ public class FlacocoTest {
 			System.out.println("" + line + " " + susp.get(line));
 		}
 
-		assertEquals(4, susp.size());
+		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
@@ -907,6 +929,8 @@ public class FlacocoTest {
 
 		// Lines executed by all test
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0);
+		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0);
 	}
 
 	@Test
@@ -927,7 +951,8 @@ public class FlacocoTest {
 		// Run default mode
 		Map<CtStatement, Suspiciousness> susp = flacoco.runSpoon();
 
-		assertEquals(4, susp.size());
+		// The two lines of the (empty) constructor get mapped to the same CtStatement
+		assertEquals(5, susp.size());
 
 		for (CtStatement ctStatement : susp.keySet()) {
 			System.out.println("" + ctStatement + " " + susp.get(ctStatement));
@@ -948,6 +973,7 @@ public class FlacocoTest {
 					break;
 				// Lines executed by all test
 				case 10:
+				case 5:
 					assertEquals(0.5, susp.get(ctStatement).getScore(), 0);
 					break;
 			}
@@ -972,7 +998,7 @@ public class FlacocoTest {
 			System.out.println("" + line + " " + susp.get(line));
 		}
 
-		assertEquals(6, susp.size());
+		assertEquals(8, susp.size());
 
 		// Line executed by all failing test cases
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.0);
@@ -987,6 +1013,8 @@ public class FlacocoTest {
 
 		// Line executed by all tests (2 passing, 2 failing)
 		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0.01);
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0.01);
+		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0.01);
 	}
 
 	/**

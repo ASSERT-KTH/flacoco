@@ -45,7 +45,7 @@ public abstract class TestFrameworkStrategy {
 		String junitClasspath;
 		String jacocoClassPath;
 
-		junitClasspath = mavenHome + "junit/junit/4.12/junit-4.12.jar" + File.pathSeparatorChar
+		junitClasspath = mavenHome + "junit/junit/4.13.2/junit-4.13.2.jar" + File.pathSeparatorChar
 				+ mavenHome + "org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar" + File.pathSeparatorChar
 				+ mavenHome + "org/junit/jupiter/junit-jupiter-api/5.3.2/junit-jupiter-api-5.3.2.jar" + File.pathSeparatorChar
 				+ mavenHome + "org/apiguardian/apiguardian-api/1.0.0/apiguardian-api-1.0.0.jar" + File.pathSeparatorChar
