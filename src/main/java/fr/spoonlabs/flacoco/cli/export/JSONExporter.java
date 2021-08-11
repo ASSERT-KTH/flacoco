@@ -1,7 +1,7 @@
 package fr.spoonlabs.flacoco.cli.export;
 
-import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import fr.spoonlabs.flacoco.api.Suspiciousness;
 
 import java.io.IOException;
