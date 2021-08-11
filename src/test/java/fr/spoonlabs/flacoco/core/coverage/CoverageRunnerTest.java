@@ -58,8 +58,8 @@ public class CoverageRunnerTest {
 		assertEquals(4, matrix.getTests().size());
 		assertEquals(1, matrix.getFailingTestCases().size());
 
-		// 8 executed lines
-		assertEquals(8, matrix.getResultExecution().keySet().size());
+		// 10 executed lines
+		assertEquals(10, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
 		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
@@ -159,8 +159,8 @@ public class CoverageRunnerTest {
 		assertEquals(1, matrix.getFailingTestCases().size());
 		assertEquals(5, matrix.getTests().size());
 
-		// 10 executed lines
-		assertEquals(10, matrix.getResultExecution().keySet().size());
+		// 12 executed lines
+		assertEquals(12, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
 		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@12");
@@ -196,8 +196,8 @@ public class CoverageRunnerTest {
 		assertEquals(1, matrix.getFailingTestCases().size());
 		assertEquals(5, matrix.getTests().size());
 
-		// 9 executed lines
-		assertEquals(9, matrix.getResultExecution().keySet().size());
+		// 11 executed lines
+		assertEquals(11, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
 		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@12");
@@ -466,8 +466,8 @@ public class CoverageRunnerTest {
 		assertEquals(4, matrix.getTests().size());
 		assertEquals(1, matrix.getFailingTestCases().size());
 
-		// 8 executed lines
-		assertEquals(8, matrix.getResultExecution().keySet().size());
+		// 10 executed lines
+		assertEquals(10, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
 		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
@@ -583,8 +583,8 @@ public class CoverageRunnerTest {
 		assertEquals(4, matrix.getTests().size());
 		assertEquals(1, matrix.getFailingTestCases().size());
 
-		// 8 executed lines
-		assertEquals(8, matrix.getResultExecution().keySet().size());
+		// 10 executed lines
+		assertEquals(10, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
 		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
@@ -680,8 +680,8 @@ public class CoverageRunnerTest {
 		assertEquals(8, matrix.getTests().size());
 		assertEquals(2, matrix.getFailingTestCases().size());
 
-		// 8 executed lines
-		assertEquals(8, matrix.getResultExecution().keySet().size());
+		// 10 executed lines
+		assertEquals(10, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
 		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
@@ -782,8 +782,8 @@ public class CoverageRunnerTest {
 		assertEquals(4, matrix.getTests().size());
 		assertEquals(1, matrix.getFailingTestCases().size());
 
-		// 8 executed lines
-		assertEquals(8, matrix.getResultExecution().keySet().size());
+		// 10 executed lines
+		assertEquals(10, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
 		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
@@ -883,8 +883,8 @@ public class CoverageRunnerTest {
 		assertEquals(8, matrix.getTests().size());
 		assertEquals(2, matrix.getFailingTestCases().size());
 
-		// 8 executed lines
-		assertEquals(8, matrix.getResultExecution().keySet().size());
+		// 10 executed lines
+		assertEquals(10, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
 		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
@@ -980,8 +980,8 @@ public class CoverageRunnerTest {
 		assertEquals(4, matrix.getTests().size());
 		assertEquals(2, matrix.getFailingTestCases().size());
 
-		// 8 executed lines
-		assertEquals(8, matrix.getResultExecution().keySet().size());
+		// 10 executed lines
+		assertEquals(10, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
 		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
