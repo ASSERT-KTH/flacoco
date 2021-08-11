@@ -46,15 +46,15 @@ public abstract class TestFrameworkStrategy {
 		String jacocoClassPath;
 
 		junitClasspath = mavenHome + "junit/junit/4.13.2/junit-4.13.2.jar" + File.pathSeparatorChar
-				+ mavenHome + "org/junit/platform/junit-platform-commons/1.7.2/junit-platform-commons-1.7.2.jar" + File.pathSeparatorChar
-				+ mavenHome + "org/junit/jupiter/junit-jupiter-api/5.7.2/junit-jupiter-api-5.7.2.jar" + File.pathSeparatorChar
-				+ mavenHome + "org/junit/jupiter/junit-jupiter-engine/5.7.2/junit-jupiter-engine-5.7.2.jar" + File.pathSeparatorChar
-				+ mavenHome + "org/junit/jupiter/junit-jupiter-params/5.7.2/junit-jupiter-params-5.7.2.jar" + File.pathSeparatorChar
-				+ mavenHome + "org/junit/platform/junit-platform-engine/1.7.2/junit-platform-engine-1.7.2.jar" + File.pathSeparatorChar
-				+ mavenHome + "org/junit/platform/junit-platform-launcher/1.7.2/junit-platform-launcher-1.7.2.jar" + File.pathSeparatorChar
 				+ mavenHome + "org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar" + File.pathSeparatorChar
+				+ mavenHome + "org/junit/jupiter/junit-jupiter-api/5.3.2/junit-jupiter-api-5.3.2.jar" + File.pathSeparatorChar
 				+ mavenHome + "org/apiguardian/apiguardian-api/1.0.0/apiguardian-api-1.0.0.jar" + File.pathSeparatorChar
-				+ mavenHome + "org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar";
+				+ mavenHome + "org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar" + File.pathSeparatorChar
+				+ mavenHome + "org/junit/platform/junit-platform-commons/1.3.2/junit-platform-commons-1.3.2.jar" + File.pathSeparatorChar
+				+ mavenHome + "org/junit/jupiter/junit-jupiter-engine/5.3.2/junit-jupiter-engine-5.3.2.jar" + File.pathSeparatorChar
+				+ mavenHome + "org/junit/jupiter/junit-jupiter-params/5.3.2/junit-jupiter-params-5.3.2.jar" + File.pathSeparatorChar
+				+ mavenHome + "org/junit/platform/junit-platform-engine/1.3.2/junit-platform-engine-1.3.2.jar" + File.pathSeparatorChar
+				+ mavenHome + "org/junit/platform/junit-platform-launcher/1.3.2/junit-platform-launcher-1.3.2.jar";
 
 		jacocoClassPath = mavenHome + "org/jacoco/org.jacoco.core/0.8.7/org.jacoco.core-0.8.7.jar";
 
