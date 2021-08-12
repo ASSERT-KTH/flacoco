@@ -13,9 +13,7 @@ import java.util.concurrent.TimeoutException;
 
 public abstract class TestFrameworkStrategy {
 
-	private Logger logger = Logger.getLogger(TestFrameworkStrategy.class);
-	private FlacocoConfig config = FlacocoConfig.getInstance();
-
+	private static final Logger logger = Logger.getLogger(TestFrameworkStrategy.class);
 
 	public abstract CoveredTestResultPerTestMethod execute(TestContext testContext) throws TimeoutException;
 
@@ -23,13 +21,14 @@ public abstract class TestFrameworkStrategy {
 	 * Auxiliary method to setup test-runners default options
 	 */
 	protected void setupTestRunnerEntryPoint() {
+		FlacocoConfig config = FlacocoConfig.getInstance();
 		EntryPoint.coverageDetail = ParserOptions.CoverageTransformerDetail.DETAIL_COMPRESSED;
-		EntryPoint.workingDirectory = new File(this.config.getWorkspace());
-		EntryPoint.verbose = this.config.isTestRunnerVerbose();
-		EntryPoint.timeoutInMs = this.config.getTestRunnerTimeoutInMs();
-		EntryPoint.JVMArgs = this.config.getTestRunnerJVMArgs();
+		EntryPoint.workingDirectory = new File(config.getWorkspace());
+		EntryPoint.verbose = config.isTestRunnerVerbose();
+		EntryPoint.timeoutInMs = config.getTestRunnerTimeoutInMs();
+		EntryPoint.JVMArgs = config.getTestRunnerJVMArgs();
 		EntryPoint.jUnit5Mode = false;
-		if (this.config.isCoverTests()) {
+		if (config.isCoverTests()) {
 			throw new UnsupportedOperationException();
 		}
 	}
@@ -40,8 +39,9 @@ public abstract class TestFrameworkStrategy {
 	 * @return Classpath for test-runner execution
 	 */
 	protected String computeClasspath() {
-		String classpath = this.config.getClasspath();
-		String mavenHome = this.config.getMavenHome();
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		String classpath = config.getClasspath();
+		String mavenHome = config.getMavenHome();
 		String junitClasspath;
 		String jacocoClassPath;
 
@@ -59,11 +59,11 @@ public abstract class TestFrameworkStrategy {
 		jacocoClassPath = mavenHome + "org/jacoco/org.jacoco.core/0.8.7/org.jacoco.core-0.8.7.jar";
 
 		// Add JUnit dependencies
-		if (this.config.getCustomJUnitClasspath() != null)
-			junitClasspath = this.config.getCustomJUnitClasspath();
+		if (config.getCustomJUnitClasspath() != null)
+			junitClasspath = config.getCustomJUnitClasspath();
 		// Add jacoco dependencies
-		if (this.config.getCustomJacocoClasspath() != null)
-			jacocoClassPath = this.config.getCustomJacocoClasspath();
+		if (config.getCustomJacocoClasspath() != null)
+			jacocoClassPath = config.getCustomJacocoClasspath();
 
 		return junitClasspath + File.pathSeparatorChar
 				+ jacocoClassPath + File.pathSeparatorChar

@@ -3,7 +3,7 @@ package fr.spoonlabs.flacoco.localization.spectrum;
 import fr.spoonlabs.flacoco.api.Suspiciousness;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.coverage.CoverageMatrix;
-import fr.spoonlabs.flacoco.core.test.TestMethod;
+import fr.spoonlabs.flacoco.core.test.method.TestMethod;
 import fr.spoonlabs.flacoco.localization.spectrum.formulas.Formula;
 import org.apache.log4j.Logger;
 

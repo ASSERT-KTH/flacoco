@@ -2,7 +2,7 @@ package fr.spoonlabs.flacoco.localization.spectrum;
 
 import fr.spoonlabs.flacoco.api.Suspiciousness;
 import fr.spoonlabs.flacoco.core.coverage.CoverageMatrix;
-import fr.spoonlabs.flacoco.core.test.TestMethod;
+import fr.spoonlabs.flacoco.core.test.method.TestMethod;
 import fr.spoonlabs.flacoco.localization.spectrum.formulas.OchiaiFormula;
 import org.junit.BeforeClass;
 import org.junit.Test;

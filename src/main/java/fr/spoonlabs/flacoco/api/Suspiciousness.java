@@ -1,6 +1,6 @@
 package fr.spoonlabs.flacoco.api;
 
-import fr.spoonlabs.flacoco.core.test.TestMethod;
+import fr.spoonlabs.flacoco.core.test.method.TestMethod;
 
 import java.util.List;
 

@@ -3,9 +3,14 @@ package fr.spoonlabs.flacoco.core.test;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.coverage.framework.JUnit4Strategy;
 import fr.spoonlabs.flacoco.core.coverage.framework.JUnit5Strategy;
+import fr.spoonlabs.flacoco.core.test.method.StringTestMethod;
+import fr.spoonlabs.flacoco.core.test.method.TestMethod;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
@@ -83,6 +88,25 @@ public class TestDetectorTest {
 		assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
 	}
 
+	@Test
+	public void testExampleFL1TestRunnerDetector() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
+		config.setTestDetectionStrategy(FlacocoConfig.TestDetectionStrategy.TEST_RUNNER);
+
+		// Find the tests
+		TestDetector testDetector = new TestDetector();
+		List<TestContext> testContexts = testDetector.getTests();
+
+		// Check that there is only one test context
+		assertEquals(1, testContexts.size());
+		// Check that there are 4 test methods in the test context
+		TestContext testContext = testContexts.get(0);
+		assertEquals(4, testContext.getTestMethods().size());
+		// Check that the correct test framework is set
+		assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
+	}
 
 	@Test
 	public void testExampleFL2() {
@@ -382,9 +406,7 @@ public class TestDetectorTest {
 		assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
 	}
 
-	// TODO: Fix this https://github.com/SpoonLabs/flacoco/issues/80
 	@Test
-	@Ignore
 	public void testMath70() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();

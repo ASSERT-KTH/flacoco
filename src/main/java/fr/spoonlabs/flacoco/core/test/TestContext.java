@@ -1,6 +1,7 @@
 package fr.spoonlabs.flacoco.core.test;
 
 import fr.spoonlabs.flacoco.core.coverage.framework.TestFrameworkStrategy;
+import fr.spoonlabs.flacoco.core.test.method.TestMethod;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -4,19 +4,31 @@ import eu.stamp_project.testrunner.EntryPoint;
 import eu.stamp_project.testrunner.listener.CoveredTestResultPerTestMethod;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.test.TestContext;
-import fr.spoonlabs.flacoco.core.test.TestMethod;
+import fr.spoonlabs.flacoco.core.test.method.TestMethod;
 import org.apache.log4j.Logger;
 
 import java.util.concurrent.TimeoutException;
 
 public class JUnit5Strategy extends TestFrameworkStrategy {
 
-	private Logger logger = Logger.getLogger(JUnit5Strategy.class);
-	private FlacocoConfig config = FlacocoConfig.getInstance();
+	private static final Logger logger = Logger.getLogger(JUnit5Strategy.class);
+
+	private static JUnit5Strategy instance;
+
+	private JUnit5Strategy() {
+
+	}
+
+	public static JUnit5Strategy getInstance() {
+		if (instance == null) {
+			instance = new JUnit5Strategy();
+		}
+		return instance;
+	}
 
 	@Override
 	public CoveredTestResultPerTestMethod execute(TestContext testContext) throws TimeoutException {
-		this.logger.debug("Running " + testContext);
+		logger.debug("Running " + testContext);
 		this.setupTestRunnerEntryPoint();
 
 		// test-runner needs a flag for JUnit5 tests
@@ -24,8 +36,8 @@ public class JUnit5Strategy extends TestFrameworkStrategy {
 
 		return EntryPoint.runCoveredTestResultPerTestMethods(
 				this.computeClasspath(),
-				config.getBinJavaDir(),
-				config.getBinTestDir(),
+				FlacocoConfig.getInstance().getBinJavaDir(),
+				FlacocoConfig.getInstance().getBinTestDir(),
 				testContext.getTestMethods().stream().map(TestMethod::getFullyQualifiedClassName).distinct().toArray(String[]::new),
 				new String[0]
 		);

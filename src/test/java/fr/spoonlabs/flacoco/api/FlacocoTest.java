@@ -774,7 +774,7 @@ public class FlacocoTest {
 	public void testExampleFL8SpectrumBasedOchiaiDefaultMode() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath("./examples/exampleFL8NotMaven/");
+		// we don't set --projectpath because it is not needed when we explicit the other 4 dirs
 		config.setSrcJavaDir(Collections.singletonList("./examples/exampleFL8NotMaven/java"));
 		config.setSrcTestDir(Collections.singletonList("./examples/exampleFL8NotMaven/test"));
 		config.setBinJavaDir(Collections.singletonList("./examples/exampleFL8NotMaven/bin/classes"));
