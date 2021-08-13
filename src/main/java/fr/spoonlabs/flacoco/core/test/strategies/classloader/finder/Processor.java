@@ -29,17 +29,10 @@ public class Processor {
     public List<TestMethod> process() {
         List<TestMethod> testMethods = new ArrayList<>();
 
-        for (String fileName : finder.getClasses()) {
-            String className;
-            if (isJavaFile(fileName)) {
-                className = classNameFromJava(fileName);
-            } else if (isClassFile(fileName)) {
-                className = classNameFromFile(fileName);
-            } else continue;
+        for (String className : finder.getClasses()) {
             if (!className.contains("$"))
                 try {
                     Class<?> clazz = Class.forName(className);
-                    Thread.currentThread().getContextClassLoader().loadClass(className);
                     if (clazz.isLocalClass() || clazz.isAnonymousClass()) {
                         continue;
                     }

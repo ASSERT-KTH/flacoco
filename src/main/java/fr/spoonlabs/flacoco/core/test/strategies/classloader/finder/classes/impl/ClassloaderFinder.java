@@ -20,7 +20,7 @@ public class ClassloaderFinder implements ClassFinder {
     public String[] getClasses() {
         List<String> classes = new ArrayList<>();
         for (URL url : urlClassloader.getURLs()) {
-            classes.addAll(SourceFolderFinder.getClassesLoc(new File(url.getPath()), null));
+            classes.addAll(SourceFolderFinder.getClassesLoc(new File(url.getPath())));
         }
         return classes.toArray(new String[0]);
     }
