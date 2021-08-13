@@ -109,6 +109,9 @@ public class FlacocoMain implements Callable<Integer> {
 		String customExporter;
 	}
 
+	@Option(names = {"--testDetectionStrategy"}, description = "Strategy for test detection stage. Defaults to CLASSLOADER. Valid values: ${COMPLETION-CANDIDATES}")
+	FlacocoConfig.TestDetectionStrategy testDetectionStrategy = FlacocoConfig.TestDetectionStrategy.CLASSLOADER;
+
 	@CommandLine.ArgGroup(exclusive = false, multiplicity = "0..1", heading = "Setting any of these options will result in test detection being bypassed.")
 	Tests tests = new Tests();
 
@@ -182,6 +185,7 @@ public class FlacocoMain implements Callable<Integer> {
 		config.setIncludeZeros(includeZeros);
 		config.setComplianceLevel(complianceLevel);
 
+		config.setTestDetectionStrategy(this.testDetectionStrategy);
 		config.setjUnit4Tests(this.tests.jUnit4Tests);
 		config.setjUnit5Tests(this.tests.jUnit5Tests);
 

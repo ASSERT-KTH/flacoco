@@ -97,10 +97,11 @@ public class FlacocoMainTest {
 		exit.expectSystemExitWithStatus(0);
 		FlacocoMain.main(new String[]{
 				// we don't set --projectpath because it is not needed when we explicit the other 4 dirs
-				"--srcJavaDir", "examples/exampleFL8/java",
-				"--srcTestDir", "examples/exampleFL8/test",
-				"--binJavaDir", "examples/exampleFL8/bin/classes",
-				"--binTestDir", "examples/exampleFL8/bin/test-classes",
+				"--srcJavaDir", "examples/exampleFL8NotMaven/java",
+				"--srcTestDir", "examples/exampleFL8NotMaven/test",
+				"--binJavaDir", "examples/exampleFL8NotMaven/bin/classes",
+				"--binTestDir", "examples/exampleFL8NotMaven/bin/test-classes",
+				"--testDetectionStrategy", FlacocoConfig.TestDetectionStrategy.CLASSLOADER.name(),
 				"--formula", SpectrumFormula.OCHIAI.name(),
 				"--mavenHome", mavenHome,
 				"--junitClasspath", junitClasspath,

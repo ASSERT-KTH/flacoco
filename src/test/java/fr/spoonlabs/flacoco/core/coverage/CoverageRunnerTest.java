@@ -4,7 +4,7 @@ import eu.stamp_project.testrunner.EntryPoint;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.test.TestContext;
 import fr.spoonlabs.flacoco.core.test.TestDetector;
-import fr.spoonlabs.flacoco.core.test.TestMethod;
+import fr.spoonlabs.flacoco.core.test.method.TestMethod;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.junit.*;

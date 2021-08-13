@@ -19,6 +19,11 @@ public class FlacocoConfig {
 		SPECTRUM_BASED,
 	}
 
+	public enum TestDetectionStrategy {
+		TEST_RUNNER,
+		CLASSLOADER
+	}
+
 	private static FlacocoConfig instance;
 
 	private String workspace;
@@ -39,6 +44,7 @@ public class FlacocoConfig {
 	private boolean includeZeros;
 	private int complianceLevel;
 
+	private TestDetectionStrategy testDetectionStrategy;
 	private List<String> jUnit4Tests;
 	private List<String> jUnit5Tests;
 
@@ -76,6 +82,7 @@ public class FlacocoConfig {
 		this.includeZeros = false;
 		this.complianceLevel = 8;
 
+		this.testDetectionStrategy = TestDetectionStrategy.CLASSLOADER;
 		this.jUnit4Tests = new ArrayList<>();
 		this.jUnit5Tests = new ArrayList<>();
 
@@ -223,6 +230,14 @@ public class FlacocoConfig {
 		this.testRunnerJVMArgs = testRunnerJVMArgs;
 	}
 
+	public TestDetectionStrategy getTestDetectionStrategy() {
+		return testDetectionStrategy;
+	}
+
+	public void setTestDetectionStrategy(TestDetectionStrategy testDetectionStrategy) {
+		this.testDetectionStrategy = testDetectionStrategy;
+	}
+
 	public List<String> getjUnit4Tests() {
 		return jUnit4Tests;
 	}
@@ -299,6 +314,7 @@ public class FlacocoConfig {
 				", threshold=" + threshold +
 				", includeZero=" + includeZeros +
 				", complianceLevel=" + complianceLevel +
+				", testDetectionStrategy=" + testDetectionStrategy +
 				", jUnit4Tests='" + jUnit4Tests + '\'' +
 				", jUnit5Tests='" + jUnit5Tests + '\'' +
 				", family=" + family +

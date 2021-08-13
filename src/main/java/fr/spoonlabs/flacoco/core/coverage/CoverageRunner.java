@@ -1,12 +1,9 @@
 package fr.spoonlabs.flacoco.core.coverage;
 
-import ch.scheitlin.alex.java.StackTrace;
-import ch.scheitlin.alex.java.StackTraceParser;
 import eu.stamp_project.testrunner.listener.CoveredTestResultPerTestMethod;
-import eu.stamp_project.testrunner.listener.impl.CoverageDetailed;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.test.TestContext;
-import fr.spoonlabs.flacoco.core.test.TestMethod;
+import fr.spoonlabs.flacoco.core.test.method.TestMethod;
 import org.apache.log4j.Logger;
 
 import java.util.List;

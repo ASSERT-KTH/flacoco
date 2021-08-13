@@ -2,7 +2,7 @@ package fr.spoonlabs.flacoco.core.coverage;
 
 import eu.stamp_project.testrunner.listener.CoveredTestResultPerTestMethod;
 import eu.stamp_project.testrunner.listener.impl.CoverageDetailed;
-import fr.spoonlabs.flacoco.core.test.TestMethod;
+import fr.spoonlabs.flacoco.core.test.method.TestMethod;
 
 /**
  * Contains the results of the execution of a single test case (i.e., a method).

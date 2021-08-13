@@ -1,17 +1,16 @@
 package fr.spoonlabs.flacoco.core.test;
 
-import eu.stamp_project.testrunner.test_framework.TestFramework;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.coverage.framework.JUnit4Strategy;
 import fr.spoonlabs.flacoco.core.coverage.framework.JUnit5Strategy;
+import fr.spoonlabs.flacoco.core.test.method.StringTestMethod;
+import fr.spoonlabs.flacoco.core.test.strategies.classloader.ClassloaderStrategy;
+import fr.spoonlabs.flacoco.core.test.strategies.testrunner.TestRunnerStrategy;
 import org.apache.log4j.Logger;
-import spoon.Launcher;
-import spoon.reflect.declaration.CtType;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author Matias Martinez
@@ -35,7 +34,7 @@ public class TestDetector {
 			return this.tests;
 		} else {
 			// If neither, compute them
-			logger.debug("Detecting tests with Spoon.");
+			logger.debug("Running chosen test detection strategy: " + this.config.getTestDetectionStrategy());
 			this.tests = this.findTests();
 			return this.tests;
 		}
@@ -45,7 +44,7 @@ public class TestDetector {
 		List<TestContext> result = new ArrayList<>();
 
 		if (!this.config.getjUnit4Tests().isEmpty()) {
-			TestContext jUnit4Context = new TestContext(new JUnit4Strategy());
+			TestContext jUnit4Context = new TestContext(JUnit4Strategy.getInstance());
 			jUnit4Context.addTestMethods(
 					config.getjUnit4Tests().stream()
 							.map(x -> new StringTestMethod(x.split("#")[0], x.split("#")[1]))
@@ -54,7 +53,7 @@ public class TestDetector {
 			result.add(jUnit4Context);
 		}
 		if (!this.config.getjUnit5Tests().isEmpty()) {
-			TestContext jUnit5Context = new TestContext(new JUnit5Strategy());
+			TestContext jUnit5Context = new TestContext(JUnit5Strategy.getInstance());
 			jUnit5Context.addTestMethods(
 					config.getjUnit5Tests().stream()
 							.map(x -> new StringTestMethod(x.split("#")[0], x.split("#")[1]))
@@ -67,48 +66,13 @@ public class TestDetector {
 	}
 
 	private List<TestContext> findTests() {
-		// Create Spoon model to retrieve information about the tests
-		Launcher launcher = new Launcher();
-		for (String dir : config.getSrcTestDir())
-			launcher.addInputResource(dir);
-		launcher.getEnvironment().setComplianceLevel(config.getComplianceLevel());
-		launcher.buildModel();
-
-		// Init test framework
-		TestFramework.init(launcher.getFactory());
-
-		TestContext jUnit4Context = new TestContext(new JUnit4Strategy());
-		TestContext jUnit5Context = new TestContext(new JUnit5Strategy());
-
-		for (CtType<?> ctType : TestFramework.getAllTestClasses()) {
-
-			if (ctType.isAbstract()) {
-				continue;
-			}
-			// avoid passing non-qualified class names to test-runner
-			if (ctType.getPackage().isUnnamedPackage()) {
-				logger.warn("TestDetector was not able to retrieve the fully qualified class name of : " + ctType.getQualifiedName());
-				continue;
-			}
-
-			// Add JUnit4 methods to jUnit4Context
-			jUnit4Context.addTestMethods(
-					TestFramework.getAllTest(ctType).stream().filter(TestFramework::isJUnit4)
-							.map(ctMethod -> new SpoonTestMethod(ctType, ctMethod))
-							.collect(Collectors.toList())
-			);
-
-			// Add JUnit5 methods to jUnit5Context
-			jUnit5Context.addTestMethods(
-					TestFramework.getAllTest(ctType).stream().filter(TestFramework::isJUnit5)
-							.map(ctMethod -> new SpoonTestMethod(ctType, ctMethod))
-							.collect(Collectors.toList())
-			);
+		switch (config.getTestDetectionStrategy()) {
+			case TEST_RUNNER:
+				return new TestRunnerStrategy().findTests();
+			case CLASSLOADER:
+			default:
+				return new ClassloaderStrategy().findTests();
 		}
-
-		// We only want to return those that have test units
-		return Stream.of(jUnit4Context, jUnit5Context)
-				.filter(x -> !x.getTestMethods().isEmpty()).collect(Collectors.toList());
 	}
 
 }
