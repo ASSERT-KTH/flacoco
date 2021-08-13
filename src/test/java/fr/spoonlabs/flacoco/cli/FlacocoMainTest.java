@@ -68,6 +68,8 @@ public class FlacocoMainTest {
 				"--testRunnerVerbose",
 				"--testRunnerTimeoutInMs", "10000",
 				"--testRunnerJVMArgs", "-Xms16M",
+				"--ignoredTests", "fr.spoonlabs.FLtest1.CalculatorTest#testSum" + " " +
+				                  "fr.spoonlabs.FLtest1.CalculatorTest#testSubs",
 				"--junit4tests", "fr.spoonlabs.FLtest1.CalculatorTest#testSum" + " " +
 								 "fr.spoonlabs.FLtest1.CalculatorTest#testSubs" + " " +
 								 "fr.spoonlabs.FLtest1.CalculatorTest#testMul" + " " +

@@ -3,9 +3,7 @@ package fr.spoonlabs.flacoco.core.config;
 import fr.spoonlabs.flacoco.localization.spectrum.SpectrumFormula;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -45,8 +43,9 @@ public class FlacocoConfig {
 	private int complianceLevel;
 
 	private TestDetectionStrategy testDetectionStrategy;
-	private List<String> jUnit4Tests;
-	private List<String> jUnit5Tests;
+	private Set<String> ignoredTests;
+	private Set<String> jUnit4Tests;
+	private Set<String> jUnit5Tests;
 
 	private FaultLocalizationFamily family;
 	//------Options for spectrum-based fault localization------
@@ -83,8 +82,9 @@ public class FlacocoConfig {
 		this.complianceLevel = 8;
 
 		this.testDetectionStrategy = TestDetectionStrategy.CLASSLOADER;
-		this.jUnit4Tests = new ArrayList<>();
-		this.jUnit5Tests = new ArrayList<>();
+		this.ignoredTests = new HashSet<>();
+		this.jUnit4Tests = new HashSet<>();
+		this.jUnit5Tests = new HashSet<>();
 
 		this.family = FaultLocalizationFamily.SPECTRUM_BASED;
 		this.spectrumFormula = SpectrumFormula.OCHIAI;
@@ -238,19 +238,27 @@ public class FlacocoConfig {
 		this.testDetectionStrategy = testDetectionStrategy;
 	}
 
-	public List<String> getjUnit4Tests() {
+	public Set<String> getIgnoredTests() {
+		return ignoredTests;
+	}
+
+	public void setIgnoredTests(Set<String> ignoredTests) {
+		this.ignoredTests = ignoredTests;
+	}
+
+	public Set<String> getjUnit4Tests() {
 		return jUnit4Tests;
 	}
 
-	public void setjUnit4Tests(List<String> jUnit4Tests) {
+	public void setjUnit4Tests(Set<String> jUnit4Tests) {
 		this.jUnit4Tests = jUnit4Tests;
 	}
 
-	public List<String> getjUnit5Tests() {
+	public Set<String> getjUnit5Tests() {
 		return jUnit5Tests;
 	}
 
-	public void setjUnit5Tests(List<String> jUnit5Tests) {
+	public void setjUnit5Tests(Set<String> jUnit5Tests) {
 		this.jUnit5Tests = jUnit5Tests;
 	}
 
@@ -299,10 +307,10 @@ public class FlacocoConfig {
 		return "FlacocoConfig{" +
 				"workspace='" + workspace + '\'' +
 				", projectPath='" + projectPath + '\'' +
-				", srcJavaDir='" + getSrcJavaDir() + '\'' +
-				", srcTestDir='" + getSrcTestDir() + '\'' +
-				", binJavaDir='" + getBinJavaDir() + '\'' +
-				", binTestDir='" + getBinTestDir() + '\'' +
+				", srcJavaDir=" + getSrcJavaDir() +
+				", srcTestDir=" + getSrcTestDir() +
+				", binJavaDir=" + getBinJavaDir() +
+				", binTestDir=" + getBinTestDir() +
 				", classpath='" + classpath + '\'' +
 				", customJUnitClasspath='" + customJUnitClasspath + '\'' +
 				", customJacocoClasspath='" + customJacocoClasspath + '\'' +
@@ -312,11 +320,12 @@ public class FlacocoConfig {
 				", testRunnerTimeoutInMs=" + testRunnerTimeoutInMs +
 				", testRunnerJVMArgs='" + testRunnerJVMArgs + '\'' +
 				", threshold=" + threshold +
-				", includeZero=" + includeZeros +
+				", includeZeros=" + includeZeros +
 				", complianceLevel=" + complianceLevel +
 				", testDetectionStrategy=" + testDetectionStrategy +
-				", jUnit4Tests='" + jUnit4Tests + '\'' +
-				", jUnit5Tests='" + jUnit5Tests + '\'' +
+				", ignoredTests=" + ignoredTests +
+				", jUnit4Tests=" + jUnit4Tests +
+				", jUnit5Tests=" + jUnit5Tests +
 				", family=" + family +
 				", spectrumFormula=" + spectrumFormula +
 				'}';

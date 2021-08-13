@@ -5,6 +5,7 @@ import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.coverage.framework.JUnit4Strategy;
 import fr.spoonlabs.flacoco.core.coverage.framework.JUnit5Strategy;
 import fr.spoonlabs.flacoco.core.test.TestContext;
+import fr.spoonlabs.flacoco.core.test.TestDetector;
 import fr.spoonlabs.flacoco.core.test.method.SpoonTestMethod;
 import fr.spoonlabs.flacoco.core.test.strategies.TestDetectionStrategy;
 import org.apache.log4j.Logger;
@@ -58,6 +59,7 @@ public class TestRunnerStrategy implements TestDetectionStrategy {
             jUnit4Context.addTestMethods(
                     TestFramework.getAllTest(ctType).stream().filter(TestFramework::isJUnit4)
                             .map(ctMethod -> new SpoonTestMethod(ctType, ctMethod))
+                            .filter(x -> !TestDetector.isIgnored(x))
                             .collect(Collectors.toList())
             );
 
@@ -65,12 +67,14 @@ public class TestRunnerStrategy implements TestDetectionStrategy {
             jUnit5Context.addTestMethods(
                     TestFramework.getAllTest(ctType).stream().filter(TestFramework::isJUnit5)
                             .map(ctMethod -> new SpoonTestMethod(ctType, ctMethod))
+                            .filter(x -> !TestDetector.isIgnored(x))
                             .collect(Collectors.toList())
             );
         }
 
         // We only want to return those that have test units
         return Stream.of(jUnit4Context, jUnit5Context)
-                .filter(x -> !x.getTestMethods().isEmpty()).collect(Collectors.toList());
+                .filter(x -> !x.getTestMethods().isEmpty())
+                .collect(Collectors.toList());
     }
 }
