@@ -1,6 +1,9 @@
 package fr.spoonlabs.flacoco.api;
 
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
+import fr.spoonlabs.flacoco.core.coverage.framework.JUnit4Strategy;
+import fr.spoonlabs.flacoco.core.test.TestContext;
+import fr.spoonlabs.flacoco.core.test.TestDetector;
 import fr.spoonlabs.flacoco.localization.spectrum.SpectrumFormula;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
@@ -8,10 +11,12 @@ import org.junit.*;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import static fr.spoonlabs.flacoco.TestUtils.getJavaVersion;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * This test class tests the execution of Flacoco on Math70
@@ -23,8 +28,10 @@ public class Math70Test {
 
     @Before
     public void setUp() {
-        LogManager.getRootLogger().setLevel(Level.DEBUG);
+        // Run only on Java8
+        Assume.assumeTrue(getJavaVersion() == 8);
 
+        LogManager.getRootLogger().setLevel(Level.DEBUG);
         FlacocoConfig config = FlacocoConfig.getInstance();
         config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
         config.setTestRunnerVerbose(true);
@@ -37,9 +44,6 @@ public class Math70Test {
 
     @Test
     public void testMath70() {
-        // Run only on Java8
-        Assume.assumeTrue(getJavaVersion() == 8);
-
         // Setup config
         FlacocoConfig config = FlacocoConfig.getInstance();
         config.setProjectPath(new File("./examples/math_70").getAbsolutePath());
@@ -67,5 +71,26 @@ public class Math70Test {
         assertEquals(0.5, susp.get("org/apache/commons/math/analysis/solvers/BisectionSolver@-@88").getScore(), 0);
         assertEquals(0.5, susp.get("org/apache/commons/math/analysis/solvers/BisectionSolver@-@87").getScore(), 0);
         assertEquals(0.5, susp.get("org/apache/commons/math/analysis/solvers/BisectionSolver@-@87").getScore(), 0);
+    }
+
+
+    @Test
+    public void testMath70TestDetection() {
+        // Setup config
+        FlacocoConfig config = FlacocoConfig.getInstance();
+        config.setProjectPath(new File("./examples/math_70").getAbsolutePath());
+        config.setComplianceLevel(4);
+
+        // Find the tests
+        TestDetector testDetector = new TestDetector();
+        List<TestContext> testContexts = testDetector.getTests();
+
+        // Check that there is only one test context
+        assertEquals(1, testContexts.size());
+        // Check that there are 2181 test methods in the test context
+        TestContext testContext = testContexts.get(0);
+        assertEquals(2181, testContext.getTestMethods().size());
+        // Check that the correct test framework is set
+        assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
     }
 }

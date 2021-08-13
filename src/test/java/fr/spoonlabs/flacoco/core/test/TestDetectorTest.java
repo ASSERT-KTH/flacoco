@@ -7,10 +7,7 @@ import fr.spoonlabs.flacoco.core.test.method.StringTestMethod;
 import fr.spoonlabs.flacoco.core.test.method.TestMethod;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
@@ -18,6 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static fr.spoonlabs.flacoco.TestUtils.isLessThanJava11;
 import static org.junit.Assert.*;
 
 /**
@@ -388,6 +386,10 @@ public class TestDetectorTest {
 
 	@Test
 	public void testExampleFL12() {
+		// We can only run this test on java version less than 11
+		// since java 11 dropped support for compliance level 1.4
+		Assume.assumeTrue(isLessThanJava11());
+
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		config.setProjectPath(new File("./examples/exampleFL12Compliance4/FLtest1").getAbsolutePath());
@@ -402,26 +404,6 @@ public class TestDetectorTest {
 		// Check that there are 4 test methods in the test context
 		TestContext testContext = testContexts.get(0);
 		assertEquals(4, testContext.getTestMethods().size());
-		// Check that the correct test framework is set
-		assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
-	}
-
-	@Test
-	public void testMath70() {
-		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setProjectPath(new File("./examples/math_70").getAbsolutePath());
-		config.setComplianceLevel(4);
-
-		// Find the tests
-		TestDetector testDetector = new TestDetector();
-		List<TestContext> testContexts = testDetector.getTests();
-
-		// Check that there is only one test context
-		assertEquals(1, testContexts.size());
-		// Check that there are 2181 test methods in the test context
-		TestContext testContext = testContexts.get(0);
-		assertEquals(2181, testContext.getTestMethods().size());
 		// Check that the correct test framework is set
 		assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
 	}
