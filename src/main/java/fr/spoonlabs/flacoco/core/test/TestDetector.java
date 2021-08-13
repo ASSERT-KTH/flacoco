@@ -4,6 +4,7 @@ import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.coverage.framework.JUnit4Strategy;
 import fr.spoonlabs.flacoco.core.coverage.framework.JUnit5Strategy;
 import fr.spoonlabs.flacoco.core.test.method.StringTestMethod;
+import fr.spoonlabs.flacoco.core.test.method.TestMethod;
 import fr.spoonlabs.flacoco.core.test.strategies.classloader.ClassloaderStrategy;
 import fr.spoonlabs.flacoco.core.test.strategies.testrunner.TestRunnerStrategy;
 import org.apache.log4j.Logger;
@@ -48,6 +49,7 @@ public class TestDetector {
 			jUnit4Context.addTestMethods(
 					config.getjUnit4Tests().stream()
 							.map(x -> new StringTestMethod(x.split("#")[0], x.split("#")[1]))
+							.filter(x -> !isIgnored(x))
 							.collect(Collectors.toList())
 			);
 			result.add(jUnit4Context);
@@ -57,6 +59,7 @@ public class TestDetector {
 			jUnit5Context.addTestMethods(
 					config.getjUnit5Tests().stream()
 							.map(x -> new StringTestMethod(x.split("#")[0], x.split("#")[1]))
+							.filter(x -> !isIgnored(x))
 							.collect(Collectors.toList())
 			);
 			result.add(jUnit5Context);
@@ -73,6 +76,16 @@ public class TestDetector {
 			default:
 				return new ClassloaderStrategy().findTests();
 		}
+	}
+
+	/**
+	 * Checks if testMethod is included in the configured ignored tests
+	 * @param testMethod The test method to be checked
+	 * @return true if the test should be ignored, false otherwise
+	 */
+	public static boolean isIgnored(TestMethod testMethod) {
+		return FlacocoConfig.getInstance().getIgnoredTests().contains(testMethod.getFullyQualifiedClassName()) ||
+				FlacocoConfig.getInstance().getIgnoredTests().contains(testMethod.getFullyQualifiedMethodName());
 	}
 
 }

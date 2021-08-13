@@ -9,9 +9,9 @@ import org.junit.rules.TemporaryFolder;
 import spoon.reflect.code.CtStatement;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static fr.spoonlabs.flacoco.TestUtils.isLessThanJava11;
 import static org.junit.Assert.assertEquals;
@@ -151,12 +151,12 @@ public class FlacocoTest {
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
-		config.setjUnit4Tests(Arrays.asList(
+		config.setjUnit4Tests(Stream.of(
 				"fr.spoonlabs.FLtest1.CalculatorTest#testSum",
 				"fr.spoonlabs.FLtest1.CalculatorTest#testSubs",
 				"fr.spoonlabs.FLtest1.CalculatorTest#testMul",
 				"fr.spoonlabs.FLtest1.CalculatorTest#testDiv"
-				)
+				).collect(Collectors.toSet())
 		);
 
 		// Run Flacoco
@@ -182,6 +182,35 @@ public class FlacocoTest {
 
 		// Lines executed by all test
 		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+	}
+
+	@Test
+	public void testExampleFL1SpectrumBasedOchiaiDefaultModeIgnoreFailingTest() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
+		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
+		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+		config.setIgnoredTests(Stream.of("fr.spoonlabs.FLtest1.CalculatorTest#testMul").collect(Collectors.toSet()));
+		config.setIncludeZeros(true);
+
+		// Run Flacoco
+		Flacoco flacoco = new Flacoco();
+
+		// Run default mode
+		Map<String, Suspiciousness> susp = flacoco.runDefault();
+
+		for (String line : susp.keySet()) {
+			System.out.println("" + line + " " + susp.get(line));
+		}
+
+		// all executed lines are returned
+		assertEquals(9, susp.size());
+
+		// and they all have zero suspiciousness, since we ignored the failing test case
+		for (String line : susp.keySet()) {
+			assertEquals(0.0, susp.get(line).getScore(), 0);
+		}
 	}
 
 	/**
@@ -375,12 +404,12 @@ public class FlacocoTest {
 		config.setProjectPath(new File("./examples/exampleFL4JUnit5/FLtest1").getAbsolutePath());
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
-		config.setjUnit5Tests(Arrays.asList(
+		config.setjUnit5Tests(Stream.of(
 				"fr.spoonlabs.FLtest1.CalculatorTest#testSum",
 				"fr.spoonlabs.FLtest1.CalculatorTest#testSubs",
 				"fr.spoonlabs.FLtest1.CalculatorTest#testMul",
 				"fr.spoonlabs.FLtest1.CalculatorTest#testDiv"
-				)
+				).collect(Collectors.toSet())
 		);
 
 		// Run Flacoco
@@ -627,15 +656,15 @@ public class FlacocoTest {
 		config.setProjectPath(new File("./examples/exampleFL6Mixed/FLtest1").getAbsolutePath());
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
-		config.setjUnit4Tests(Arrays.asList(
+		config.setjUnit4Tests(Stream.of(
 				"fr.spoonlabs.FLtest1.CalculatorJUnit3Test#testSum",
 				"fr.spoonlabs.FLtest1.CalculatorMixedTest#testSubs"
-				)
+				).collect(Collectors.toSet())
 		);
-		config.setjUnit5Tests(Arrays.asList(
+		config.setjUnit5Tests(Stream.of(
 				"fr.spoonlabs.FLtest1.CalculatorMixedTest#testMul",
 				"fr.spoonlabs.FLtest1.CalculatorJUnit5Test#testDiv"
-				)
+				).collect(Collectors.toSet())
 		);
 
 		// Run Flacoco

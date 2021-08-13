@@ -14,6 +14,8 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static fr.spoonlabs.flacoco.TestUtils.isLessThanJava11;
 import static org.junit.Assert.*;
@@ -63,13 +65,13 @@ public class TestDetectorTest {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
-		config.setjUnit4Tests(Arrays.asList(
-				"fr.spoonlabs.FLtest1.CalculatorTest#testSum",
-				"fr.spoonlabs.FLtest1.CalculatorTest#testSubs",
-				"fr.spoonlabs.FLtest1.CalculatorTest#testMul",
-				"fr.spoonlabs.FLtest1.CalculatorTest#testDiv"
-				)
-		);
+        config.setjUnit4Tests(Stream.of(
+                        "fr.spoonlabs.FLtest1.CalculatorTest#testSum",
+                        "fr.spoonlabs.FLtest1.CalculatorTest#testSubs",
+                        "fr.spoonlabs.FLtest1.CalculatorTest#testMul",
+                        "fr.spoonlabs.FLtest1.CalculatorTest#testDiv"
+                ).collect(Collectors.toSet())
+        );
 
 		// Find the tests
 		TestDetector testDetector = new TestDetector();
@@ -102,6 +104,78 @@ public class TestDetectorTest {
 		// Check that there are 4 test methods in the test context
 		TestContext testContext = testContexts.get(0);
 		assertEquals(4, testContext.getTestMethods().size());
+		// Check that the correct test framework is set
+		assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
+	}
+
+	@Test
+	public void testExampleFL1IgnoreTestClass() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
+		config.setIgnoredTests(Stream.of("fr.spoonlabs.FLtest1.CalculatorTest").collect(Collectors.toSet()));
+
+		// Find the tests
+		TestDetector testDetector = new TestDetector();
+		List<TestContext> testContexts = testDetector.getTests();
+
+		// Check that there are no tests
+		assertEquals(0, testContexts.size());
+	}
+
+	@Test
+	public void testExampleFL1IgnoreTestMethod() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
+		config.setIgnoredTests(Stream.of("fr.spoonlabs.FLtest1.CalculatorTest#testSum").collect(Collectors.toSet()));
+
+		// Find the tests
+		TestDetector testDetector = new TestDetector();
+		List<TestContext> testContexts = testDetector.getTests();
+
+		// Check that there is only one test context
+		assertEquals(1, testContexts.size());
+		// Check that there are 3 test methods in the test context
+		TestContext testContext = testContexts.get(0);
+		assertEquals(3, testContext.getTestMethods().size());
+		// Check that the correct test framework is set
+		assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
+	}
+
+	@Test
+	public void testExampleFL1TestRunnerDetectorIgnoreTestClass() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
+		config.setTestDetectionStrategy(FlacocoConfig.TestDetectionStrategy.TEST_RUNNER);
+		config.setIgnoredTests(Stream.of("fr.spoonlabs.FLtest1.CalculatorTest").collect(Collectors.toSet()));
+
+		// Find the tests
+		TestDetector testDetector = new TestDetector();
+		List<TestContext> testContexts = testDetector.getTests();
+
+		// Check that there are no tests
+		assertEquals(0, testContexts.size());
+	}
+
+	@Test
+	public void testExampleFL1TestRunnerDetectorIgnoreTestMethod() {
+		// Setup config
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
+		config.setTestDetectionStrategy(FlacocoConfig.TestDetectionStrategy.TEST_RUNNER);
+		config.setIgnoredTests(Stream.of("fr.spoonlabs.FLtest1.CalculatorTest#testSum").collect(Collectors.toSet()));
+
+		// Find the tests
+		TestDetector testDetector = new TestDetector();
+		List<TestContext> testContexts = testDetector.getTests();
+
+		// Check that there is only one test context
+		assertEquals(1, testContexts.size());
+		// Check that there are 3 test methods in the test context
+		TestContext testContext = testContexts.get(0);
+		assertEquals(3, testContext.getTestMethods().size());
 		// Check that the correct test framework is set
 		assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
 	}
@@ -168,12 +242,12 @@ public class TestDetectorTest {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		config.setProjectPath(new File("./examples/exampleFL4JUnit5/FLtest1").getAbsolutePath());
-		config.setjUnit5Tests(Arrays.asList(
+		config.setjUnit5Tests(Stream.of(
 				"fr.spoonlabs.FLtest1.CalculatorTest#testSum",
 				"fr.spoonlabs.FLtest1.CalculatorTest#testSubs",
 				"fr.spoonlabs.FLtest1.CalculatorTest#testMul",
 				"fr.spoonlabs.FLtest1.CalculatorTest#testDiv"
-				)
+				).collect(Collectors.toSet())
 		);
 
 		// Find the tests
@@ -254,15 +328,15 @@ public class TestDetectorTest {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
 		config.setProjectPath(new File("./examples/exampleFL6Mixed/FLtest1").getAbsolutePath());
-		config.setjUnit4Tests(Arrays.asList(
+		config.setjUnit4Tests(Stream.of(
 				"fr.spoonlabs.FLtest1.CalculatorJUnit3Test#testSum",
 				"fr.spoonlabs.FLtest1.CalculatorMixedTest#testSubs"
-				)
+				).collect(Collectors.toSet())
 		);
-		config.setjUnit5Tests(Arrays.asList(
+		config.setjUnit5Tests(Stream.of(
 				"fr.spoonlabs.FLtest1.CalculatorMixedTest#testMul",
 				"fr.spoonlabs.FLtest1.CalculatorJUnit5Test#testDiv"
-				)
+				).collect(Collectors.toSet())
 		);
 
 		// Find the tests

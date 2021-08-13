@@ -10,22 +10,25 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 public class TestMethodFilter {
 
     private static final Logger logger = Logger.getLogger(TestMethodFilter.class);
 
     private final EnumSet<TestType> testTypes;
+    private final Set<String> ignoredTests;
 
-    public TestMethodFilter(EnumSet<TestType> testTypes) {
+    public TestMethodFilter(EnumSet<TestType> testTypes, Set<String> ignoredTests) {
         this.testTypes = testTypes;
+        this.ignoredTests = ignoredTests;
     }
 
     public List<TestMethod> acceptClass(Class<?> clazz) {
         List<TestMethod> testMethods = new ArrayList<>();
 
-        // ignore abstract classes
-        if (isAbstractClass(clazz)) {
+        // ignore abstract classes or ignored classes
+        if (isAbstractClass(clazz) || isIgnoredClass(clazz)) {
             return testMethods;
         }
 
@@ -54,6 +57,7 @@ public class TestMethodFilter {
                             && method.getReturnType() == void.class
                             // && no arguments
                             && method.getName().startsWith("test")
+                            && !isIgnoredMethod(clazz, method)
                     ) {
                         testMethods.add(new StringTestMethod(clazz.getCanonicalName(), method.getName()));
                     }
@@ -71,7 +75,7 @@ public class TestMethodFilter {
 
         try {
             for (Method method : clazz.getMethods()) {
-                if (method.getAnnotation(org.junit.Test.class) != null) {
+                if (method.getAnnotation(org.junit.Test.class) != null && !isIgnoredMethod(clazz, method)) {
                     testMethods.add(new StringTestMethod(clazz.getCanonicalName(), method.getName()));
                 }
             }
@@ -87,7 +91,7 @@ public class TestMethodFilter {
 
         try {
             for (Method method : clazz.getMethods()) {
-                if (method.getAnnotation(org.junit.jupiter.api.Test.class) != null) {
+                if (method.getAnnotation(org.junit.jupiter.api.Test.class) != null && !isIgnoredMethod(clazz, method)) {
                     testMethods.add(new StringTestMethod(clazz.getCanonicalName(), method.getName()));
                 }
             }
@@ -104,6 +108,14 @@ public class TestMethodFilter {
 
     private boolean isPublicClass(Class<?> clazz) {
         return (clazz.getModifiers() & Modifier.PUBLIC) != 0;
+    }
+
+    private boolean isIgnoredClass(Class<?> clazz) {
+        return this.ignoredTests.contains(clazz.getCanonicalName());
+    }
+
+    private boolean isIgnoredMethod(Class<?> clazz, Method method) {
+        return this.ignoredTests.contains(clazz.getCanonicalName() + "#" + method.getName());
     }
 
     private boolean isPublicMethod(Method method) {
