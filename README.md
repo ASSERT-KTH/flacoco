@@ -3,7 +3,11 @@
 **flacoco** is a fault localization tool for Java based on [Jacoco](https://github.com/jacoco/jacoco) and [test-runner](https://github.com/STAMP-project/test-runner) that aims at encompassing several fault localization techniques.
 
 * **Ease of use**: With an intuitive, reliable and stable API, flacoco can be easily used in other projects such as automated program repair tools.
-* **Compatibility**: Supports JUnit3, Junit4 and JUni5. Supports Java 8 to 16. Supports Linux, MacOS and Windows.
+* **Compatibility**: 
+    * Supports JUnit3, Junit4 and JUni5.
+    * Supports Java 5 to Java 16 bytecode.
+    * Runs on Java 8 to Java 16.
+    * Runs on Linux, MacOS and Windows.
 * **Stability**: Tests are executed in an isolated JVM.
 
 ## Installation
