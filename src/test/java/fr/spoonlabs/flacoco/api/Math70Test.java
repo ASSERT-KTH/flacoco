@@ -11,8 +11,11 @@ import org.junit.*;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static fr.spoonlabs.flacoco.TestUtils.getJavaVersion;
 import static org.junit.Assert.assertEquals;
@@ -31,10 +34,9 @@ public class Math70Test {
         // Run only on Java8
         Assume.assumeTrue(getJavaVersion() == 8);
 
-        LogManager.getRootLogger().setLevel(Level.DEBUG);
+        LogManager.getRootLogger().setLevel(Level.INFO);
         FlacocoConfig config = FlacocoConfig.getInstance();
         config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
-        config.setTestRunnerVerbose(true);
     }
 
     @After

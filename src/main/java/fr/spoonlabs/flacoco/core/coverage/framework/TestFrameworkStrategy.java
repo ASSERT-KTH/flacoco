@@ -7,6 +7,8 @@ import eu.stamp_project.testrunner.runner.ParserOptions;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.test.TestContext;
 import org.apache.log4j.Logger;
+import org.apache.maven.plugin.surefire.util.DirectoryScanner;
+import org.apache.maven.surefire.api.testset.TestListResolver;
 
 import java.io.File;
 import java.util.concurrent.TimeoutException;
@@ -28,6 +30,16 @@ public abstract class TestFrameworkStrategy {
 		EntryPoint.timeoutInMs = config.getTestRunnerTimeoutInMs();
 		EntryPoint.JVMArgs = config.getTestRunnerJVMArgs();
 		EntryPoint.jUnit5Mode = false;
+		if (!config.getJacocoIncludes().isEmpty()) {
+			EntryPoint.jacocoAgentIncludes =
+					config.getJacocoIncludes().stream().reduce((x, y) -> x + ":" + y).orElse("");
+		} else {
+			EntryPoint.jacocoAgentIncludes = this.computeJacocoIncludes();
+		}
+		if (!config.getJacocoIncludes().isEmpty()) {
+			EntryPoint.jacocoAgentExcludes =
+					config.getJacocoExcludes().stream().reduce((x, y) -> x + ":" + y).orElse("");
+		}
 		if (config.isCoverTests()) {
 			throw new UnsupportedOperationException();
 		}
@@ -40,7 +52,9 @@ public abstract class TestFrameworkStrategy {
 	 */
 	protected String computeClasspath() {
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		String classpath = config.getClasspath();
+		String classpath = config.getClasspath() + File.pathSeparatorChar
+				+ config.getBinJavaDir().stream().reduce((x, y) -> x + File.pathSeparatorChar + y).orElse("") + File.pathSeparatorChar
+				+ config.getBinTestDir().stream().reduce((x, y) -> x + File.pathSeparatorChar + y).orElse("");
 		String mavenHome = config.getMavenHome();
 		String junitClasspath;
 		String jacocoClassPath;
@@ -68,6 +82,16 @@ public abstract class TestFrameworkStrategy {
 		return junitClasspath + File.pathSeparatorChar
 				+ jacocoClassPath + File.pathSeparatorChar
 				+ classpath + File.pathSeparatorChar;
+	}
+
+	protected String computeJacocoIncludes() {
+		FlacocoConfig config = FlacocoConfig.getInstance();
+		String includes = "";
+		for (String directory : config.getBinJavaDir()) {
+			DirectoryScanner directoryScanner = new DirectoryScanner(new File(directory), TestListResolver.getWildcard());
+			includes = directoryScanner.scan().getClasses().stream().reduce((x, y) -> x + ":" + y).orElse("");
+		}
+		return includes;
 	}
 
 }

@@ -19,7 +19,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Callable;
 
 @Command(name = "FlacocoMain", mixinStandardHelpOptions = true, version = "0.0.1", description = "Flacoco: fault localization")
@@ -113,6 +116,12 @@ public class FlacocoMain implements Callable<Integer> {
 	@Option(names = {"--ignoredTests"}, description = "Tests to be ignored during test execution. Both qualified class and qualified method names are supported.")
 	Set<String> ignoredTests = new HashSet<>();
 
+	@Option(names = {"--jacocoIncludes"}, description = "Class patterns to be recorded in by jacoco")
+	Set<String> jacocoIncludes = new HashSet<>();
+
+	@Option(names = {"--jacocoExcludes"}, description = "Class patterns to be excluded by jacoco")
+	Set<String> jacocoExcludes = new HashSet<>();
+
 	@CommandLine.ArgGroup(exclusive = false, multiplicity = "0..1", heading = "Setting any of these options will result in test detection being bypassed.")
 	Tests tests = new Tests();
 
@@ -190,6 +199,8 @@ public class FlacocoMain implements Callable<Integer> {
 		config.setIgnoredTests(this.ignoredTests);
 		config.setjUnit4Tests(this.tests.jUnit4Tests);
 		config.setjUnit5Tests(this.tests.jUnit5Tests);
+		config.setJacocoIncludes(this.jacocoIncludes);
+		config.setJacocoExcludes(this.jacocoExcludes);
 
 		config.setSpectrumFormula(this.spectrumFormula);
 	}

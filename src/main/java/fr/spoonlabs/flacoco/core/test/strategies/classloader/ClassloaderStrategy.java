@@ -52,13 +52,11 @@ public class ClassloaderStrategy implements TestDetectionStrategy {
         for (String dir : config.getBinTestDir()) {
             urls.add(new File(dir).toURI().toURL());
         }
-        System.out.println(config);
         if (!config.getClasspath().isEmpty()) {
             for (String dir : config.getClasspath().split(File.pathSeparator)) {
                 urls.add(new File(dir).toURI().toURL());
             }
         }
-        System.out.println(urls);
         return urls.toArray(new URL[0]);
     }
 }

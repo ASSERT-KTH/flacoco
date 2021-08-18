@@ -34,7 +34,7 @@ public class JUnit5Strategy extends TestFrameworkStrategy {
 		// test-runner needs a flag for JUnit5 tests
 		EntryPoint.jUnit5Mode = true;
 
-		return EntryPoint.runCoveredTestResultPerTestMethods(
+		return EntryPoint.runOnlineCoveredTestResultPerTestMethods(
 				this.computeClasspath(),
 				FlacocoConfig.getInstance().getBinJavaDir(),
 				FlacocoConfig.getInstance().getBinTestDir(),
