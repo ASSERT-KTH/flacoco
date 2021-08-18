@@ -11,11 +11,8 @@ import org.junit.*;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static fr.spoonlabs.flacoco.TestUtils.getJavaVersion;
 import static org.junit.Assert.assertEquals;

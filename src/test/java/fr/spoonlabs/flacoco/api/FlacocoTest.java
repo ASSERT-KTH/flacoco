@@ -9,7 +9,9 @@ import org.junit.rules.TemporaryFolder;
 import spoon.reflect.code.CtStatement;
 
 import java.io.File;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
