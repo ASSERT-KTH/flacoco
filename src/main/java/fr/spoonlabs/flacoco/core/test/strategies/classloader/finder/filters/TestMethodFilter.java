@@ -90,8 +90,13 @@ public class TestMethodFilter {
         List<TestMethod> testMethods = new ArrayList<>();
 
         try {
-            for (Method method : clazz.getMethods()) {
-                if (method.getAnnotation(org.junit.jupiter.api.Test.class) != null && !isIgnoredMethod(clazz, method)) {
+            // JUnit 5 allows public, protected or package-private methods, so we get all declared methods and filter out
+            // the private ones
+            for (Method method : clazz.getDeclaredMethods()) {
+                if (method.getAnnotation(org.junit.jupiter.api.Test.class) != null
+                        && !isPrivateMethod(method)
+                        && !isIgnoredMethod(clazz, method)
+                ) {
                     testMethods.add(new StringTestMethod(clazz.getCanonicalName(), method.getName()));
                 }
             }
@@ -120,6 +125,10 @@ public class TestMethodFilter {
 
     private boolean isPublicMethod(Method method) {
         return (method.getModifiers() & Modifier.PUBLIC) != 0;
+    }
+
+    private boolean isPrivateMethod(Method method) {
+        return (method.getModifiers() & Modifier.PRIVATE) != 0;
     }
 
     private boolean isStaticMethod(Method method) {
