@@ -12,6 +12,8 @@ public class FlacocoResult {
 
     private Map<CtStatement, Suspiciousness> spoonSuspiciousnessMap;
 
+    private Map<Location, CtStatement> locationStatementMap;
+
     private Set<TestMethod> failingTests;
 
     public Map<Location, Suspiciousness> getDefaultSuspiciousnessMap() {
@@ -28,6 +30,14 @@ public class FlacocoResult {
 
     public void setSpoonSuspiciousnessMap(Map<CtStatement, Suspiciousness> spoonSuspiciousnessMap) {
         this.spoonSuspiciousnessMap = spoonSuspiciousnessMap;
+    }
+
+    public Map<Location, CtStatement> getLocationStatementMap() {
+        return locationStatementMap;
+    }
+
+    public void setLocationStatementMap(Map<Location, CtStatement> locationStatementMap) {
+        this.locationStatementMap = locationStatementMap;
     }
 
     public Set<TestMethod> getFailingTests() {

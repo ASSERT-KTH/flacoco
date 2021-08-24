@@ -1,5 +1,6 @@
 package fr.spoonlabs.flacoco.utils.spoon;
 
+import fr.spoonlabs.flacoco.api.result.FlacocoResult;
 import fr.spoonlabs.flacoco.api.result.Location;
 import fr.spoonlabs.flacoco.api.result.Suspiciousness;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
@@ -21,9 +22,8 @@ public class SpoonConverter {
 	private static Logger logger = Logger.getLogger(SpoonConverter.class);
 	private static FlacocoConfig config = FlacocoConfig.getInstance();
 
-	public static Map<CtStatement, Suspiciousness> convert(Map<Location, Suspiciousness> original) {
+	public static FlacocoResult convertResult(FlacocoResult flacocoResult) {
 		logger.debug("Converting results to Spoon format...");
-		logger.debug(original);
 
 		// Init spoon Launcher
 		Launcher launcher = new Launcher();
@@ -36,6 +36,8 @@ public class SpoonConverter {
 
 		// Convert keys
 		Map<CtStatement, Suspiciousness> result = new HashMap<>();
+		Map<Location, CtStatement> mapping = new HashMap<>();
+		Map<Location, Suspiciousness> original = flacocoResult.getDefaultSuspiciousnessMap();
 		for (Location location : original.keySet()) {
 			// Compute location information
 			SpoonLocalizedFaultFinder.fullyQualifiedClassName = location.getClassName();
@@ -58,12 +60,15 @@ public class SpoonConverter {
 						"Flacoco on https://github.com/SpoonLabs/flacoco");
 			}
 			result.put(SpoonLocalizedFaultFinder.found, original.get(location));
+			mapping.put(location, SpoonLocalizedFaultFinder.found);
 
 			// Prepare for next key
 			SpoonLocalizedFaultFinder.found = null;
 		}
 
-		return result;
+		flacocoResult.setSpoonSuspiciousnessMap(result);
+		flacocoResult.setLocationStatementMap(mapping);
+		return flacocoResult;
 	}
 
 }

@@ -32,7 +32,7 @@ public class SpectrumRunner implements FaultLocalizationRunner {
         result.setDefaultSuspiciousnessMap(defaultMapping);
 
         if (config.isComputeSpoonResults()) {
-            result.setSpoonSuspiciousnessMap(SpoonConverter.convert(defaultMapping));
+            result = SpoonConverter.convertResult(result);
         }
 
         return result;
