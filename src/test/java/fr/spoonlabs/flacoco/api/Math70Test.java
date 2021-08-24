@@ -30,6 +30,8 @@ public class Math70Test {
     public void setUp() {
         // Run only on Java8
         Assume.assumeTrue(getJavaVersion() == 8);
+        // FIXME: In CI, `testMath70` fails due to the test-runner args being too big (#57)
+        Assume.assumeFalse(System.getProperty("os.name").startsWith("Windows"));
 
         LogManager.getRootLogger().setLevel(Level.INFO);
         FlacocoConfig config = FlacocoConfig.getInstance();
