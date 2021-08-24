@@ -1,5 +1,8 @@
 package fr.spoonlabs.flacoco.api;
 
+import fr.spoonlabs.flacoco.api.result.FlacocoResult;
+import fr.spoonlabs.flacoco.api.result.Location;
+import fr.spoonlabs.flacoco.api.result.Suspiciousness;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.coverage.framework.JUnit4Strategy;
 import fr.spoonlabs.flacoco.core.test.TestContext;
@@ -56,22 +59,23 @@ public class Math70Test {
         Flacoco flacoco = new Flacoco();
 
         // Run default mode
-        Map<String, Suspiciousness> susp = flacoco.runDefault();
+        FlacocoResult result = flacoco.run();
 
-        for (String line : susp.keySet()) {
-            System.out.println("" + line + " " + susp.get(line));
+        for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+            System.out.println(entry);
         }
 
+        Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
         assertEquals(8, susp.size());
 
-        assertEquals(1.0, susp.get("org/apache/commons/math/analysis/solvers/BisectionSolver@-@72").getScore(), 0);
-        assertEquals(0.70, susp.get("org/apache/commons/math/analysis/solvers/BisectionSolver@-@66").getScore(), 0.01);
-        assertEquals(0.5, susp.get("org/apache/commons/math/analysis/solvers/BisectionSolver@-@81").getScore(), 0);
-        assertEquals(0.5, susp.get("org/apache/commons/math/analysis/solvers/BisectionSolver@-@80").getScore(), 0);
-        assertEquals(0.5, susp.get("org/apache/commons/math/analysis/solvers/BisectionSolver@-@89").getScore(), 0);
-        assertEquals(0.5, susp.get("org/apache/commons/math/analysis/solvers/BisectionSolver@-@88").getScore(), 0);
-        assertEquals(0.5, susp.get("org/apache/commons/math/analysis/solvers/BisectionSolver@-@87").getScore(), 0);
-        assertEquals(0.5, susp.get("org/apache/commons/math/analysis/solvers/BisectionSolver@-@87").getScore(), 0);
+        assertEquals(1.0, susp.get(new Location("org.apache.commons.math.analysis.solvers.BisectionSolver", 72)).getScore(), 0);
+        assertEquals(0.70, susp.get(new Location("org.apache.commons.math.analysis.solvers.BisectionSolver", 66)).getScore(), 0.01);
+        assertEquals(0.5, susp.get(new Location("org.apache.commons.math.analysis.solvers.BisectionSolver", 81)).getScore(), 0);
+        assertEquals(0.5, susp.get(new Location("org.apache.commons.math.analysis.solvers.BisectionSolver", 80)).getScore(), 0);
+        assertEquals(0.5, susp.get(new Location("org.apache.commons.math.analysis.solvers.BisectionSolver", 89)).getScore(), 0);
+        assertEquals(0.5, susp.get(new Location("org.apache.commons.math.analysis.solvers.BisectionSolver", 88)).getScore(), 0);
+        assertEquals(0.5, susp.get(new Location("org.apache.commons.math.analysis.solvers.BisectionSolver", 87)).getScore(), 0);
+        assertEquals(0.5, susp.get(new Location("org.apache.commons.math.analysis.solvers.BisectionSolver", 87)).getScore(), 0);
     }
 
 

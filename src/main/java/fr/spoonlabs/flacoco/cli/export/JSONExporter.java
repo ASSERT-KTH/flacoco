@@ -2,7 +2,7 @@ package fr.spoonlabs.flacoco.cli.export;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import fr.spoonlabs.flacoco.api.Suspiciousness;
+import fr.spoonlabs.flacoco.api.result.FlacocoResult;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -15,12 +15,12 @@ import java.util.stream.Collectors;
 public class JSONExporter implements FlacocoExporter {
 
 	@Override
-	public void export(Map<String, Suspiciousness> results, OutputStreamWriter outputStream) throws IOException {
+	public void export(FlacocoResult result, OutputStreamWriter outputStream) throws IOException {
 		Gson gson = new Gson();
 		Type gsonType = new TypeToken<HashMap>() {}.getType();
 
 		String gsonString = gson.toJson(
-				results.entrySet().stream()
+				result.getDefaultSuspiciousnessMap().entrySet().stream()
 						.collect(Collectors.toMap(
 								Map.Entry::getKey,
 								e -> e.getValue().getScore(),

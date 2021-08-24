@@ -1,6 +1,7 @@
 package fr.spoonlabs.flacoco.utils.spoon;
 
-import fr.spoonlabs.flacoco.api.Suspiciousness;
+import fr.spoonlabs.flacoco.api.result.Location;
+import fr.spoonlabs.flacoco.api.result.Suspiciousness;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.localization.spectrum.SpectrumFormula;
 import org.apache.log4j.Level;
@@ -44,15 +45,15 @@ public class SpoonConverterTest {
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
 		// Init mapping
-		Map<String, Suspiciousness> map = new HashMap<>();
-		map.put("fr/spoonlabs/FLtest1/Calculator@-@5", new Suspiciousness(1.0, null, null));
-		map.put("fr/spoonlabs/FLtest1/Calculator@-@6", new Suspiciousness(0.95, null, null));
-		map.put("fr/spoonlabs/FLtest1/Calculator@-@12", new Suspiciousness(0.90, null, null));
-		map.put("fr/spoonlabs/FLtest1/Calculator@-@8", new Suspiciousness(0.85, null, null));
-		map.put("fr/spoonlabs/FLtest1/Calculator@-@14", new Suspiciousness(0.80, null, null));
-		map.put("fr/spoonlabs/FLtest1/Calculator@-@15", new Suspiciousness(0.75, null, null));
-		map.put("fr/spoonlabs/FLtest1/Calculator@-@26", new Suspiciousness(0.70, null, null));
-		map.put("fr/spoonlabs/FLtest1/Calculator@-@21", new Suspiciousness(0.65, null, null));
+		Map<Location, Suspiciousness> map = new HashMap<>();
+		map.put(new Location("fr.spoonlabs.FLtest1.Calculator", 5), new Suspiciousness(1.0, null, null));
+		map.put(new Location("fr.spoonlabs.FLtest1.Calculator", 6), new Suspiciousness(0.95, null, null));
+		map.put(new Location("fr.spoonlabs.FLtest1.Calculator", 12), new Suspiciousness(0.90, null, null));
+		map.put(new Location("fr.spoonlabs.FLtest1.Calculator", 8), new Suspiciousness(0.85, null, null));
+		map.put(new Location("fr.spoonlabs.FLtest1.Calculator", 14), new Suspiciousness(0.80, null, null));
+		map.put(new Location("fr.spoonlabs.FLtest1.Calculator", 15), new Suspiciousness(0.75, null, null));
+		map.put(new Location("fr.spoonlabs.FLtest1.Calculator", 26), new Suspiciousness(0.70, null, null));
+		map.put(new Location("fr.spoonlabs.FLtest1.Calculator", 21), new Suspiciousness(0.65, null, null));
 
 		Map<CtStatement, Suspiciousness> converted = SpoonConverter.convert(map);
 

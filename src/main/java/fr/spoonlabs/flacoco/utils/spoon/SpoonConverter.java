@@ -1,6 +1,7 @@
 package fr.spoonlabs.flacoco.utils.spoon;
 
-import fr.spoonlabs.flacoco.api.Suspiciousness;
+import fr.spoonlabs.flacoco.api.result.Location;
+import fr.spoonlabs.flacoco.api.result.Suspiciousness;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import org.apache.log4j.Logger;
 import spoon.Launcher;
@@ -20,7 +21,7 @@ public class SpoonConverter {
 	private static Logger logger = Logger.getLogger(SpoonConverter.class);
 	private static FlacocoConfig config = FlacocoConfig.getInstance();
 
-	public static Map<CtStatement, Suspiciousness> convert(Map<String, Suspiciousness> original) {
+	public static Map<CtStatement, Suspiciousness> convert(Map<Location, Suspiciousness> original) {
 		logger.debug("Converting results to Spoon format...");
 		logger.debug(original);
 
@@ -35,11 +36,10 @@ public class SpoonConverter {
 
 		// Convert keys
 		Map<CtStatement, Suspiciousness> result = new HashMap<>();
-		for (String key : original.keySet()) {
+		for (Location location : original.keySet()) {
 			// Compute location information
-			SpoonLocalizedFaultFinder.fullyQualifiedClassName = key.substring(0, key.indexOf("@"))
-					.replace("/", ".");
-			SpoonLocalizedFaultFinder.lineNumber = Integer.parseInt(key.substring(key.lastIndexOf("@") + 1));
+			SpoonLocalizedFaultFinder.fullyQualifiedClassName = location.getClassName();
+			SpoonLocalizedFaultFinder.lineNumber = location.getLineNumber();
 
 			// Launch processor to find the top-most CtStatement of the given line
 			launcher.process();
@@ -52,12 +52,12 @@ public class SpoonConverter {
 
 			// Warning message that should never occur.
 			if (result.containsKey(SpoonLocalizedFaultFinder.found) &&
-					!result.get(SpoonLocalizedFaultFinder.found).equals(original.get(key))) {
-				logger.error("Converting [" + key + "] to [" + SpoonLocalizedFaultFinder.found + "] resulted in a " +
+					!result.get(SpoonLocalizedFaultFinder.found).equals(original.get(location))) {
+				logger.error("Converting [" + location + "] to [" + SpoonLocalizedFaultFinder.found + "] resulted in a " +
 						"duplicate key with different suspiciouness values. Please report this to the developers of " +
 						"Flacoco on https://github.com/SpoonLabs/flacoco");
 			}
-			result.put(SpoonLocalizedFaultFinder.found, original.get(key));
+			result.put(SpoonLocalizedFaultFinder.found, original.get(location));
 
 			// Prepare for next key
 			SpoonLocalizedFaultFinder.found = null;

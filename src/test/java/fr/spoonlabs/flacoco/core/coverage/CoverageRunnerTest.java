@@ -1,6 +1,7 @@
 package fr.spoonlabs.flacoco.core.coverage;
 
 import eu.stamp_project.testrunner.EntryPoint;
+import fr.spoonlabs.flacoco.api.result.Location;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.test.TestContext;
 import fr.spoonlabs.flacoco.core.test.TestDetector;
@@ -62,7 +63,7 @@ public class CoverageRunnerTest {
 		assertEquals(10, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
-		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
+		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 10));
 
 		assertEquals(4, firstLineExecuted.size());
 
@@ -76,7 +77,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
 		// This one is only executed by the sum
-		Set<TestMethod> returnSum = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@11");
+		Set<TestMethod> returnSum = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 11));
 
 		executedTestKeys = returnSum.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -86,7 +87,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSum"));
 
 		// This line is the second if, so it's covered by all tests, except the first one
-		Set<TestMethod> secondIfExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@12");
+		Set<TestMethod> secondIfExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 12));
 		assertEquals(3, secondIfExecuted.size());
 
 		executedTestKeys = secondIfExecuted.stream()
@@ -99,7 +100,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
-		Set<TestMethod> oneMultCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@14");
+		Set<TestMethod> oneMultCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 14));
 		assertEquals(2, oneMultCond.size());
 		executedTestKeys = oneMultCond.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -109,7 +110,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
 		// This line is inside one if, so it's executed only one
-		Set<TestMethod> oneReturnLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@15");
+		Set<TestMethod> oneReturnLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 15));
 		assertEquals(1, oneReturnLineExecuted.size());
 
 		executedTestKeys = oneReturnLineExecuted.stream()
@@ -120,7 +121,7 @@ public class CoverageRunnerTest {
 		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSubs"));
 		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 
-		Set<TestMethod> divisionCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@16");
+		Set<TestMethod> divisionCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 16));
 		assertEquals(1, divisionCond.size());
 		executedTestKeys = divisionCond.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -131,7 +132,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 
 		// Any test executes that
-		Set<TestMethod> modCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@18");
+		Set<TestMethod> modCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 18));
 		assertNull(modCond);
 	}
 
@@ -163,16 +164,16 @@ public class CoverageRunnerTest {
 		assertEquals(12, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
-		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@12");
+		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 12));
 		assertEquals(5, firstLineExecuted.size());
 
-		Set<TestMethod> secondLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@18");
+		Set<TestMethod> secondLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 18));
 		assertEquals(2, secondLineExecuted.size());
 
 
 		// This line is the one that throws an exception
 		System.out.println(matrix.getResultExecution());
-		Set<TestMethod> exceptionThrower = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@22");
+		Set<TestMethod> exceptionThrower = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 22));
 		assertEquals(1, exceptionThrower.size());
 	}
 
@@ -200,14 +201,14 @@ public class CoverageRunnerTest {
 		assertEquals(11, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
-		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@12");
+		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 12));
 		// The assertion fails because it cannot count the erroring test
 		assertEquals(5, firstLineExecuted.size());
 
-		Set<TestMethod> secondLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@21");
+		Set<TestMethod> secondLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 21));
 		assertEquals(1, secondLineExecuted.size());
 
-		Set<TestMethod> failingLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@22");
+		Set<TestMethod> failingLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 22));
 		assertNull(failingLineExecuted);
 		// assertEquals(0, failingLineExecuted.size());
 	}
@@ -238,7 +239,7 @@ public class CoverageRunnerTest {
 		assertEquals(19, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
-		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
+		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 10));
 
 		assertEquals(4, firstLineExecuted.size());
 
@@ -275,7 +276,7 @@ public class CoverageRunnerTest {
 		assertEquals(8, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
-		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
+		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 10));
 
 		assertEquals(4, firstLineExecuted.size());
 
@@ -289,7 +290,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
 		// This one is only executed by the sum
-		Set<TestMethod> returnSum = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@11");
+		Set<TestMethod> returnSum = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 11));
 
 		executedTestKeys = returnSum.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -299,7 +300,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSum"));
 
 		// This line is the second if, so it's covered by all tests, except the first one
-		Set<TestMethod> secondIfExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@12");
+		Set<TestMethod> secondIfExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 12));
 		assertEquals(3, secondIfExecuted.size());
 
 		executedTestKeys = secondIfExecuted.stream()
@@ -312,7 +313,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
-		Set<TestMethod> oneMultCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@14");
+		Set<TestMethod> oneMultCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 14));
 		assertEquals(2, oneMultCond.size());
 		executedTestKeys = oneMultCond.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -322,7 +323,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
 		// This line is inside one if, so it's executed only one
-		Set<TestMethod> oneReturnLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@15");
+		Set<TestMethod> oneReturnLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 15));
 		assertEquals(1, oneReturnLineExecuted.size());
 
 		executedTestKeys = oneReturnLineExecuted.stream()
@@ -333,7 +334,7 @@ public class CoverageRunnerTest {
 		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSubs"));
 		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 
-		Set<TestMethod> divisionCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@16");
+		Set<TestMethod> divisionCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 16));
 		assertEquals(1, divisionCond.size());
 		executedTestKeys = divisionCond.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -344,7 +345,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 
 		// Any test executes that
-		Set<TestMethod> modCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@18");
+		Set<TestMethod> modCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 18));
 		assertNull(modCond);
 	}
 
@@ -372,7 +373,7 @@ public class CoverageRunnerTest {
 		assertEquals(8, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
-		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
+		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 10));
 
 		assertEquals(4, firstLineExecuted.size());
 
@@ -386,7 +387,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
 		// This one is only executed by the sum
-		Set<TestMethod> returnSum = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@11");
+		Set<TestMethod> returnSum = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 11));
 
 		executedTestKeys = returnSum.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -396,7 +397,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSum"));
 
 		// This line is the second if, so it's covered by all tests, except the first one
-		Set<TestMethod> secondIfExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@12");
+		Set<TestMethod> secondIfExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 12));
 		assertEquals(3, secondIfExecuted.size());
 
 		executedTestKeys = secondIfExecuted.stream()
@@ -409,7 +410,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
-		Set<TestMethod> oneMultCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@14");
+		Set<TestMethod> oneMultCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 14));
 		assertEquals(2, oneMultCond.size());
 		executedTestKeys = oneMultCond.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -419,7 +420,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
 		// This line is inside one if, so it's executed only one
-		Set<TestMethod> oneReturnLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@15");
+		Set<TestMethod> oneReturnLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 15));
 		assertEquals(1, oneReturnLineExecuted.size());
 
 		executedTestKeys = oneReturnLineExecuted.stream()
@@ -430,7 +431,7 @@ public class CoverageRunnerTest {
 		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSubs"));
 		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 
-		Set<TestMethod> divisionCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@16");
+		Set<TestMethod> divisionCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 16));
 		assertEquals(1, divisionCond.size());
 		executedTestKeys = divisionCond.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -441,7 +442,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 
 		// Any test executes that
-		Set<TestMethod> modCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@18");
+		Set<TestMethod> modCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 18));
 		assertNull(modCond);
 	}
 
@@ -469,7 +470,7 @@ public class CoverageRunnerTest {
 		assertEquals(10, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
-		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
+		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 10));
 
 		assertEquals(4, firstLineExecuted.size());
 
@@ -483,7 +484,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorMixedTest#testMul"));
 
 		// This one is only executed by the sum
-		Set<TestMethod> returnSum = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@11");
+		Set<TestMethod> returnSum = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 11));
 
 		executedTestKeys = returnSum.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -493,7 +494,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorJUnit3Test#testSum"));
 
 		// This line is the second if, so it's covered by all tests, except the first one
-		Set<TestMethod> secondIfExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@12");
+		Set<TestMethod> secondIfExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 12));
 		assertEquals(3, secondIfExecuted.size());
 
 		executedTestKeys = secondIfExecuted.stream()
@@ -506,7 +507,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorJUnit5Test#testDiv"));
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorMixedTest#testMul"));
 
-		Set<TestMethod> oneMultCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@14");
+		Set<TestMethod> oneMultCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 14));
 		assertEquals(2, oneMultCond.size());
 		executedTestKeys = oneMultCond.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -516,7 +517,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorMixedTest#testMul"));
 
 		// This line is inside one if, so it's executed only one
-		Set<TestMethod> oneReturnLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@15");
+		Set<TestMethod> oneReturnLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 15));
 		assertEquals(1, oneReturnLineExecuted.size());
 
 		executedTestKeys = oneReturnLineExecuted.stream()
@@ -527,7 +528,7 @@ public class CoverageRunnerTest {
 		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorMixedTest#testSubs"));
 		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorJUnit5Test#testDiv"));
 
-		Set<TestMethod> divisionCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@16");
+		Set<TestMethod> divisionCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 16));
 		assertEquals(1, divisionCond.size());
 		executedTestKeys = divisionCond.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -538,7 +539,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorJUnit5Test#testDiv"));
 
 		// Any test executes that
-		Set<TestMethod> modCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@18");
+		Set<TestMethod> modCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 18));
 		assertNull(modCond);
 	}
 
@@ -586,7 +587,7 @@ public class CoverageRunnerTest {
 		assertEquals(10, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
-		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
+		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 10));
 
 		assertEquals(4, firstLineExecuted.size());
 
@@ -600,7 +601,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
 		// This one is only executed by the sum
-		Set<TestMethod> returnSum = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@11");
+		Set<TestMethod> returnSum = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 11));
 
 		executedTestKeys = returnSum.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -610,7 +611,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSum"));
 
 		// This line is the second if, so it's covered by all tests, except the first one
-		Set<TestMethod> secondIfExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@12");
+		Set<TestMethod> secondIfExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 12));
 		assertEquals(3, secondIfExecuted.size());
 
 		executedTestKeys = secondIfExecuted.stream()
@@ -623,7 +624,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
-		Set<TestMethod> oneMultCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@14");
+		Set<TestMethod> oneMultCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 14));
 		assertEquals(2, oneMultCond.size());
 		executedTestKeys = oneMultCond.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -633,7 +634,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
 		// This line is inside one if, so it's executed only one
-		Set<TestMethod> oneReturnLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@15");
+		Set<TestMethod> oneReturnLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 15));
 		assertEquals(1, oneReturnLineExecuted.size());
 
 		executedTestKeys = oneReturnLineExecuted.stream()
@@ -644,7 +645,7 @@ public class CoverageRunnerTest {
 		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSubs"));
 		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 
-		Set<TestMethod> divisionCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@16");
+		Set<TestMethod> divisionCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 16));
 		assertEquals(1, divisionCond.size());
 		executedTestKeys = divisionCond.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -655,7 +656,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 
 		// Any test executes that
-		Set<TestMethod> modCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@18");
+		Set<TestMethod> modCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 18));
 		assertNull(modCond);
 	}
 
@@ -683,7 +684,7 @@ public class CoverageRunnerTest {
 		assertEquals(10, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
-		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
+		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 10));
 
 		assertEquals(8, firstLineExecuted.size());
 
@@ -697,7 +698,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
 		// This one is only executed by the sum
-		Set<TestMethod> returnSum = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@11");
+		Set<TestMethod> returnSum = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 11));
 
 		executedTestKeys = returnSum.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -707,7 +708,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSum"));
 
 		// This line is the second if, so it's covered by all tests, except the first one
-		Set<TestMethod> secondIfExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@12");
+		Set<TestMethod> secondIfExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 12));
 		assertEquals(6, secondIfExecuted.size());
 
 		executedTestKeys = secondIfExecuted.stream()
@@ -720,7 +721,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
-		Set<TestMethod> oneMultCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@14");
+		Set<TestMethod> oneMultCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 14));
 		assertEquals(4, oneMultCond.size());
 		executedTestKeys = oneMultCond.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -730,7 +731,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
 		// This line is inside one if, so it's executed only one
-		Set<TestMethod> oneReturnLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@15");
+		Set<TestMethod> oneReturnLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 15));
 		assertEquals(2, oneReturnLineExecuted.size());
 
 		executedTestKeys = oneReturnLineExecuted.stream()
@@ -741,7 +742,7 @@ public class CoverageRunnerTest {
 		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSubs"));
 		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 
-		Set<TestMethod> divisionCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@16");
+		Set<TestMethod> divisionCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 16));
 		assertEquals(2, divisionCond.size());
 		executedTestKeys = divisionCond.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -752,7 +753,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 
 		// Any test executes that
-		Set<TestMethod> modCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@18");
+		Set<TestMethod> modCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 18));
 		assertNull(modCond);
 	}
 
@@ -785,7 +786,7 @@ public class CoverageRunnerTest {
 		assertEquals(10, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
-		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
+		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 10));
 
 		assertEquals(4, firstLineExecuted.size());
 
@@ -799,7 +800,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
 		// This one is only executed by the sum
-		Set<TestMethod> returnSum = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@11");
+		Set<TestMethod> returnSum = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 11));
 
 		executedTestKeys = returnSum.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -809,7 +810,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSum"));
 
 		// This line is the second if, so it's covered by all tests, except the first one
-		Set<TestMethod> secondIfExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@12");
+		Set<TestMethod> secondIfExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 12));
 		assertEquals(3, secondIfExecuted.size());
 
 		executedTestKeys = secondIfExecuted.stream()
@@ -822,7 +823,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
-		Set<TestMethod> oneMultCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@14");
+		Set<TestMethod> oneMultCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 14));
 		assertEquals(2, oneMultCond.size());
 		executedTestKeys = oneMultCond.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -832,7 +833,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
 		// This line is inside one if, so it's executed only one
-		Set<TestMethod> oneReturnLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@15");
+		Set<TestMethod> oneReturnLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 15));
 		assertEquals(1, oneReturnLineExecuted.size());
 
 		executedTestKeys = oneReturnLineExecuted.stream()
@@ -843,7 +844,7 @@ public class CoverageRunnerTest {
 		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSubs"));
 		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 
-		Set<TestMethod> divisionCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@16");
+		Set<TestMethod> divisionCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 16));
 		assertEquals(1, divisionCond.size());
 		executedTestKeys = divisionCond.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -854,7 +855,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 
 		// Any test executes that
-		Set<TestMethod> modCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@18");
+		Set<TestMethod> modCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 18));
 		assertNull(modCond);
 	}
 
@@ -886,7 +887,7 @@ public class CoverageRunnerTest {
 		assertEquals(10, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
-		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
+		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 10));
 
 		assertEquals(8, firstLineExecuted.size());
 
@@ -900,7 +901,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
 		// This one is only executed by the sum
-		Set<TestMethod> returnSum = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@11");
+		Set<TestMethod> returnSum = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 11));
 
 		executedTestKeys = returnSum.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -910,7 +911,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSum"));
 
 		// This line is the second if, so it's covered by all tests, except the first one
-		Set<TestMethod> secondIfExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@12");
+		Set<TestMethod> secondIfExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 12));
 		assertEquals(6, secondIfExecuted.size());
 
 		executedTestKeys = secondIfExecuted.stream()
@@ -923,7 +924,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
-		Set<TestMethod> oneMultCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@14");
+		Set<TestMethod> oneMultCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 14));
 		assertEquals(4, oneMultCond.size());
 		executedTestKeys = oneMultCond.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -933,7 +934,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
 		// This line is inside one if, so it's executed only one
-		Set<TestMethod> oneReturnLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@15");
+		Set<TestMethod> oneReturnLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 15));
 		assertEquals(2, oneReturnLineExecuted.size());
 
 		executedTestKeys = oneReturnLineExecuted.stream()
@@ -944,7 +945,7 @@ public class CoverageRunnerTest {
 		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSubs"));
 		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 
-		Set<TestMethod> divisionCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@16");
+		Set<TestMethod> divisionCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 16));
 		assertEquals(2, divisionCond.size());
 		executedTestKeys = divisionCond.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -955,7 +956,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 
 		// Any test executes that
-		Set<TestMethod> modCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@18");
+		Set<TestMethod> modCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 18));
 		assertNull(modCond);
 	}
 
@@ -983,7 +984,7 @@ public class CoverageRunnerTest {
 		assertEquals(10, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
-		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
+		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 10));
 
 		assertEquals(4, firstLineExecuted.size());
 
@@ -997,7 +998,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
 		// This one is only executed by the sum
-		Set<TestMethod> returnSum = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@11");
+		Set<TestMethod> returnSum = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 11));
 
 		executedTestKeys = returnSum.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -1007,7 +1008,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSum"));
 
 		// This line is the second if, so it's covered by all tests, except the first one
-		Set<TestMethod> secondIfExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@12");
+		Set<TestMethod> secondIfExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 12));
 		assertEquals(3, secondIfExecuted.size());
 
 		executedTestKeys = secondIfExecuted.stream()
@@ -1020,7 +1021,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
-		Set<TestMethod> oneMultCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@14");
+		Set<TestMethod> oneMultCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 14));
 		assertEquals(2, oneMultCond.size());
 		executedTestKeys = oneMultCond.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -1030,7 +1031,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testMul"));
 
 		// This line is inside one if, so it's executed only one
-		Set<TestMethod> oneReturnLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@15");
+		Set<TestMethod> oneReturnLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 15));
 		assertEquals(1, oneReturnLineExecuted.size());
 
 		executedTestKeys = oneReturnLineExecuted.stream()
@@ -1041,7 +1042,7 @@ public class CoverageRunnerTest {
 		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testSubs"));
 		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 
-		Set<TestMethod> divisionCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@16");
+		Set<TestMethod> divisionCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 16));
 		assertEquals(1, divisionCond.size());
 		executedTestKeys = divisionCond.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -1052,7 +1053,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.CalculatorTest#testDiv"));
 
 		// Any test executes that
-		Set<TestMethod> modCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@18");
+		Set<TestMethod> modCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.Calculator", 18));
 		assertNull(modCond);
 	}
 
@@ -1085,7 +1086,7 @@ public class CoverageRunnerTest {
 		assertEquals(8, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
-		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/enum/Calculator@-@10");
+		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.enum.Calculator", 10));
 
 		assertEquals(4, firstLineExecuted.size());
 
@@ -1099,7 +1100,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.enum.CalculatorTest#testMul"));
 
 		// This one is only executed by the sum
-		Set<TestMethod> returnSum = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/enum/Calculator@-@11");
+		Set<TestMethod> returnSum = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.enum.Calculator", 11));
 
 		executedTestKeys = returnSum.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -1109,7 +1110,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.enum.CalculatorTest#testSum"));
 
 		// This line is the second if, so it's covered by all tests, except the first one
-		Set<TestMethod> secondIfExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/enum/Calculator@-@12");
+		Set<TestMethod> secondIfExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.enum.Calculator", 12));
 		assertEquals(3, secondIfExecuted.size());
 
 		executedTestKeys = secondIfExecuted.stream()
@@ -1122,7 +1123,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.enum.CalculatorTest#testDiv"));
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.enum.CalculatorTest#testMul"));
 
-		Set<TestMethod> oneMultCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/enum/Calculator@-@14");
+		Set<TestMethod> oneMultCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.enum.Calculator", 14));
 		assertEquals(2, oneMultCond.size());
 		executedTestKeys = oneMultCond.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -1132,7 +1133,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.enum.CalculatorTest#testMul"));
 
 		// This line is inside one if, so it's executed only one
-		Set<TestMethod> oneReturnLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/enum/Calculator@-@15");
+		Set<TestMethod> oneReturnLineExecuted = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.enum.Calculator", 15));
 		assertEquals(1, oneReturnLineExecuted.size());
 
 		executedTestKeys = oneReturnLineExecuted.stream()
@@ -1143,7 +1144,7 @@ public class CoverageRunnerTest {
 		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.enum.CalculatorTest#testSubs"));
 		assertFalse(executedTestKeys.contains("fr.spoonlabs.FLtest1.enum.CalculatorTest#testDiv"));
 
-		Set<TestMethod> divisionCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/enum/Calculator@-@16");
+		Set<TestMethod> divisionCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.enum.Calculator", 16));
 		assertEquals(1, divisionCond.size());
 		executedTestKeys = divisionCond.stream()
 				.map(TestMethod::getFullyQualifiedMethodName).collect(Collectors.toSet());
@@ -1154,7 +1155,7 @@ public class CoverageRunnerTest {
 		assertTrue(executedTestKeys.contains("fr.spoonlabs.FLtest1.enum.CalculatorTest#testDiv"));
 
 		// Any test executes that
-		Set<TestMethod> modCond = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/enum/Calculator@-@18");
+		Set<TestMethod> modCond = matrix.getResultExecution().get(new Location("fr.spoonlabs.FLtest1.enum.Calculator", 18));
 		assertNull(modCond);
 	}
 
