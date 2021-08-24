@@ -37,6 +37,7 @@ public class SpoonConverterTest {
 	}
 
 	@Test
+	@Ignore
 	public void testConvertSpoonExample() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();

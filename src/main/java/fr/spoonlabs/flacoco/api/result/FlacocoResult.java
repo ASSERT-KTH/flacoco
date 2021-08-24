@@ -6,6 +6,17 @@ import spoon.reflect.code.CtStatement;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * The result of flacoco.
+ * <p>
+ * Contains a mapping between suspicious {@link Location} and their {@link Suspiciousness} values.
+ * <p>
+ * If {@link fr.spoonlabs.flacoco.core.config.FlacocoConfig} has the parameter `computeSpoonResults` enabled,
+ * a mapping betweek {@link CtStatement} and {@link Suspiciousness}, as well as the mapping between
+ * {@link Location} and {@link CtStatement} can be found under `getSpoonSuspiciousnessMap()` and `getLocationStatementMap()` respectively.
+ * <p>
+ * Otherwise, both these getter <b>will return null</b>.
+ */
 public class FlacocoResult {
 
     private Map<Location, Suspiciousness> defaultSuspiciousnessMap;

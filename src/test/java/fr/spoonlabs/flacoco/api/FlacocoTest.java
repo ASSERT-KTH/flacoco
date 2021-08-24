@@ -4,6 +4,7 @@ import fr.spoonlabs.flacoco.api.result.FlacocoResult;
 import fr.spoonlabs.flacoco.api.result.Location;
 import fr.spoonlabs.flacoco.api.result.Suspiciousness;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
+import fr.spoonlabs.flacoco.core.test.method.StringTestMethod;
 import fr.spoonlabs.flacoco.localization.spectrum.SpectrumFormula;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
@@ -57,6 +58,9 @@ public class FlacocoTest {
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
+
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
 
 		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
 			System.out.println(entry);
@@ -390,6 +394,9 @@ public class FlacocoTest {
 		// Run default mode
 		FlacocoResult result = flacoco.run();
 
+		Map<Location, CtStatement> mapping = result.getLocationStatementMap();
+		assertEquals(6, mapping.size());
+
 		Map<CtStatement, Suspiciousness> susp = result.getSpoonSuspiciousnessMap();
 		// The two lines of the (empty) constructor get mapped to the same CtStatement
 		assertEquals(5, susp.size());
@@ -544,6 +551,9 @@ public class FlacocoTest {
 		// Run default mode
 		FlacocoResult result = flacoco.run();
 
+		Map<Location, CtStatement> mapping = result.getLocationStatementMap();
+		assertEquals(4, mapping.size());
+
 		Map<CtStatement, Suspiciousness> susp = result.getSpoonSuspiciousnessMap();
 		assertEquals(4, susp.size());
 
@@ -655,6 +665,9 @@ public class FlacocoTest {
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
+
+		Map<Location, CtStatement> mapping = result.getLocationStatementMap();
+		assertEquals(4, mapping.size());
 
 		Map<CtStatement, Suspiciousness> susp = result.getSpoonSuspiciousnessMap();
 		assertEquals(4, susp.size());
@@ -809,6 +822,9 @@ public class FlacocoTest {
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
+
+		Map<Location, CtStatement> mapping = result.getLocationStatementMap();
+		assertEquals(4, mapping.size());
 
 		Map<CtStatement, Suspiciousness> susp = result.getSpoonSuspiciousnessMap();
 		assertEquals(4, susp.size());
@@ -972,6 +988,9 @@ public class FlacocoTest {
 		// Run default mode
 		FlacocoResult result = flacoco.run();
 
+		Map<Location, CtStatement> mapping = result.getLocationStatementMap();
+		assertEquals(6, mapping.size());
+
 		Map<CtStatement, Suspiciousness> susp = result.getSpoonSuspiciousnessMap();
 		// The two lines of the (empty) constructor get mapped to the same CtStatement
 		assertEquals(5, susp.size());
@@ -1058,6 +1077,9 @@ public class FlacocoTest {
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
+
+		Map<Location, CtStatement> mapping = result.getLocationStatementMap();
+		assertEquals(6, mapping.size());
 
 		Map<CtStatement, Suspiciousness> susp = result.getSpoonSuspiciousnessMap();
 		// The two lines of the (empty) constructor get mapped to the same CtStatement
