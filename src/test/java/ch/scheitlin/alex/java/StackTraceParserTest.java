@@ -23,14 +23,14 @@
  */
 package ch.scheitlin.alex.java;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.junit.Assert.fail;
 
 public class StackTraceParserTest {
 

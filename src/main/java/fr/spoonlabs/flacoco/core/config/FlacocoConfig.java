@@ -46,6 +46,8 @@ public class FlacocoConfig {
 	private Set<String> ignoredTests;
 	private Set<String> jUnit4Tests;
 	private Set<String> jUnit5Tests;
+	private Set<String> jacocoIncludes;
+	private Set<String> jacocoExcludes;
 
 	private FaultLocalizationFamily family;
 	//------Options for spectrum-based fault localization------
@@ -85,6 +87,8 @@ public class FlacocoConfig {
 		this.ignoredTests = new HashSet<>();
 		this.jUnit4Tests = new HashSet<>();
 		this.jUnit5Tests = new HashSet<>();
+		this.jacocoIncludes = new HashSet<>();
+		this.jacocoExcludes = new HashSet<>();
 
 		this.family = FaultLocalizationFamily.SPECTRUM_BASED;
 		this.spectrumFormula = SpectrumFormula.OCHIAI;
@@ -262,6 +266,22 @@ public class FlacocoConfig {
 		this.jUnit5Tests = jUnit5Tests;
 	}
 
+	public Set<String> getJacocoIncludes() {
+		return jacocoIncludes;
+	}
+
+	public void setJacocoIncludes(Set<String> jacocoIncludes) {
+		this.jacocoIncludes = jacocoIncludes;
+	}
+
+	public Set<String> getJacocoExcludes() {
+		return jacocoExcludes;
+	}
+
+	public void setJacocoExcludes(Set<String> jacocoExcludes) {
+		this.jacocoExcludes = jacocoExcludes;
+	}
+
 	public FaultLocalizationFamily getFamily() {
 		return family;
 	}
@@ -326,6 +346,8 @@ public class FlacocoConfig {
 				", ignoredTests=" + ignoredTests +
 				", jUnit4Tests=" + jUnit4Tests +
 				", jUnit5Tests=" + jUnit5Tests +
+				", jacocoIncludes=" + jacocoIncludes +
+				", jacocoExcludes=" + jacocoExcludes +
 				", family=" + family +
 				", spectrumFormula=" + spectrumFormula +
 				'}';

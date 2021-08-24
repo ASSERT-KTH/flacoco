@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 import spoon.Launcher;
 import spoon.reflect.code.CtStatement;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 

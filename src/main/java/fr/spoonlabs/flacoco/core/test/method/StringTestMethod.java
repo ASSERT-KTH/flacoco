@@ -11,11 +11,11 @@ public class StringTestMethod implements TestMethod {
 
     private String fullyQualifiedClassName;
 
-    private String simpleMethodName;
+    private String fullyQualifiedMethodName;
 
     public StringTestMethod(String fullyQualifiedClassName, String simpleMethodName) {
         this.fullyQualifiedClassName = fullyQualifiedClassName;
-        this.simpleMethodName = simpleMethodName;
+        this.fullyQualifiedMethodName = fullyQualifiedClassName + "#" + simpleMethodName;
     }
 
     public String getFullyQualifiedClassName() {
@@ -23,7 +23,7 @@ public class StringTestMethod implements TestMethod {
     }
 
     public String getFullyQualifiedMethodName() {
-        return fullyQualifiedClassName + "#" + simpleMethodName;
+        return fullyQualifiedMethodName;
     }
 
     @Override

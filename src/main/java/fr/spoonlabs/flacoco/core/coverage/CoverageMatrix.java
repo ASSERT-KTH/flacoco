@@ -40,7 +40,7 @@ public class CoverageMatrix {
 	 * @return The key for iLineNumber in iClassNameCovered
 	 */
 	public static String getLineKey(String iClassNameCovered, int iLineNumber) {
-		return String.format("%s%s%d", iClassNameCovered, JOIN, iLineNumber);
+		return iClassNameCovered + JOIN + iLineNumber;
 	}
 
 	/**

@@ -31,7 +31,7 @@ public class JUnit4Strategy extends TestFrameworkStrategy {
 		logger.debug("Running " + testContext);
 		this.setupTestRunnerEntryPoint();
 
-		return EntryPoint.runCoveredTestResultPerTestMethods(
+		return EntryPoint.runOnlineCoveredTestResultPerTestMethods(
 				this.computeClasspath(),
 				FlacocoConfig.getInstance().getBinJavaDir(),
 				FlacocoConfig.getInstance().getBinTestDir(),
