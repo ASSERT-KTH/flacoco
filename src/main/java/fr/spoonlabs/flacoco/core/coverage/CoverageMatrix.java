@@ -63,7 +63,8 @@ public class CoverageMatrix {
 		// Let's navigate the covered class per line.
 		for (String iClassNameCovered : covLine.getDetailedCoverage().keySet()) {
 
-			if (!config.isCoverTests() && testClasses.contains(iClassNameCovered)) {
+			String className = iClassNameCovered.replace("/", ".");
+			if (!config.isCoverTests() && testClasses.contains(className)) {
 				continue;
 			}
 
@@ -98,6 +99,11 @@ public class CoverageMatrix {
 						// computation, which will ignore classes like org.junit.Assert
 						if (((CoverageDetailed) result.getCoverageOf(testMethod.getFullyQualifiedMethodName()))
 								.getDetailedCoverage().containsKey(element.getClassName().replace(".", "/"))) {
+
+							// We also want to ignore test classes if they coverTests is not set
+							if (!config.isCoverTests() && testClasses.contains(element.getClassName())) {
+								continue;
+							}
 
 							String lineKey = CoverageMatrix.getLineKey(
 									element.getClassName().replace(".", "/"),
