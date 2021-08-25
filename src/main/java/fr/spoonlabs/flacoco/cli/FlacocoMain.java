@@ -1,7 +1,7 @@
 package fr.spoonlabs.flacoco.cli;
 
 import fr.spoonlabs.flacoco.api.Flacoco;
-import fr.spoonlabs.flacoco.api.Suspiciousness;
+import fr.spoonlabs.flacoco.api.result.FlacocoResult;
 import fr.spoonlabs.flacoco.cli.export.CSVExporter;
 import fr.spoonlabs.flacoco.cli.export.FlacocoExporter;
 import fr.spoonlabs.flacoco.cli.export.JSONExporter;
@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
@@ -155,9 +154,9 @@ public class FlacocoMain implements Callable<Integer> {
 		setupFlacocoConfig();
 
 		Flacoco flacoco = new Flacoco();
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		exportResults(susp);
+		exportResults(result);
 
 		return 0;
 	}
@@ -205,11 +204,11 @@ public class FlacocoMain implements Callable<Integer> {
 		config.setSpectrumFormula(this.spectrumFormula);
 	}
 
-	private void exportResults(Map<String, Suspiciousness> results) {
+	private void exportResults(FlacocoResult result) {
 		try {
 			FlacocoExporter exporter = getExporter();
 			OutputStreamWriter outputStreamWriter = getOutputStreamWriter(exporter);
-			exporter.export(results, outputStreamWriter);
+			exporter.export(result, outputStreamWriter);
 			outputStreamWriter.close();
 		} catch (IOException e) {
 			throw new RuntimeException(e);

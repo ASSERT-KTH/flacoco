@@ -1,4 +1,4 @@
-package fr.spoonlabs.flacoco.api;
+package fr.spoonlabs.flacoco.api.result;
 
 import fr.spoonlabs.flacoco.core.test.method.TestMethod;
 

@@ -49,6 +49,8 @@ public class FlacocoConfig {
 	private Set<String> jacocoIncludes;
 	private Set<String> jacocoExcludes;
 
+	private boolean computeSpoonResults;
+
 	private FaultLocalizationFamily family;
 	//------Options for spectrum-based fault localization------
 	private SpectrumFormula spectrumFormula;
@@ -89,6 +91,8 @@ public class FlacocoConfig {
 		this.jUnit5Tests = new HashSet<>();
 		this.jacocoIncludes = new HashSet<>();
 		this.jacocoExcludes = new HashSet<>();
+
+		this.computeSpoonResults = false;
 
 		this.family = FaultLocalizationFamily.SPECTRUM_BASED;
 		this.spectrumFormula = SpectrumFormula.OCHIAI;
@@ -322,6 +326,14 @@ public class FlacocoConfig {
 		this.complianceLevel = complianceLevel;
 	}
 
+	public boolean isComputeSpoonResults() {
+		return computeSpoonResults;
+	}
+
+	public void setComputeSpoonResults(boolean computeSpoonResults) {
+		this.computeSpoonResults = computeSpoonResults;
+	}
+
 	@Override
 	public String toString() {
 		return "FlacocoConfig{" +
@@ -350,6 +362,7 @@ public class FlacocoConfig {
 				", jacocoExcludes=" + jacocoExcludes +
 				", family=" + family +
 				", spectrumFormula=" + spectrumFormula +
+				", computeSpoonResults=" + computeSpoonResults +
 				'}';
 	}
 

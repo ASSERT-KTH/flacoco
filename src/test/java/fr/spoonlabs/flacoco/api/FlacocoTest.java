@@ -1,6 +1,10 @@
 package fr.spoonlabs.flacoco.api;
 
+import fr.spoonlabs.flacoco.api.result.FlacocoResult;
+import fr.spoonlabs.flacoco.api.result.Location;
+import fr.spoonlabs.flacoco.api.result.Suspiciousness;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
+import fr.spoonlabs.flacoco.core.test.method.StringTestMethod;
 import fr.spoonlabs.flacoco.localization.spectrum.SpectrumFormula;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
@@ -53,25 +57,29 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
+		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0);
 	}
 
 	@Test
@@ -87,21 +95,22 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		// no lines below to 0.51 in suspiciousness are returned
 		assertEquals(3, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
+		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 	}
 
 	@Test
@@ -118,32 +127,33 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		// all lines are returned
 		assertEquals(10, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
+		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0);
 
 		// Lines with no failing test executing them have a 0.0 score
-		assertEquals(0.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@11").getScore(), 0);
-		assertEquals(0.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@13").getScore(), 0);
-		assertEquals(0.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@16").getScore(), 0);
-		assertEquals(0.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@17").getScore(), 0);
+		assertEquals(0.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 11)).getScore(), 0);
+		assertEquals(0.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 13)).getScore(), 0);
+		assertEquals(0.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 16)).getScore(), 0);
+		assertEquals(0.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 17)).getScore(), 0);
 	}
 
 	@Test
@@ -165,25 +175,26 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
+		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
 	}
 
 	@Test
@@ -200,18 +211,19 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		// all executed lines are returned
 		assertEquals(9, susp.size());
 
 		// and they all have zero suspiciousness, since we ignored the failing test case
-		for (String line : susp.keySet()) {
-			assertEquals(0.0, susp.get(line).getScore(), 0);
+		for (Location location : susp.keySet()) {
+			assertEquals(0.0, susp.get(location).getScore(), 0);
 		}
 	}
 
@@ -231,27 +243,28 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("susp " + line + " " + susp.get(line));
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(8, susp.keySet().size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@21").getScore(), 0);
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@22").getScore(), 0); // exception thrown here
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 21)).getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 22)).getScore(), 0); // exception thrown here
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@18").getScore(), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@16").getScore(), 0.01);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 18)).getScore(), 0.01);
+		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 16)).getScore(), 0.01);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0);
 
 		// Lines executed by all test
-		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
-		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0.01);
-		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0.01);
+		assertEquals(0.44, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
+		assertEquals(0.44, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0.01);
+		assertEquals(0.44, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0.01);
 	}
 
 	@Test
@@ -266,26 +279,27 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("susp " + line + " " + susp.get(line));
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(7, susp.keySet().size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@21").getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 21)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@18").getScore(), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@16").getScore(), 0.01);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 18)).getScore(), 0.01);
+		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 16)).getScore(), 0.01);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0);
 
 		// Lines executed by all test
-		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
-		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0.01);
-		assertEquals(0.44, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0.01);
+		assertEquals(0.44, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
+		assertEquals(0.44, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0.01);
+		assertEquals(0.44, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0.01);
 	}
 
 	@Test
@@ -301,28 +315,29 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(9, susp.size());
 
-		// Line executed only by the failing (including the call form the test)
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@28").getScore(), 0);
+		// Line executed only by the failing
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 28)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
+		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 9)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 7)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0);
 	}
 
 	/**
@@ -342,25 +357,26 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
+		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0);
 	}
 
 	@Test
@@ -370,13 +386,18 @@ public class FlacocoTest {
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+		config.setComputeSpoonResults(true);
 
 		// Run Flacoco
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<CtStatement, Suspiciousness> susp = flacoco.runSpoon();
+		FlacocoResult result = flacoco.run();
 
+		Map<Location, CtStatement> mapping = result.getLocationStatementMap();
+		assertEquals(6, mapping.size());
+
+		Map<CtStatement, Suspiciousness> susp = result.getSpoonSuspiciousnessMap();
 		// The two lines of the (empty) constructor get mapped to the same CtStatement
 		assertEquals(5, susp.size());
 
@@ -418,23 +439,24 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(4, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
+		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
 	}
 
 	@Test
@@ -457,23 +479,24 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(4, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
+		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
 	}
 
 	@Test
@@ -490,26 +513,27 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(7, susp.size());
 
-		// Line executed only by the failing (including the call form the test)
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@28").getScore(), 0);
+		// Line executed only by the failing
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 28)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
+		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 9)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 7)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
 	}
 
 	@Test
@@ -519,13 +543,18 @@ public class FlacocoTest {
 		config.setProjectPath(new File("./examples/exampleFL4JUnit5/FLtest1").getAbsolutePath());
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+		config.setComputeSpoonResults(true);
 
 		// Run Flacoco
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<CtStatement, Suspiciousness> susp = flacoco.runSpoon();
+		FlacocoResult result = flacoco.run();
 
+		Map<Location, CtStatement> mapping = result.getLocationStatementMap();
+		assertEquals(4, mapping.size());
+
+		Map<CtStatement, Suspiciousness> susp = result.getSpoonSuspiciousnessMap();
 		assertEquals(4, susp.size());
 
 		for (CtStatement ctStatement : susp.keySet()) {
@@ -565,23 +594,24 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(4, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
+		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
 	}
 
 	@Test
@@ -598,26 +628,27 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(7, susp.size());
 
-		// Line executed only by the failing (including the call form the test)
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@28").getScore(), 0);
+		// Line executed only by the failing
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 28)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
+		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 9)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 7)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
 	}
 
 	@Test
@@ -627,13 +658,18 @@ public class FlacocoTest {
 		config.setProjectPath(new File("./examples/exampleFL5JUnit3/FLtest1").getAbsolutePath());
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+		config.setComputeSpoonResults(true);
 
 		// Run Flacoco
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<CtStatement, Suspiciousness> susp = flacoco.runSpoon();
+		FlacocoResult result = flacoco.run();
 
+		Map<Location, CtStatement> mapping = result.getLocationStatementMap();
+		assertEquals(4, mapping.size());
+
+		Map<CtStatement, Suspiciousness> susp = result.getSpoonSuspiciousnessMap();
 		assertEquals(4, susp.size());
 
 		for (CtStatement ctStatement : susp.keySet()) {
@@ -673,23 +709,24 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(4, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
+		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
 	}
 
 	@Test
@@ -714,23 +751,24 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(4, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
+		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
 	}
 
 	@Test
@@ -747,26 +785,27 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(7, susp.size());
 
-		// Line executed only by the failing (including the test itself)
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@28").getScore(), 0);
+		// Line executed only by the failing
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 28)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
+		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 9)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 7)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
 	}
 
 	@Test
@@ -776,13 +815,18 @@ public class FlacocoTest {
 		config.setProjectPath(new File("./examples/exampleFL6Mixed/FLtest1").getAbsolutePath());
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+		config.setComputeSpoonResults(true);
 
 		// Run Flacoco
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<CtStatement, Suspiciousness> susp = flacoco.runSpoon();
+		FlacocoResult result = flacoco.run();
 
+		Map<Location, CtStatement> mapping = result.getLocationStatementMap();
+		assertEquals(4, mapping.size());
+
+		Map<CtStatement, Suspiciousness> susp = result.getSpoonSuspiciousnessMap();
 		assertEquals(4, susp.size());
 
 		for (CtStatement ctStatement : susp.keySet()) {
@@ -822,25 +866,26 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
+		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0);
 	}
 
 	@Test
@@ -860,25 +905,26 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
+		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0);
 	}
 
 	@Test
@@ -898,28 +944,29 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(9, susp.size());
 
-		// Line executed only by the failing (including the test itself)
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@28").getScore(), 0);
+		// Line executed only by the failing
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 28)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
+		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@9").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@7").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 9)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 7)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0);
 	}
 
 	@Test
@@ -933,13 +980,18 @@ public class FlacocoTest {
 		config.setBinTestDir(Collections.singletonList("./examples/exampleFL8NotMaven/bin/test-classes"));
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+		config.setComputeSpoonResults(true);
 
 		// Run Flacoco
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<CtStatement, Suspiciousness> susp = flacoco.runSpoon();
+		FlacocoResult result = flacoco.run();
 
+		Map<Location, CtStatement> mapping = result.getLocationStatementMap();
+		assertEquals(6, mapping.size());
+
+		Map<CtStatement, Suspiciousness> susp = result.getSpoonSuspiciousnessMap();
 		// The two lines of the (empty) constructor get mapped to the same CtStatement
 		assertEquals(5, susp.size());
 
@@ -985,25 +1037,26 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(6, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
+		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0);
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0);
 	}
 
 	@Test
@@ -1017,13 +1070,18 @@ public class FlacocoTest {
 		config.setBinTestDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/bin/test-classes2", "./examples/exampleFL9NotMavenMultiple/bin/test-classes1"));
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+		config.setComputeSpoonResults(true);
 
 		// Run Flacoco
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<CtStatement, Suspiciousness> susp = flacoco.runSpoon();
+		FlacocoResult result = flacoco.run();
 
+		Map<Location, CtStatement> mapping = result.getLocationStatementMap();
+		assertEquals(6, mapping.size());
+
+		Map<CtStatement, Suspiciousness> susp = result.getSpoonSuspiciousnessMap();
 		// The two lines of the (empty) constructor get mapped to the same CtStatement
 		assertEquals(5, susp.size());
 
@@ -1065,29 +1123,30 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(8, susp.size());
 
 		// Line executed by all failing test cases
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.0);
 
 		// Line executed by one passing and 2 failing tests
-		assertEquals(0.81, susp.get("fr/spoonlabs/FLtest1/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.81, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 
 		// Lines executed by one failing test
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0.01);
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@16").getScore(), 0.01);
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@17").getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 16)).getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 17)).getScore(), 0.01);
 
 		// Line executed by all tests (2 passing, 2 failing)
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@10").getScore(), 0.01);
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@5").getScore(), 0.01);
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@6").getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0.01);
 	}
 
 	/**
@@ -1110,23 +1169,24 @@ public class FlacocoTest {
 		Flacoco flacoco = new Flacoco();
 
 		// Run default mode
-		Map<String, Suspiciousness> susp = flacoco.runDefault();
+		FlacocoResult result = flacoco.run();
 
-		for (String line : susp.keySet()) {
-			System.out.println("" + line + " " + susp.get(line));
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
 		}
 
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(4, susp.size());
 
 		// Line executed only by the failing
-		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/enum/Calculator@-@15").getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.enum.Calculator", 15)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
-		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/enum/Calculator@-@14").getScore(), 0.01);
-		assertEquals(0.57, susp.get("fr/spoonlabs/FLtest1/enum/Calculator@-@12").getScore(), 0.01);
+		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.enum.Calculator", 14)).getScore(), 0.01);
+		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.enum.Calculator", 12)).getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get("fr/spoonlabs/FLtest1/enum/Calculator@-@10").getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.enum.Calculator", 10)).getScore(), 0);
 	}
 
 }

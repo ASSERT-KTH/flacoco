@@ -5,11 +5,15 @@ import ch.scheitlin.alex.java.StackTraceParser;
 import eu.stamp_project.testrunner.listener.CoveredTestResultPerTestMethod;
 import eu.stamp_project.testrunner.listener.impl.CoverageDetailed;
 import eu.stamp_project.testrunner.listener.impl.CoverageFromClass;
+import fr.spoonlabs.flacoco.api.result.Location;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.test.method.TestMethod;
 import org.apache.log4j.Logger;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -21,28 +25,15 @@ public class CoverageMatrix {
 
 	private Logger logger = Logger.getLogger(CoverageMatrix.class);
 
-	public final static String JOIN = "@-@";
-
 	/**
-	 * Key is the line, value is a set of test methods that execute that  line
+	 * Key is the line, value is a set of test methods that execute that line
 	 */
-	protected Map<String, Set<TestMethod>> resultExecution = new HashMap<>();
+	protected Map<Location, Set<TestMethod>> resultExecution = new HashMap<>();
 
 	/**
 	 * Map between executed test methods and their result. True if passing, false is failing.
 	 */
 	protected Map<TestMethod, Boolean> tests = new HashMap<>();
-
-	/**
-	 * Creates the key for a line of a given class
-	 *
-	 * @param iClassNameCovered
-	 * @param iLineNumber
-	 * @return The key for iLineNumber in iClassNameCovered
-	 */
-	public static String getLineKey(String iClassNameCovered, int iLineNumber) {
-		return iClassNameCovered + JOIN + iLineNumber;
-	}
 
 	/**
 	 * Processes a wrapper for the coverage from a single test unit
@@ -75,8 +66,7 @@ public class CoverageMatrix {
 
 				int instExecutedAtLineI = lines.getCov().get(iLineNumber);
 
-				String lineKey = getLineKey(iClassNameCovered, iLineNumber);
-				this.add(lineKey, iCovWrapper.getTestMethod(), instExecutedAtLineI, isPassing);
+				this.add(new Location(className, iLineNumber), iCovWrapper.getTestMethod(), instExecutedAtLineI, isPassing);
 
 			}
 		}
@@ -105,13 +95,13 @@ public class CoverageMatrix {
 								continue;
 							}
 
-							String lineKey = CoverageMatrix.getLineKey(
-									element.getClassName().replace(".", "/"),
+							Location location = new Location(
+									element.getClassName(),
 									element.getLineNumber()
 							);
 
-							this.logger.debug("Adding a line where an exception was thrown: " + lineKey);
-							this.add(lineKey, testMethod, 1, false);
+							this.logger.debug("Adding a line where an exception was thrown: " + location);
+							this.add(location, testMethod, 1, false);
 						}
 					}
 				}
@@ -121,7 +111,7 @@ public class CoverageMatrix {
 		}
 	}
 
-	public Map<String, Set<TestMethod>> getResultExecution() {
+	public Map<Location, Set<TestMethod>> getResultExecution() {
 		return resultExecution;
 	}
 
@@ -129,9 +119,9 @@ public class CoverageMatrix {
 		return tests;
 	}
 
-	public List<TestMethod> getFailingTestCases() {
+	public Set<TestMethod> getFailingTestCases() {
 		return this.tests.entrySet().stream().filter(x -> !x.getValue())
-				.map(Map.Entry::getKey).collect(Collectors.toList());
+				.map(Map.Entry::getKey).collect(Collectors.toSet());
 	}
 
 	/**
@@ -139,20 +129,20 @@ public class CoverageMatrix {
 	 * <p>
 	 * The modifier is public for testing purposes
 	 *
-	 * @param lineKey
+	 * @param location
 	 * @param testMethod
 	 * @param instExecutedAtLineI
 	 * @param testResult
 	 */
-	public void add(String lineKey, TestMethod testMethod, int instExecutedAtLineI, Boolean testResult) {
+	public void add(Location location, TestMethod testMethod, int instExecutedAtLineI, Boolean testResult) {
 		if (instExecutedAtLineI > 0) {
 			Set<TestMethod> currentExecution;
 
-			if (this.resultExecution.containsKey(lineKey)) {
-				currentExecution = this.resultExecution.get(lineKey);
+			if (this.resultExecution.containsKey(location)) {
+				currentExecution = this.resultExecution.get(location);
 			} else {
 				currentExecution = new HashSet<>();
-				this.resultExecution.put(lineKey, currentExecution);
+				this.resultExecution.put(location, currentExecution);
 			}
 
 			currentExecution.add(testMethod);
