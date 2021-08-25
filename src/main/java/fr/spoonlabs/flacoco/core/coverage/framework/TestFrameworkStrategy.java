@@ -40,9 +40,6 @@ public abstract class TestFrameworkStrategy {
 			EntryPoint.jacocoAgentExcludes =
 					config.getJacocoExcludes().stream().reduce((x, y) -> x + ":" + y).orElse("");
 		}
-		if (config.isCoverTests()) {
-			throw new UnsupportedOperationException();
-		}
 	}
 
 	/**
@@ -86,12 +83,18 @@ public abstract class TestFrameworkStrategy {
 
 	protected String computeJacocoIncludes() {
 		FlacocoConfig config = FlacocoConfig.getInstance();
-		String includes = "";
+		StringBuilder includes = new StringBuilder();
 		for (String directory : config.getBinJavaDir()) {
 			DirectoryScanner directoryScanner = new DirectoryScanner(new File(directory), TestListResolver.getWildcard());
-			includes = directoryScanner.scan().getClasses().stream().reduce((x, y) -> x + ":" + y).orElse("");
+			includes.append(":").append(directoryScanner.scan().getClasses().stream().reduce((x, y) -> x + ":" + y).orElse(""));
 		}
-		return includes;
+		if (config.isCoverTests()) {
+			for (String directory : config.getBinTestDir()) {
+				DirectoryScanner directoryScanner = new DirectoryScanner(new File(directory), TestListResolver.getWildcard());
+				includes.append(":").append(directoryScanner.scan().getClasses().stream().reduce((x, y) -> x + ":" + y).orElse(""));
+			}
+		}
+		return includes.toString();
 	}
 
 }

@@ -127,7 +127,6 @@ public class SpectrumRunnerTest {
 	}
 
 	@Test
-	@Ignore
 	public void testExampleFL1OchiaiCoverTests() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
@@ -143,10 +142,11 @@ public class SpectrumRunnerTest {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(8, susp.size());
+		assertEquals(9, susp.size());
 
-		// Line executed only by the failing
+		// Line executed only by the failing (including the call form the test)
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@28").getScore(), 0);
 
 		// Line executed by a mix of failing and passing
 		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
@@ -205,10 +205,11 @@ public class SpectrumRunnerTest {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(6, susp.size());
+		assertEquals(7, susp.size());
 
-		// Line executed only by the failing
+		// Line executed only by the failing (including the call form the test)
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@28").getScore(), 0);
 
 		// Line executed by a mix of failing and passing
 		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
@@ -265,10 +266,11 @@ public class SpectrumRunnerTest {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(6, susp.size());
+		assertEquals(7, susp.size());
 
-		// Line executed only by the failing
+		// Line executed only by the failing (including the call form the test)
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@28").getScore(), 0);
 
 		// Line executed by a mix of failing and passing
 		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
@@ -325,10 +327,11 @@ public class SpectrumRunnerTest {
 			System.out.println("susp " + line + " " + susp.get(line));
 		}
 
-		assertEquals(6, susp.size());
+		assertEquals(7, susp.size());
 
-		// Line executed only by the failing
+		// Line executed only by the failing (including the test itself)
 		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/Calculator@-@15").getScore(), 0);
+		assertEquals(1.0, susp.get("fr/spoonlabs/FLtest1/CalculatorTest@-@28").getScore(), 0);
 
 		// Line executed by a mix of failing and passing
 		assertEquals(0.70, susp.get("fr/spoonlabs/FLtest1/Calculator@-@14").getScore(), 0.01);
