@@ -1,10 +1,7 @@
 package fr.spoonlabs.flacoco.api;
 
 import fr.spoonlabs.flacoco.api.result.FlacocoResult;
-import fr.spoonlabs.flacoco.api.result.Suspiciousness;
-import spoon.reflect.code.CtStatement;
-
-import java.util.Map;
+import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 
 public interface FlacocoAPI {
 

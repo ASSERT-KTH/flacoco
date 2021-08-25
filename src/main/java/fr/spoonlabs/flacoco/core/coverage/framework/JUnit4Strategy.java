@@ -15,15 +15,8 @@ public class JUnit4Strategy extends TestFrameworkStrategy {
 
 	private static JUnit4Strategy instance;
 
-	private JUnit4Strategy() {
-
-	}
-
-	public static JUnit4Strategy getInstance() {
-		if (instance == null) {
-			instance = new JUnit4Strategy();
-		}
-		return instance;
+	public JUnit4Strategy(FlacocoConfig config) {
+		super(config);
 	}
 
 	@Override
@@ -33,8 +26,8 @@ public class JUnit4Strategy extends TestFrameworkStrategy {
 
 		return EntryPoint.runOnlineCoveredTestResultPerTestMethods(
 				this.computeClasspath(),
-				FlacocoConfig.getInstance().getBinJavaDir(),
-				FlacocoConfig.getInstance().getBinTestDir(),
+				config.getBinJavaDir(),
+				config.getBinTestDir(),
 				testContext.getTestMethods().stream().map(TestMethod::getFullyQualifiedClassName).distinct().toArray(String[]::new),
 				new String[0]
 		);

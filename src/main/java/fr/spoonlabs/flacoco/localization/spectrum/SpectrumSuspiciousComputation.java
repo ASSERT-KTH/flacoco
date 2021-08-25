@@ -19,7 +19,12 @@ import java.util.stream.Collectors;
 public class SpectrumSuspiciousComputation {
 
 	private Logger logger = Logger.getLogger(SpectrumSuspiciousComputation.class);
-	private FlacocoConfig config = FlacocoConfig.getInstance();
+
+	private FlacocoConfig config;
+
+	public SpectrumSuspiciousComputation(FlacocoConfig config) {
+		this.config = config;
+	}
 
 	/**
 	 * @param matrix                        matrix with the coverage

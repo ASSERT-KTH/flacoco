@@ -2,6 +2,7 @@ package fr.spoonlabs.flacoco.localization.spectrum;
 
 import fr.spoonlabs.flacoco.api.result.Location;
 import fr.spoonlabs.flacoco.api.result.Suspiciousness;
+import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.coverage.CoverageMatrix;
 import fr.spoonlabs.flacoco.core.test.method.TestMethod;
 import fr.spoonlabs.flacoco.localization.spectrum.formulas.OchiaiFormula;
@@ -16,7 +17,7 @@ import static org.mockito.Mockito.when;
 
 public class SpectrumSuspiciousComputationTest {
 
-	private static CoverageMatrix exampleCoverageMatrix = new CoverageMatrix();
+	private static CoverageMatrix exampleCoverageMatrix = new CoverageMatrix(new FlacocoConfig());
 
 	@BeforeClass
 	public static void beforeAll() {
@@ -52,7 +53,7 @@ public class SpectrumSuspiciousComputationTest {
 
 	@Test
 	public void testOchiaiComputation() {
-		SpectrumSuspiciousComputation comp = new SpectrumSuspiciousComputation();
+		SpectrumSuspiciousComputation comp = new SpectrumSuspiciousComputation(new FlacocoConfig());
 
 		Map<Location, Suspiciousness> susp = comp.calculateSuspicious(exampleCoverageMatrix, new OchiaiFormula());
 

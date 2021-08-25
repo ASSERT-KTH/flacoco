@@ -25,6 +25,12 @@ public class CoverageMatrix {
 
 	private Logger logger = Logger.getLogger(CoverageMatrix.class);
 
+	private FlacocoConfig config;
+
+	public CoverageMatrix(FlacocoConfig config) {
+		this.config = config;
+	}
+
 	/**
 	 * Key is the line, value is a set of test methods that execute that line
 	 */
@@ -41,7 +47,6 @@ public class CoverageMatrix {
 	 * @param iCovWrapper
 	 */
 	public void processSingleTest(CoverageFromSingleTestUnit iCovWrapper, Set<String> testClasses) {
-		FlacocoConfig config = FlacocoConfig.getInstance();
 		CoverageDetailed covLine = iCovWrapper.getCov();
 
 		if (iCovWrapper.isSkip()) {

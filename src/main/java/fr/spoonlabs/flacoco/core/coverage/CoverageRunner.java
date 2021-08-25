@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Class for running the coverage runner from test-runner and computing
@@ -21,12 +20,17 @@ import java.util.stream.Stream;
 public class CoverageRunner {
 
 	private Logger logger = Logger.getLogger(CoverageRunner.class);
-	private FlacocoConfig config = FlacocoConfig.getInstance();
+
+	private FlacocoConfig config;
+
+	public CoverageRunner(FlacocoConfig config) {
+		this.config = config;
+	}
 
 	public CoverageMatrix getCoverageMatrix(List<TestContext> testContexts) {
 		// This matrix stores the results: the execution of tests and the coverage of
 		// that execution on each line
-		CoverageMatrix matrixExecutionResult = new CoverageMatrix();
+		CoverageMatrix matrixExecutionResult = new CoverageMatrix(config);
 
 		Set<String> testClasses = testContexts.stream()
 				.map(TestContext::getTestMethods)

@@ -14,9 +14,11 @@ import org.apache.log4j.Logger;
 public class Flacoco implements FlacocoAPI {
 
 	private Logger logger = Logger.getLogger(Flacoco.class);
-	private FlacocoConfig config = FlacocoConfig.getInstance();
 
-	public Flacoco() {
+	private FlacocoConfig config;
+
+	public Flacoco(FlacocoConfig config) {
+		this.config = config;
 	}
 
 	/**
@@ -26,7 +28,7 @@ public class Flacoco implements FlacocoAPI {
 	@Override
 	public FlacocoResult run() {
 		this.logger.info("Running Flacoco...");
-		return getRunner().run();
+		return this.getRunner().run();
 	}
 
 	/**
@@ -36,7 +38,7 @@ public class Flacoco implements FlacocoAPI {
 	private FaultLocalizationRunner getRunner() {
 		switch (this.config.getFamily()) {
 			case SPECTRUM_BASED:
-				return new SpectrumRunner();
+				return new SpectrumRunner(config);
 		}
 		return null;
 	}

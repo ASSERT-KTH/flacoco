@@ -26,21 +26,15 @@ public class SpoonConverterTest {
 	@Before
 	public void setUp() {
 		LogManager.getRootLogger().setLevel(Level.DEBUG);
-
-		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
-	}
-
-	@After
-	public void tearDown() {
-		FlacocoConfig.deleteInstance();
 	}
 
 	@Test
 	@Ignore
 	public void testConvertSpoonExample() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL3/FLtest1").getAbsolutePath());
 		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
 		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
@@ -58,7 +52,7 @@ public class SpoonConverterTest {
 		map.put(new Location("fr.spoonlabs.FLtest1.Calculator", 21), new Suspiciousness(0.65, null, null));
 		flacocoResult.setDefaultSuspiciousnessMap(map);
 
-		flacocoResult = SpoonConverter.convertResult(flacocoResult);
+		flacocoResult = new SpoonConverter(config).convertResult(flacocoResult);
 		Map<CtStatement, Suspiciousness> converted = flacocoResult.getSpoonSuspiciousnessMap();
 		Map<Location, CtStatement> locationToStatement = flacocoResult.getLocationStatementMap();
 

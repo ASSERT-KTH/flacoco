@@ -29,26 +29,20 @@ public class CoverageRunnerTest {
 	@Before
 	public void setUp() {
 		LogManager.getRootLogger().setLevel(Level.DEBUG);
-
-		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
-	}
-
-	@After
-	public void tearDown() {
-		FlacocoConfig.deleteInstance();
 	}
 
 	@Test
 	public void testExampleFL1() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 
-		CoverageRunner detector = new CoverageRunner();
+		CoverageRunner detector = new CoverageRunner(config);
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
@@ -143,13 +137,15 @@ public class CoverageRunnerTest {
 	@Test
 	public void testExampleFL2() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL2/FLtest1").getAbsolutePath());
 
-		CoverageRunner detector = new CoverageRunner();
+		CoverageRunner detector = new CoverageRunner(config);
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
@@ -180,13 +176,15 @@ public class CoverageRunnerTest {
 	@Test
 	public void testExampleFL3() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL3/FLtest1").getAbsolutePath());
 
-		CoverageRunner detector = new CoverageRunner();
+		CoverageRunner detector = new CoverageRunner(config);
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
@@ -216,13 +214,15 @@ public class CoverageRunnerTest {
 	@Test
 	public void testExampleFL1CoverTests() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 
-		CoverageRunner detector = new CoverageRunner();
+		CoverageRunner detector = new CoverageRunner(config);
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
@@ -255,13 +255,15 @@ public class CoverageRunnerTest {
 	@Test
 	public void testExampleFL4JUnit5() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL4JUnit5/FLtest1").getAbsolutePath());
 
-		CoverageRunner detector = new CoverageRunner();
+		CoverageRunner detector = new CoverageRunner(config);
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
@@ -352,13 +354,15 @@ public class CoverageRunnerTest {
 	@Test
 	public void testExampleFL5JUnit3() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL5JUnit3/FLtest1").getAbsolutePath());
 
-		CoverageRunner detector = new CoverageRunner();
+		CoverageRunner detector = new CoverageRunner(config);
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
@@ -449,13 +453,15 @@ public class CoverageRunnerTest {
 	@Test
 	public void testExampleFL6Mixed() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL6Mixed/FLtest1").getAbsolutePath());
 
-		CoverageRunner detector = new CoverageRunner();
+		CoverageRunner detector = new CoverageRunner(config);
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
@@ -546,14 +552,16 @@ public class CoverageRunnerTest {
 	@Test
 	public void testTimeout() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 		config.setTestRunnerTimeoutInMs(1);
 
-		CoverageRunner detector = new CoverageRunner();
+		CoverageRunner detector = new CoverageRunner(config);
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
@@ -564,14 +572,16 @@ public class CoverageRunnerTest {
 	@Test
 	public void testJVMArgs() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 		config.setTestRunnerJVMArgs("-Xms16M");
 
-		CoverageRunner detector = new CoverageRunner();
+		CoverageRunner detector = new CoverageRunner(config);
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
@@ -663,13 +673,15 @@ public class CoverageRunnerTest {
 	@Test
 	public void testExampleFL7() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL7SameNamedMethods/FLtest1").getAbsolutePath());
 
-		CoverageRunner detector = new CoverageRunner();
+		CoverageRunner detector = new CoverageRunner(config);
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
@@ -760,7 +772,9 @@ public class CoverageRunnerTest {
 	@Test
 	public void testExampleFL8() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath("./examples/exampleFL8NotMaven/");
 		config.setSrcJavaDir(Collections.singletonList("./examples/exampleFL8NotMaven/java"));
 		config.setSrcTestDir(Collections.singletonList("./examples/exampleFL8NotMaven/test"));
@@ -768,10 +782,10 @@ public class CoverageRunnerTest {
 		config.setBinTestDir(Collections.singletonList("./examples/exampleFL8NotMaven/bin/test-classes"));
 		config.setTestRunnerVerbose(true);
 
-		CoverageRunner detector = new CoverageRunner();
+		CoverageRunner detector = new CoverageRunner(config);
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
@@ -862,17 +876,19 @@ public class CoverageRunnerTest {
 	@Test
 	public void testExampleFL9() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath("./examples/exampleFL9NotMavenMultiple/");
-		config.setSrcJavaDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/java"));
+		config.setSrcJavaDir(Collections.singletonList("./examples/exampleFL9NotMavenMultiple/java"));
 		config.setSrcTestDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/test2", "./examples/exampleFL9NotMavenMultiple/test1"));
-		config.setBinJavaDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/bin/classes"));
+		config.setBinJavaDir(Collections.singletonList("./examples/exampleFL9NotMavenMultiple/bin/classes"));
 		config.setBinTestDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/bin/test-classes2", "./examples/exampleFL9NotMavenMultiple/bin/test-classes1"));
 
-		CoverageRunner detector = new CoverageRunner();
+		CoverageRunner detector = new CoverageRunner(config);
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
@@ -963,13 +979,15 @@ public class CoverageRunnerTest {
 	@Test
 	public void testExampleFL11() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL11/FLtest1").getAbsolutePath());
 
-		CoverageRunner detector = new CoverageRunner();
+		CoverageRunner detector = new CoverageRunner(config);
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);
@@ -1064,14 +1082,16 @@ public class CoverageRunnerTest {
 		Assume.assumeTrue(isLessThanJava11());
 
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL12Compliance4/FLtest1").getAbsolutePath());
 		config.setComplianceLevel(4);
 
-		CoverageRunner detector = new CoverageRunner();
+		CoverageRunner detector = new CoverageRunner(config);
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> tests = testDetector.getTests();
 
 		assertTrue(tests.size() > 0);

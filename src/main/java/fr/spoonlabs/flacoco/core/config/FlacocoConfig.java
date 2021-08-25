@@ -22,8 +22,6 @@ public class FlacocoConfig {
 		CLASSLOADER
 	}
 
-	private static FlacocoConfig instance;
-
 	private String workspace;
 	private String projectPath;
 	private List<String> srcJavaDir;
@@ -55,15 +53,8 @@ public class FlacocoConfig {
 	//------Options for spectrum-based fault localization------
 	private SpectrumFormula spectrumFormula;
 
-	private FlacocoConfig() {
+	public FlacocoConfig() {
 		initDefaults();
-	}
-
-	public static FlacocoConfig getInstance() {
-		if (instance == null) {
-			instance = new FlacocoConfig();
-		}
-		return instance;
 	}
 
 	private void initDefaults() {
@@ -364,11 +355,6 @@ public class FlacocoConfig {
 				", spectrumFormula=" + spectrumFormula +
 				", computeSpoonResults=" + computeSpoonResults +
 				'}';
-	}
-
-	// For test purposes only
-	public static void deleteInstance() {
-		instance = null;
 	}
 
 	private static List<String> listOfPathsToListOfAbsolutePaths(List<String> paths) {

@@ -20,9 +20,14 @@ import java.util.Map;
 public class SpoonConverter {
 
 	private static Logger logger = Logger.getLogger(SpoonConverter.class);
-	private static FlacocoConfig config = FlacocoConfig.getInstance();
 
-	public static FlacocoResult convertResult(FlacocoResult flacocoResult) {
+	private FlacocoConfig config;
+
+	public SpoonConverter(FlacocoConfig config) {
+		this.config = config;
+	}
+
+	public FlacocoResult convertResult(FlacocoResult flacocoResult) {
 		logger.debug("Converting results to Spoon format...");
 
 		// Init spoon Launcher

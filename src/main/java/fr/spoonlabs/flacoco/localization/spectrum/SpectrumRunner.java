@@ -18,7 +18,12 @@ import java.util.Map;
 public class SpectrumRunner implements FaultLocalizationRunner {
 
     private Logger logger = Logger.getLogger(SpectrumRunner.class);
-    private FlacocoConfig config = FlacocoConfig.getInstance();
+
+    private FlacocoConfig config;
+
+    public SpectrumRunner(FlacocoConfig config) {
+        this.config = config;
+    }
 
     @Override
     public FlacocoResult run() {
@@ -27,12 +32,12 @@ public class SpectrumRunner implements FaultLocalizationRunner {
         CoverageMatrix coverageMatrix = computeCoverageMatrix();
         result.setFailingTests(coverageMatrix.getFailingTestCases());
 
-        SpectrumSuspiciousComputation ssc = new SpectrumSuspiciousComputation();
+        SpectrumSuspiciousComputation ssc = new SpectrumSuspiciousComputation(config);
         Map<Location, Suspiciousness> defaultMapping = ssc.calculateSuspicious(coverageMatrix, this.config.getSpectrumFormula().getFormula());
         result.setDefaultSuspiciousnessMap(defaultMapping);
 
         if (config.isComputeSpoonResults()) {
-            result = SpoonConverter.convertResult(result);
+            result = new SpoonConverter(config).convertResult(result);
         }
 
         return result;
@@ -43,10 +48,10 @@ public class SpectrumRunner implements FaultLocalizationRunner {
         this.logger.debug(this.config);
 
         // Get the tests
-        TestDetector testDetector = new TestDetector();
+        TestDetector testDetector = new TestDetector(config);
         List<TestContext> tests = testDetector.getTests();
 
-        CoverageRunner detector = new CoverageRunner();
+        CoverageRunner detector = new CoverageRunner(config);
 
         return detector.getCoverageMatrix(tests);
     }

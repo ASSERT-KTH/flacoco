@@ -17,7 +17,11 @@ import java.util.stream.Stream;
 
 public class TestFinderRunner implements Callable<List<TestContext>> {
 
-    FlacocoConfig config = FlacocoConfig.getInstance();
+    private FlacocoConfig config;
+
+    public TestFinderRunner(FlacocoConfig config) {
+        this.config = config;
+    }
 
     @Override
     public List<TestContext> call() throws Exception {
@@ -29,7 +33,7 @@ public class TestFinderRunner implements Callable<List<TestContext>> {
                 classloaderFinder,
                 new TestMethodFilter(EnumSet.of(TestType.JUNIT3_TEST, TestType.JUNIT4_TEST), config.getIgnoredTests())
         );
-        TestContext jUnit4Context = new TestContext(JUnit4Strategy.getInstance());
+        TestContext jUnit4Context = new TestContext(new JUnit4Strategy(config));
         jUnit4Context.addTestMethods(processor.process());
 
         // collect JUnit5 compatible tests
@@ -37,7 +41,7 @@ public class TestFinderRunner implements Callable<List<TestContext>> {
                 classloaderFinder,
                 new TestMethodFilter(EnumSet.of(TestType.JUNIT5_TEST), config.getIgnoredTests())
         );
-        TestContext jUnit5Context = new TestContext(JUnit5Strategy.getInstance());
+        TestContext jUnit5Context = new TestContext(new JUnit5Strategy(config));
         jUnit5Context.addTestMethods(processor.process());
 
         // We only want to return those that have test units
