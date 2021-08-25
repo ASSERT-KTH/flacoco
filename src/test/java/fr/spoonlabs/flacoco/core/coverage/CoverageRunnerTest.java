@@ -213,7 +213,6 @@ public class CoverageRunnerTest {
 	}
 
 	@Test
-	@Ignore
 	public void testExampleFL1CoverTests() {
 		// Setup config
 		FlacocoConfig config = FlacocoConfig.getInstance();
@@ -234,9 +233,9 @@ public class CoverageRunnerTest {
 		assertEquals(4, matrix.getTests().size());
 		assertEquals(1, matrix.getFailingTestCases().size());
 
-		// 16 executed lines
-		// We have 8 from class under test + 8 from test
-		assertEquals(16, matrix.getResultExecution().keySet().size());
+		// 19 executed lines
+		// We have 10 from class under test + 9 from tests
+		assertEquals(19, matrix.getResultExecution().keySet().size());
 
 		// This line is the first if, so it's covered by all tests
 		Set<TestMethod> firstLineExecuted = matrix.getResultExecution().get("fr/spoonlabs/FLtest1/Calculator@-@10");
@@ -249,7 +248,7 @@ public class CoverageRunnerTest {
 		config.setCoverTests(false);
 		matrix = detector.getCoverageMatrix(tests);
 
-		assertEquals(8, matrix.getResultExecution().keySet().size());
+		assertEquals(10, matrix.getResultExecution().keySet().size());
 	}
 
 	@Test

@@ -7,7 +7,10 @@ import fr.spoonlabs.flacoco.core.test.method.TestMethod;
 import org.apache.log4j.Logger;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Class for running the coverage runner from test-runner and computing
@@ -24,6 +27,12 @@ public class CoverageRunner {
 		// This matrix stores the results: the execution of tests and the coverage of
 		// that execution on each line
 		CoverageMatrix matrixExecutionResult = new CoverageMatrix();
+
+		Set<String> testClasses = testContexts.stream()
+				.map(TestContext::getTestMethods)
+				.flatMap(List::stream)
+				.map(TestMethod::getFullyQualifiedClassName)
+				.collect(Collectors.toSet());
 
 		// For each test context
 		int executedTests = 0;
@@ -42,7 +51,7 @@ public class CoverageRunner {
 					testsFound++;
 
 					if (result.getCoverageResultsMap().containsKey(testMethod.getFullyQualifiedMethodName())) {
-						matrixExecutionResult.processSingleTest(new CoverageFromSingleTestUnit(testMethod, result));
+						matrixExecutionResult.processSingleTest(new CoverageFromSingleTestUnit(testMethod, result), testClasses);
 						executedTests++;
 					} else {
 						this.logger.warn("Test " + testMethod + " result was not reported by test-runner.");

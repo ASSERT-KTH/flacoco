@@ -5,6 +5,7 @@ import ch.scheitlin.alex.java.StackTraceParser;
 import eu.stamp_project.testrunner.listener.CoveredTestResultPerTestMethod;
 import eu.stamp_project.testrunner.listener.impl.CoverageDetailed;
 import eu.stamp_project.testrunner.listener.impl.CoverageFromClass;
+import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.test.method.TestMethod;
 import org.apache.log4j.Logger;
 
@@ -48,7 +49,8 @@ public class CoverageMatrix {
 	 *
 	 * @param iCovWrapper
 	 */
-	public void processSingleTest(CoverageFromSingleTestUnit iCovWrapper) {
+	public void processSingleTest(CoverageFromSingleTestUnit iCovWrapper, Set<String> testClasses) {
+		FlacocoConfig config = FlacocoConfig.getInstance();
 		CoverageDetailed covLine = iCovWrapper.getCov();
 
 		if (iCovWrapper.isSkip()) {
@@ -60,6 +62,11 @@ public class CoverageMatrix {
 
 		// Let's navigate the covered class per line.
 		for (String iClassNameCovered : covLine.getDetailedCoverage().keySet()) {
+
+			String className = iClassNameCovered.replace("/", ".");
+			if (!config.isCoverTests() && testClasses.contains(className)) {
+				continue;
+			}
 
 			// Lines covered in that class
 			CoverageFromClass lines = covLine.getDetailedCoverage().get(iClassNameCovered);
@@ -92,6 +99,11 @@ public class CoverageMatrix {
 						// computation, which will ignore classes like org.junit.Assert
 						if (((CoverageDetailed) result.getCoverageOf(testMethod.getFullyQualifiedMethodName()))
 								.getDetailedCoverage().containsKey(element.getClassName().replace(".", "/"))) {
+
+							// We also want to ignore test classes if they coverTests is not set
+							if (!config.isCoverTests() && testClasses.contains(element.getClassName())) {
+								continue;
+							}
 
 							String lineKey = CoverageMatrix.getLineKey(
 									element.getClassName().replace(".", "/"),
