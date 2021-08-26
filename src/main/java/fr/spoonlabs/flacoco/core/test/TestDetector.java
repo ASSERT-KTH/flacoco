@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -19,7 +20,11 @@ import java.util.stream.Collectors;
 public class TestDetector {
 
 	private Logger logger = Logger.getLogger(TestDetector.class);
-	private FlacocoConfig config = FlacocoConfig.getInstance();
+	private FlacocoConfig config;
+
+	public TestDetector(FlacocoConfig config) {
+		this.config = config;
+	}
 
 	private List<TestContext> tests;
 
@@ -45,21 +50,21 @@ public class TestDetector {
 		List<TestContext> result = new ArrayList<>();
 
 		if (!this.config.getjUnit4Tests().isEmpty()) {
-			TestContext jUnit4Context = new TestContext(JUnit4Strategy.getInstance());
+			TestContext jUnit4Context = new TestContext(new JUnit4Strategy(config));
 			jUnit4Context.addTestMethods(
 					config.getjUnit4Tests().stream()
 							.map(x -> new StringTestMethod(x.split("#")[0], x.split("#")[1]))
-							.filter(x -> !isIgnored(x))
+							.filter(x -> !isIgnored(x, config.getIgnoredTests()))
 							.collect(Collectors.toList())
 			);
 			result.add(jUnit4Context);
 		}
 		if (!this.config.getjUnit5Tests().isEmpty()) {
-			TestContext jUnit5Context = new TestContext(JUnit5Strategy.getInstance());
+			TestContext jUnit5Context = new TestContext(new JUnit5Strategy(config));
 			jUnit5Context.addTestMethods(
 					config.getjUnit5Tests().stream()
 							.map(x -> new StringTestMethod(x.split("#")[0], x.split("#")[1]))
-							.filter(x -> !isIgnored(x))
+							.filter(x -> !isIgnored(x, config.getIgnoredTests()))
 							.collect(Collectors.toList())
 			);
 			result.add(jUnit5Context);
@@ -71,10 +76,10 @@ public class TestDetector {
 	private List<TestContext> findTests() {
 		switch (config.getTestDetectionStrategy()) {
 			case TEST_RUNNER:
-				return new TestRunnerStrategy().findTests();
+				return new TestRunnerStrategy(config).findTests();
 			case CLASSLOADER:
 			default:
-				return new ClassloaderStrategy().findTests();
+				return new ClassloaderStrategy(config).findTests();
 		}
 	}
 
@@ -83,9 +88,9 @@ public class TestDetector {
 	 * @param testMethod The test method to be checked
 	 * @return true if the test should be ignored, false otherwise
 	 */
-	public static boolean isIgnored(TestMethod testMethod) {
-		return FlacocoConfig.getInstance().getIgnoredTests().contains(testMethod.getFullyQualifiedClassName()) ||
-				FlacocoConfig.getInstance().getIgnoredTests().contains(testMethod.getFullyQualifiedMethodName());
+	public static boolean isIgnored(TestMethod testMethod, Set<String> ignoredTests) {
+		return ignoredTests.contains(testMethod.getFullyQualifiedClassName()) ||
+				ignoredTests.contains(testMethod.getFullyQualifiedMethodName());
 	}
 
 }

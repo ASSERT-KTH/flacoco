@@ -27,7 +27,11 @@ import java.util.stream.Stream;
 public class TestRunnerStrategy implements TestDetectionStrategy {
 
     private Logger logger = Logger.getLogger(TestRunnerStrategy.class);
-    private FlacocoConfig config = FlacocoConfig.getInstance();
+    private FlacocoConfig config;
+
+    public TestRunnerStrategy(FlacocoConfig config) {
+        this.config = config;
+    }
 
     @Override
     public List<TestContext> findTests() {
@@ -41,8 +45,8 @@ public class TestRunnerStrategy implements TestDetectionStrategy {
         // Init test framework
         TestFramework.init(launcher.getFactory());
 
-        TestContext jUnit4Context = new TestContext(JUnit4Strategy.getInstance());
-        TestContext jUnit5Context = new TestContext(JUnit5Strategy.getInstance());
+        TestContext jUnit4Context = new TestContext(new JUnit4Strategy(config));
+        TestContext jUnit5Context = new TestContext(new JUnit5Strategy(config));
 
         for (CtType<?> ctType : TestFramework.getAllTestClasses()) {
 
@@ -59,7 +63,7 @@ public class TestRunnerStrategy implements TestDetectionStrategy {
             jUnit4Context.addTestMethods(
                     TestFramework.getAllTest(ctType).stream().filter(TestFramework::isJUnit4)
                             .map(ctMethod -> new SpoonTestMethod(ctType, ctMethod))
-                            .filter(x -> !TestDetector.isIgnored(x))
+                            .filter(x -> !TestDetector.isIgnored(x, config.getIgnoredTests()))
                             .collect(Collectors.toList())
             );
 
@@ -67,7 +71,7 @@ public class TestRunnerStrategy implements TestDetectionStrategy {
             jUnit5Context.addTestMethods(
                     TestFramework.getAllTest(ctType).stream().filter(TestFramework::isJUnit5)
                             .map(ctMethod -> new SpoonTestMethod(ctType, ctMethod))
-                            .filter(x -> !TestDetector.isIgnored(x))
+                            .filter(x -> !TestDetector.isIgnored(x, config.getIgnoredTests()))
                             .collect(Collectors.toList())
             );
         }

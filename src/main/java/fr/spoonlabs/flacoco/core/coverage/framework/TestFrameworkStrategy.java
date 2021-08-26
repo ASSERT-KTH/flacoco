@@ -17,13 +17,18 @@ public abstract class TestFrameworkStrategy {
 
 	private static final Logger logger = Logger.getLogger(TestFrameworkStrategy.class);
 
+	protected FlacocoConfig config;
+
+	public TestFrameworkStrategy(FlacocoConfig flacocoConfig) {
+		this.config = flacocoConfig;
+	}
+
 	public abstract CoveredTestResultPerTestMethod execute(TestContext testContext) throws TimeoutException;
 
 	/**
 	 * Auxiliary method to setup test-runners default options
 	 */
 	protected void setupTestRunnerEntryPoint() {
-		FlacocoConfig config = FlacocoConfig.getInstance();
 		EntryPoint.coverageDetail = ParserOptions.CoverageTransformerDetail.DETAIL_COMPRESSED;
 		EntryPoint.workingDirectory = new File(config.getWorkspace());
 		EntryPoint.verbose = config.isTestRunnerVerbose();
@@ -48,7 +53,6 @@ public abstract class TestFrameworkStrategy {
 	 * @return Classpath for test-runner execution
 	 */
 	protected String computeClasspath() {
-		FlacocoConfig config = FlacocoConfig.getInstance();
 		String classpath = config.getClasspath() + File.pathSeparatorChar
 				+ config.getBinJavaDir().stream().reduce((x, y) -> x + File.pathSeparatorChar + y).orElse("") + File.pathSeparatorChar
 				+ config.getBinTestDir().stream().reduce((x, y) -> x + File.pathSeparatorChar + y).orElse("");
@@ -82,7 +86,6 @@ public abstract class TestFrameworkStrategy {
 	}
 
 	protected String computeJacocoIncludes() {
-		FlacocoConfig config = FlacocoConfig.getInstance();
 		StringBuilder includes = new StringBuilder();
 		for (String directory : config.getBinJavaDir()) {
 			DirectoryScanner directoryScanner = new DirectoryScanner(new File(directory), TestListResolver.getWildcard());

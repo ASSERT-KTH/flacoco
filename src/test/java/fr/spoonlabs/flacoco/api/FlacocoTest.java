@@ -34,27 +34,16 @@ public class FlacocoTest {
 	@Before
 	public void setUp() {
 		LogManager.getRootLogger().setLevel(Level.DEBUG);
-
-		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
-		config.setTestRunnerVerbose(true);
-	}
-
-	@After
-	public void tearDown() {
-		FlacocoConfig.deleteInstance();
 	}
 
 	@Test
 	public void testExampleFL1SpectrumBasedOchiaiDefaultMode() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -85,14 +74,12 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL1SpectrumBasedOchiaiDefaultModeThreshold() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 		config.setThreshold(0.51);
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -116,15 +103,13 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL1SpectrumBasedOchiaiDefaultModeIncludeZero() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 		config.setThreshold(0.0);
 		config.setIncludeZeros(true);
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -159,10 +144,8 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL1SpectrumBasedOchiaiDefaultModeManualTestConfig() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 		config.setjUnit4Tests(Stream.of(
 				"fr.spoonlabs.FLtest1.CalculatorTest#testSum",
 				"fr.spoonlabs.FLtest1.CalculatorTest#testSubs",
@@ -172,7 +155,7 @@ public class FlacocoTest {
 		);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -200,15 +183,13 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL1SpectrumBasedOchiaiDefaultModeIgnoreFailingTest() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 		config.setIgnoredTests(Stream.of("fr.spoonlabs.FLtest1.CalculatorTest#testMul").collect(Collectors.toSet()));
 		config.setIncludeZeros(true);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -234,13 +215,11 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL2SpectrumBasedOchiaiDefaultMode() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL2/FLtest1").getAbsolutePath());
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -270,13 +249,11 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL3SpectrumBasedOchiaiDefaultMode() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL3/FLtest1").getAbsolutePath());
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -305,14 +282,12 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL1SpectrumBasedOchiaiCoverTestsDefaultMode() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 		config.setCoverTests(true);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -347,14 +322,12 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL1SpectrumBasedOchiaiNoCoverTestsIncludesDefaultMode() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 		config.setJacocoIncludes(Collections.singleton("fr.spoonlabs.FLtest1.*"));
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -382,14 +355,12 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL1SpectrumBasedOchiaiSpoonMode() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 		config.setComputeSpoonResults(true);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -430,13 +401,11 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL4JUnit5SpectrumBasedOchiaiDefaultMode() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL4JUnit5/FLtest1").getAbsolutePath());
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -463,10 +432,8 @@ public class FlacocoTest {
 	@Ignore
 	public void testExampleFL4JUnit5SpectrumBasedOchiaiDefaultModeManualTestConfig() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL4JUnit5/FLtest1").getAbsolutePath());
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 		config.setjUnit5Tests(Stream.of(
 				"fr.spoonlabs.FLtest1.CalculatorTest#testSum",
 				"fr.spoonlabs.FLtest1.CalculatorTest#testSubs",
@@ -476,7 +443,7 @@ public class FlacocoTest {
 		);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -503,14 +470,12 @@ public class FlacocoTest {
 	@Ignore
 	public void testExampleFL4JUnit5SpectrumBasedOchiaiCoverTestsDefaultMode() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL4JUnit5/FLtest1").getAbsolutePath());
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 		config.setCoverTests(true);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -539,14 +504,12 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL4JUnit5SpectrumBasedOchiaiSpoonMode() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL4JUnit5/FLtest1").getAbsolutePath());
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 		config.setComputeSpoonResults(true);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -585,13 +548,11 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL5JUnit3SpectrumBasedOchiaiDefaultMode() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL5JUnit3/FLtest1").getAbsolutePath());
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -618,14 +579,12 @@ public class FlacocoTest {
 	@Ignore
 	public void testExampleFL5JUnit3SpectrumBasedOchiaiCoverTestsDefaultMode() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL5JUnit3/FLtest1").getAbsolutePath());
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 		config.setCoverTests(true);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -654,14 +613,12 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL5JUnit3SpectrumBasedOchiaiSpoonMode() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL5JUnit3/FLtest1").getAbsolutePath());
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 		config.setComputeSpoonResults(true);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -700,13 +657,11 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL6MixedSpectrumBasedOchiaiDefaultMode() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL6Mixed/FLtest1").getAbsolutePath());
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -732,10 +687,8 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL6MixedSpectrumBasedOchiaiDefaultModeManualTestConfig() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL6Mixed/FLtest1").getAbsolutePath());
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 		config.setjUnit4Tests(Stream.of(
 				"fr.spoonlabs.FLtest1.CalculatorJUnit3Test#testSum",
 				"fr.spoonlabs.FLtest1.CalculatorMixedTest#testSubs"
@@ -748,7 +701,7 @@ public class FlacocoTest {
 		);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -775,14 +728,12 @@ public class FlacocoTest {
 	@Ignore
 	public void testExampleFL6MixedSpectrumBasedOchiaiCoverTestsDefaultMode() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL6Mixed/FLtest1").getAbsolutePath());
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 		config.setCoverTests(true);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -811,14 +762,12 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL6MixedSpectrumBasedOchiaiSpoonMode() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL6Mixed/FLtest1").getAbsolutePath());
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 		config.setComputeSpoonResults(true);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -857,13 +806,11 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL7SpectrumBasedOchiaiDefaultMode() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL7SameNamedMethods/FLtest1").getAbsolutePath());
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -891,18 +838,16 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL8SpectrumBasedOchiaiDefaultMode() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		// we don't set --projectpath because it is not needed when we explicit the other 4 dirs
 		config.setSrcJavaDir(Collections.singletonList("./examples/exampleFL8NotMaven/java"));
 		config.setSrcTestDir(Collections.singletonList("./examples/exampleFL8NotMaven/test"));
 		config.setBinJavaDir(Collections.singletonList("./examples/exampleFL8NotMaven/bin/classes"));
 		config.setBinTestDir(Collections.singletonList("./examples/exampleFL8NotMaven/bin/test-classes"));
 		config.setTestRunnerVerbose(true);
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -930,18 +875,16 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL8SpectrumBasedOchiaiCoverTestsDefaultMode() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath("./examples/exampleFL8NotMaven/");
 		config.setSrcJavaDir(Collections.singletonList("./examples/exampleFL8NotMaven/java"));
 		config.setSrcTestDir(Collections.singletonList("./examples/exampleFL8NotMaven/test"));
 		config.setBinJavaDir(Collections.singletonList("./examples/exampleFL8NotMaven/bin/classes"));
 		config.setBinTestDir(Collections.singletonList("./examples/exampleFL8NotMaven/bin/test-classes"));
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 		config.setCoverTests(true);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -972,18 +915,16 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL8SpectrumBasedOchiaiSpoonMode() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath("./examples/exampleFL8NotMaven/");
 		config.setSrcJavaDir(Collections.singletonList("./examples/exampleFL8NotMaven/java"));
 		config.setSrcTestDir(Collections.singletonList("./examples/exampleFL8NotMaven/test"));
 		config.setBinJavaDir(Collections.singletonList("./examples/exampleFL8NotMaven/bin/classes"));
 		config.setBinTestDir(Collections.singletonList("./examples/exampleFL8NotMaven/bin/test-classes"));
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 		config.setComputeSpoonResults(true);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -1024,17 +965,15 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL9SpectrumBasedOchiaiDefaultMode() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath("./examples/exampleFL9NotMavenMultiple/");
 		config.setSrcJavaDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/java"));
 		config.setSrcTestDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/test2", "./examples/exampleFL9NotMavenMultiple/test1"));
 		config.setBinJavaDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/bin/classes"));
 		config.setBinTestDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/bin/test-classes2", "./examples/exampleFL9NotMavenMultiple/bin/test-classes1"));
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -1062,18 +1001,16 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL9SpectrumBasedOchiaiSpoonMode() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath("./examples/exampleFL9NotMavenMultiple/");
 		config.setSrcJavaDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/java"));
 		config.setSrcTestDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/test2", "./examples/exampleFL9NotMavenMultiple/test1"));
 		config.setBinJavaDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/bin/classes"));
 		config.setBinTestDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/bin/test-classes2", "./examples/exampleFL9NotMavenMultiple/bin/test-classes1"));
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 		config.setComputeSpoonResults(true);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -1114,13 +1051,11 @@ public class FlacocoTest {
 	@Test
 	public void testExampleFL11SpectrumBasedOchiaiDefaultMode() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL11/FLtest1").getAbsolutePath());
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -1159,14 +1094,12 @@ public class FlacocoTest {
 		Assume.assumeTrue(isLessThanJava11());
 
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL12Compliance4/FLtest1").getAbsolutePath());
-		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
-		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
 		config.setComplianceLevel(4);
 
 		// Run Flacoco
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
@@ -1187,6 +1120,15 @@ public class FlacocoTest {
 
 		// Lines executed by all test
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.enum.Calculator", 10)).getScore(), 0);
+	}
+
+	private FlacocoConfig getDefaultFlacocoConfig() {
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
+		config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
+		config.setSpectrumFormula(SpectrumFormula.OCHIAI);
+		return config;
 	}
 
 }

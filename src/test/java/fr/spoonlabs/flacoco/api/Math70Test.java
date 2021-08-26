@@ -37,26 +37,20 @@ public class Math70Test {
         Assume.assumeFalse(System.getProperty("os.name").startsWith("Windows"));
 
         LogManager.getRootLogger().setLevel(Level.INFO);
-        FlacocoConfig config = FlacocoConfig.getInstance();
-        config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
-    }
-
-    @After
-    public void tearDown() {
-        FlacocoConfig.deleteInstance();
     }
 
     @Test
     public void testMath70() {
         // Setup config
-        FlacocoConfig config = FlacocoConfig.getInstance();
+        FlacocoConfig config = new FlacocoConfig();
         config.setProjectPath(new File("./examples/math_70").getAbsolutePath());
+        config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
         config.setFamily(FlacocoConfig.FaultLocalizationFamily.SPECTRUM_BASED);
         config.setSpectrumFormula(SpectrumFormula.OCHIAI);
         config.setThreshold(0.5);
 
         // Run Flacoco
-        Flacoco flacoco = new Flacoco();
+        Flacoco flacoco = new Flacoco(config);
 
         // Run default mode
         FlacocoResult result = flacoco.run();
@@ -82,12 +76,13 @@ public class Math70Test {
     @Test
     public void testMath70TestDetection() {
         // Setup config
-        FlacocoConfig config = FlacocoConfig.getInstance();
+        FlacocoConfig config = new FlacocoConfig();
         config.setProjectPath(new File("./examples/math_70").getAbsolutePath());
+        config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
         config.setComplianceLevel(4);
 
         // Find the tests
-        TestDetector testDetector = new TestDetector();
+        TestDetector testDetector = new TestDetector(config);
         List<TestContext> testContexts = testDetector.getTests();
 
         // Check that there is only one test context

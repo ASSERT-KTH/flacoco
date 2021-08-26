@@ -31,24 +31,18 @@ public class TestDetectorTest {
 	@Before
 	public void setUp() {
 		LogManager.getRootLogger().setLevel(Level.DEBUG);
-
-		FlacocoConfig config = FlacocoConfig.getInstance();
-		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
-	}
-
-	@After
-	public void tearDown() {
-		FlacocoConfig.deleteInstance();
 	}
 
 	@Test
 	public void testExampleFL1() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> testContexts = testDetector.getTests();
 
 		// Check that there is only one test context
@@ -63,7 +57,9 @@ public class TestDetectorTest {
 	@Test
 	public void testExampleFL1ManualConfig() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
         config.setjUnit4Tests(Stream.of(
                         "fr.spoonlabs.FLtest1.CalculatorTest#testSum",
@@ -74,7 +70,7 @@ public class TestDetectorTest {
         );
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> testContexts = testDetector.getTests();
 
 		// Check that there is only one test context
@@ -91,12 +87,14 @@ public class TestDetectorTest {
 	@Test
 	public void testExampleFL1TestRunnerDetector() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 		config.setTestDetectionStrategy(FlacocoConfig.TestDetectionStrategy.TEST_RUNNER);
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> testContexts = testDetector.getTests();
 
 		// Check that there is only one test context
@@ -111,12 +109,14 @@ public class TestDetectorTest {
 	@Test
 	public void testExampleFL1IgnoreTestClass() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 		config.setIgnoredTests(Stream.of("fr.spoonlabs.FLtest1.CalculatorTest").collect(Collectors.toSet()));
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> testContexts = testDetector.getTests();
 
 		// Check that there are no tests
@@ -126,12 +126,14 @@ public class TestDetectorTest {
 	@Test
 	public void testExampleFL1IgnoreTestMethod() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 		config.setIgnoredTests(Stream.of("fr.spoonlabs.FLtest1.CalculatorTest#testSum").collect(Collectors.toSet()));
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> testContexts = testDetector.getTests();
 
 		// Check that there is only one test context
@@ -146,13 +148,15 @@ public class TestDetectorTest {
 	@Test
 	public void testExampleFL1TestRunnerDetectorIgnoreTestClass() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 		config.setTestDetectionStrategy(FlacocoConfig.TestDetectionStrategy.TEST_RUNNER);
 		config.setIgnoredTests(Stream.of("fr.spoonlabs.FLtest1.CalculatorTest").collect(Collectors.toSet()));
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> testContexts = testDetector.getTests();
 
 		// Check that there are no tests
@@ -162,13 +166,15 @@ public class TestDetectorTest {
 	@Test
 	public void testExampleFL1TestRunnerDetectorIgnoreTestMethod() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
 		config.setTestDetectionStrategy(FlacocoConfig.TestDetectionStrategy.TEST_RUNNER);
 		config.setIgnoredTests(Stream.of("fr.spoonlabs.FLtest1.CalculatorTest#testSum").collect(Collectors.toSet()));
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> testContexts = testDetector.getTests();
 
 		// Check that there is only one test context
@@ -183,11 +189,13 @@ public class TestDetectorTest {
 	@Test
 	public void testExampleFL2() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL2/FLtest1").getAbsolutePath());
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> testContexts = testDetector.getTests();
 
 		// Check that there is only one test context
@@ -202,11 +210,13 @@ public class TestDetectorTest {
 	@Test
 	public void testExampleFL3() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL3/FLtest1").getAbsolutePath());
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> testContexts = testDetector.getTests();
 
 		// Check that there is only one test context
@@ -221,11 +231,13 @@ public class TestDetectorTest {
 	@Test
 	public void testExampleFL4JUnit5() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL4JUnit5/FLtest1").getAbsolutePath());
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> testContexts = testDetector.getTests();
 
 		// Check that there is only one test context
@@ -240,7 +252,9 @@ public class TestDetectorTest {
 	@Test
 	public void testExampleFL4JUnit5ManualConfig() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL4JUnit5/FLtest1").getAbsolutePath());
 		config.setjUnit5Tests(Stream.of(
 				"fr.spoonlabs.FLtest1.CalculatorTest#testSum",
@@ -251,7 +265,7 @@ public class TestDetectorTest {
 		);
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> testContexts = testDetector.getTests();
 
 		// Check that there is only one test context
@@ -268,11 +282,13 @@ public class TestDetectorTest {
 	@Test
 	public void testExampleFL5JUnit3() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL5JUnit3/FLtest1").getAbsolutePath());
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> testContexts = testDetector.getTests();
 
 		// Check that there is only one test context
@@ -287,11 +303,13 @@ public class TestDetectorTest {
 	@Test
 	public void testExampleFL6Mixed() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL6Mixed/FLtest1").getAbsolutePath());
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> testContexts = testDetector.getTests();
 
 		// Check that there are two test contexts, one for each strategy
@@ -326,7 +344,9 @@ public class TestDetectorTest {
 	@Test
 	public void testExampleFL6MixedManualConfig() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL6Mixed/FLtest1").getAbsolutePath());
 		config.setjUnit4Tests(Stream.of(
 				"fr.spoonlabs.FLtest1.CalculatorJUnit3Test#testSum",
@@ -340,7 +360,7 @@ public class TestDetectorTest {
 		);
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> testContexts = testDetector.getTests();
 
 		// Check that there are two test contexts, one for each strategy
@@ -377,11 +397,13 @@ public class TestDetectorTest {
 	@Test
 	public void testExampleFL7() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL7SameNamedMethods/FLtest1").getAbsolutePath());
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> testContexts = testDetector.getTests();
 
 		// Check that there is only one test context
@@ -396,7 +418,9 @@ public class TestDetectorTest {
 	@Test
 	public void testExampleFL8() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath("./examples/exampleFL8NotMaven/");
 		config.setSrcJavaDir(Collections.singletonList("./examples/exampleFL8NotMaven/java"));
 		config.setSrcTestDir(Collections.singletonList("./examples/exampleFL8NotMaven/test"));
@@ -404,7 +428,7 @@ public class TestDetectorTest {
 		config.setBinTestDir(Collections.singletonList("./examples/exampleFL8NotMaven/bin/test-classes"));
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> testContexts = testDetector.getTests();
 
 		// Check that there is only one test context
@@ -419,7 +443,9 @@ public class TestDetectorTest {
 	@Test
 	public void testExampleFL9() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath("./examples/exampleFL9NotMavenMultiple/");
 		config.setSrcJavaDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/java"));
 		config.setSrcTestDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/test2", "./examples/exampleFL9NotMavenMultiple/test1"));
@@ -427,7 +453,7 @@ public class TestDetectorTest {
 		config.setBinTestDir(Arrays.asList("./examples/exampleFL9NotMavenMultiple/bin/test-classes2", "./examples/exampleFL9NotMavenMultiple/bin/test-classes1"));
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> testContexts = testDetector.getTests();
 
 		// Check that there is only one test context
@@ -442,11 +468,13 @@ public class TestDetectorTest {
 	@Test
 	public void testExampleFL11() {
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL11/FLtest1").getAbsolutePath());
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> testContexts = testDetector.getTests();
 
 		// Check that there is only one test context
@@ -465,12 +493,14 @@ public class TestDetectorTest {
 		Assume.assumeTrue(isLessThanJava11());
 
 		// Setup config
-		FlacocoConfig config = FlacocoConfig.getInstance();
+		FlacocoConfig config = new FlacocoConfig();
+		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
+		config.setTestRunnerVerbose(true);
 		config.setProjectPath(new File("./examples/exampleFL12Compliance4/FLtest1").getAbsolutePath());
 		config.setComplianceLevel(4);
 
 		// Find the tests
-		TestDetector testDetector = new TestDetector();
+		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> testContexts = testDetector.getTests();
 
 		// Check that there is only one test context

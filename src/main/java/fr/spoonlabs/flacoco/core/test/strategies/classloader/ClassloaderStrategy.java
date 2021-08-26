@@ -23,7 +23,12 @@ import java.util.concurrent.*;
 public class ClassloaderStrategy implements TestDetectionStrategy {
 
     private Logger logger = Logger.getLogger(ClassloaderStrategy.class);
-    private FlacocoConfig config = FlacocoConfig.getInstance();
+
+    private FlacocoConfig config;
+
+    public ClassloaderStrategy(FlacocoConfig config) {
+        this.config = config;
+    }
 
     @Override
     public List<TestContext> findTests() {
@@ -34,7 +39,7 @@ public class ClassloaderStrategy implements TestDetectionStrategy {
             // Run the new thread with the finder
             ThreadFactory threadFactory = new CustomClassLoaderThreadFactory(urlClassLoader);
             ExecutorService executor = Executors.newSingleThreadExecutor(threadFactory);
-            Future<List<TestContext>> future = executor.submit(new TestFinderRunner());
+            Future<List<TestContext>> future = executor.submit(new TestFinderRunner(config));
             executor.shutdown();
 
             return future.get();

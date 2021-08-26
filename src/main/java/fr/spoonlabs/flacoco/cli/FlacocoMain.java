@@ -151,9 +151,9 @@ public class FlacocoMain implements Callable<Integer> {
 
 	@Override
 	public Integer call() {
-		setupFlacocoConfig();
+		FlacocoConfig config = setupFlacocoConfig();
 
-		Flacoco flacoco = new Flacoco();
+		Flacoco flacoco = new Flacoco(config);
 		FlacocoResult result = flacoco.run();
 
 		exportResults(result);
@@ -161,8 +161,8 @@ public class FlacocoMain implements Callable<Integer> {
 		return 0;
 	}
 
-	private void setupFlacocoConfig() {
-		FlacocoConfig config = FlacocoConfig.getInstance();
+	private FlacocoConfig setupFlacocoConfig() {
+		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(new File(this.workspace).getAbsolutePath());
 		config.setProjectPath(new File(this.projectPath).getAbsolutePath());
 
@@ -202,6 +202,8 @@ public class FlacocoMain implements Callable<Integer> {
 		config.setJacocoExcludes(this.jacocoExcludes);
 
 		config.setSpectrumFormula(this.spectrumFormula);
+
+		return config;
 	}
 
 	private void exportResults(FlacocoResult result) {

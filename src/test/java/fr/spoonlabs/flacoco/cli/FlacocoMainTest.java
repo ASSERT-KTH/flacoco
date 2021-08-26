@@ -36,11 +36,6 @@ public class FlacocoMainTest {
 		LogManager.getRootLogger().setLevel(Level.DEBUG);
 	}
 
-	@After
-	public void tearDown() {
-		FlacocoConfig.deleteInstance();
-	}
-
 	@Test
 	public void testMainExplicitArguments() {
 

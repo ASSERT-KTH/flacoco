@@ -15,15 +15,8 @@ public class JUnit5Strategy extends TestFrameworkStrategy {
 
 	private static JUnit5Strategy instance;
 
-	private JUnit5Strategy() {
-
-	}
-
-	public static JUnit5Strategy getInstance() {
-		if (instance == null) {
-			instance = new JUnit5Strategy();
-		}
-		return instance;
+	public JUnit5Strategy(FlacocoConfig config) {
+		super(config);
 	}
 
 	@Override
@@ -36,8 +29,8 @@ public class JUnit5Strategy extends TestFrameworkStrategy {
 
 		return EntryPoint.runOnlineCoveredTestResultPerTestMethods(
 				this.computeClasspath(),
-				FlacocoConfig.getInstance().getBinJavaDir(),
-				FlacocoConfig.getInstance().getBinTestDir(),
+				config.getBinJavaDir(),
+				config.getBinTestDir(),
 				testContext.getTestMethods().stream().map(TestMethod::getFullyQualifiedClassName).distinct().toArray(String[]::new),
 				new String[0]
 		);
