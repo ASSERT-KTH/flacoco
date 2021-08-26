@@ -1095,6 +1095,8 @@ public class FlacocoTest {
 
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
+		config.setProjectPath(new File("./examples/exampleFL12Compliance4/FLtest1").getAbsolutePath());
+		config.setComplianceLevel(4);
 
 		// Run Flacoco
 		Flacoco flacoco = new Flacoco(config);
