@@ -23,7 +23,7 @@ $ mvn install
 <dependency>
     <groupId>com.github.spoonlabs</groupId>
     <artifactId>flacoco</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
