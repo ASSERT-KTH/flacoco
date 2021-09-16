@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 
+import static fr.spoonlabs.flacoco.TestUtils.getCompilerVersion;
 import static fr.spoonlabs.flacoco.TestUtils.isLessThanJava11;
 import static org.junit.Assert.assertEquals;
 
@@ -34,6 +35,9 @@ public class SpectrumRunnerTest {
 
 	@Test
 	public void testExampleFL1Ochiai() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -67,6 +71,9 @@ public class SpectrumRunnerTest {
 
 	@Test
 	public void testExampleFL2Ochiai() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -102,6 +109,9 @@ public class SpectrumRunnerTest {
 
 	@Test
 	public void testExampleFL3Ochiai() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -136,6 +146,9 @@ public class SpectrumRunnerTest {
 
 	@Test
 	public void testExampleFL1OchiaiCoverTests() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -173,6 +186,9 @@ public class SpectrumRunnerTest {
 
 	@Test
 	public void testExampleFL4JUnit5Ochiai() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -205,6 +221,9 @@ public class SpectrumRunnerTest {
 	@Test
 	@Ignore
 	public void testExampleFL4JUnit5OchiaiCoverTests() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -240,6 +259,9 @@ public class SpectrumRunnerTest {
 
 	@Test
 	public void testExampleFL5JUnit3Ochiai() {
+		// Run only on all target releases
+		Assume.assumeTrue(getCompilerVersion() >= 1);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -272,6 +294,9 @@ public class SpectrumRunnerTest {
 	@Test
 	@Ignore
 	public void testExampleFL5JUnit3OchiaiCoverTests() {
+		// Run only on all target releases
+		Assume.assumeTrue(getCompilerVersion() >= 1);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -307,6 +332,9 @@ public class SpectrumRunnerTest {
 
 	@Test
 	public void testExampleFL6MixedOchiai() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -339,6 +367,9 @@ public class SpectrumRunnerTest {
 	@Test
 	@Ignore
 	public void testExampleFL6MixedOchiaiCoverTests() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -374,6 +405,9 @@ public class SpectrumRunnerTest {
 
 	@Test
 	public void testExampleFL7Ochiai() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -407,6 +441,9 @@ public class SpectrumRunnerTest {
 
 	@Test
 	public void testExampleFL8Ochiai() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -444,6 +481,9 @@ public class SpectrumRunnerTest {
 
 	@Test
 	public void testExampleFL9Ochiai() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -481,6 +521,9 @@ public class SpectrumRunnerTest {
 
 	@Test
 	public void testExampleFL11Ochiai() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -518,6 +561,9 @@ public class SpectrumRunnerTest {
 
 	@Test
 	public void testExampleFL12Ochiai() {
+		// Run only on target release < 5
+		Assume.assumeTrue(getCompilerVersion() < 5);
+
 		// We can only run this test on java version less than 11
 		// since java 11 dropped support for compliance level 1.4
 		Assume.assumeTrue(isLessThanJava11());

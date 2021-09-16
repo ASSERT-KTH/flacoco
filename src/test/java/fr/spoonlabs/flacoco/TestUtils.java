@@ -20,4 +20,18 @@ public class TestUtils {
 
         return Integer.parseInt(version);
     }
+
+    public static int getCompilerVersion() {
+        String version = System.getenv("SRC_VERSION");
+        System.out.println(version);
+
+        // Java 4 or lower: 1.1, 1.2, 1.3, 1.4
+        // Java 9 or higher: 5, 6, 7, 8, 9, ...
+        if(version.startsWith("1.")) {
+            version = version.substring(2, 3);
+        }
+
+        return Integer.parseInt(version);
+    }
+
 }

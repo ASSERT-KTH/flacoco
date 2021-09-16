@@ -17,6 +17,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import static fr.spoonlabs.flacoco.TestUtils.getCompilerVersion;
 import static fr.spoonlabs.flacoco.TestUtils.getJavaVersion;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -31,6 +32,9 @@ public class Math70Test {
 
     @Before
     public void setUp() {
+        // Run only on target release >= 5
+        Assume.assumeTrue(getCompilerVersion() >= 5);
+
         // Run only on Java8
         Assume.assumeTrue(getJavaVersion() == 8);
         // FIXME: In CI, `testMath70` fails due to the test-runner args being too big (#57)
