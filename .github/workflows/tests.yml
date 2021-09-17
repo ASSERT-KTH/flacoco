@@ -39,3 +39,4 @@ jobs:
 
       - name: Codecov
         uses: codecov/codecov-action@v1.5.2
+        if: ${{ matrix.compiler-version == 8 && matrix.java-version == 8 && matrix.os == 'ubuntu-latest' }}
