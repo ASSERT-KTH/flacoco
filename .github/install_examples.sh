@@ -5,8 +5,8 @@ JAVA_MAJOR_VERSION=$(java -version 2>&1 | head -1 | cut -d'"' -f2 | sed 's/^1\./
 # Java version needs to be lower than 11, since support was dropped
 # If the source version is 1.1 OR 1.2, we can only install JUnit3 tests AND we need to use 1.3 as the source version since Java 8 does not support earlier versions
 if [ $JAVA_MAJOR_VERSION -lt "11" ] && ([ "$SRC_VERSION" = "1.1" ] || [ "$SRC_VERSION" = "1.2" ]); then
-    mvn clean test -DskipTests -Dmaven.compiler.source="1.2" -Dmaven.compiler.target=$SRC_VERSION -B -f examples/exampleFL5JUnit3/FLtest1/
-    mvn clean test -DskipTests -Dmaven.compiler.source="1.2" -Dmaven.compiler.target=$SRC_VERSION -B -f examples/exampleFL12Compliance4/FLtest1/
+    mvn clean test -DskipTests -Dmaven.compiler.source="1.3" -Dmaven.compiler.target=$SRC_VERSION -B -f examples/exampleFL5JUnit3/FLtest1/
+    mvn clean test -DskipTests -Dmaven.compiler.source="1.3" -Dmaven.compiler.target=$SRC_VERSION -B -f examples/exampleFL12Compliance4/FLtest1/
     exit 0
 fi
 
