@@ -70,7 +70,7 @@ public class FlacocoConfig {
 		this.mavenHome = System.getProperty("user.home") + "/.m2/repository/";
 		this.coverTests = false;
 		this.testRunnerVerbose = false;
-		this.testRunnerTimeoutInMs = 1000000;
+		this.testRunnerTimeoutInMs = 1000000; // for the whole execution (16 min)
 		this.testRunnerJVMArgs = null;
 		this.threshold = 0.0;
 		this.includeZeros = false;
