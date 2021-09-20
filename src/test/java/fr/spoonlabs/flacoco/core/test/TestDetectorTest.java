@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static fr.spoonlabs.flacoco.TestUtils.getCompilerVersion;
 import static fr.spoonlabs.flacoco.TestUtils.isLessThanJava11;
 import static org.junit.Assert.*;
 
@@ -35,6 +36,9 @@ public class TestDetectorTest {
 
 	@Test
 	public void testExampleFL1() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -86,6 +90,9 @@ public class TestDetectorTest {
 
 	@Test
 	public void testExampleFL1TestRunnerDetector() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -108,6 +115,9 @@ public class TestDetectorTest {
 
 	@Test
 	public void testExampleFL1IgnoreTestClass() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -125,6 +135,9 @@ public class TestDetectorTest {
 
 	@Test
 	public void testExampleFL1IgnoreTestMethod() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -147,6 +160,9 @@ public class TestDetectorTest {
 
 	@Test
 	public void testExampleFL1TestRunnerDetectorIgnoreTestClass() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -165,6 +181,9 @@ public class TestDetectorTest {
 
 	@Test
 	public void testExampleFL1TestRunnerDetectorIgnoreTestMethod() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -188,6 +207,9 @@ public class TestDetectorTest {
 
 	@Test
 	public void testExampleFL2() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -209,6 +231,9 @@ public class TestDetectorTest {
 
 	@Test
 	public void testExampleFL3() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -230,6 +255,9 @@ public class TestDetectorTest {
 
 	@Test
 	public void testExampleFL4JUnit5() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -251,6 +279,9 @@ public class TestDetectorTest {
 
 	@Test
 	public void testExampleFL4JUnit5ManualConfig() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -281,6 +312,9 @@ public class TestDetectorTest {
 
 	@Test
 	public void testExampleFL5JUnit3() {
+		// Run on all target releases
+		Assume.assumeTrue(getCompilerVersion() >= 1);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -302,6 +336,9 @@ public class TestDetectorTest {
 
 	@Test
 	public void testExampleFL6Mixed() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -343,6 +380,9 @@ public class TestDetectorTest {
 
 	@Test
 	public void testExampleFL6MixedManualConfig() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -396,6 +436,9 @@ public class TestDetectorTest {
 
 	@Test
 	public void testExampleFL7() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -417,6 +460,9 @@ public class TestDetectorTest {
 
 	@Test
 	public void testExampleFL8() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -442,6 +488,9 @@ public class TestDetectorTest {
 
 	@Test
 	public void testExampleFL9() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -467,6 +516,9 @@ public class TestDetectorTest {
 
 	@Test
 	public void testExampleFL11() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
@@ -488,6 +540,9 @@ public class TestDetectorTest {
 
 	@Test
 	public void testExampleFL12() {
+		// Run only on target release < 5
+		Assume.assumeTrue(getCompilerVersion() < 5);
+
 		// We can only run this test on java version less than 11
 		// since java 11 dropped support for compliance level 1.4
 		Assume.assumeTrue(isLessThanJava11());

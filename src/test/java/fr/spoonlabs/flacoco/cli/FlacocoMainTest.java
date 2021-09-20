@@ -7,10 +7,7 @@ import fr.spoonlabs.flacoco.localization.spectrum.SpectrumFormula;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
@@ -21,6 +18,7 @@ import picocli.CommandLine;
 import java.io.File;
 import java.io.IOException;
 
+import static fr.spoonlabs.flacoco.TestUtils.getCompilerVersion;
 import static org.junit.Assert.assertTrue;
 
 public class FlacocoMainTest {
@@ -38,6 +36,8 @@ public class FlacocoMainTest {
 
 	@Test
 	public void testMainExplicitArguments() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
 
 		// It's a smoke test
 		String mavenHome = System.getProperty("user.home") + "/.m2/repository/";
@@ -78,6 +78,8 @@ public class FlacocoMainTest {
 
 	@Test
 	public void testMainExplicitArgumentsNotMaven() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
 
 		// It's a smoke test
 		String mavenHome = System.getProperty("user.home") + "/.m2/repository/";
@@ -127,6 +129,8 @@ public class FlacocoMainTest {
 
 	@Test
 	public void testMainDefaultValues() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
 
 		// It's a smoke test
 
@@ -138,6 +142,9 @@ public class FlacocoMainTest {
 
 	@Test
 	public void testMainCSVExport() throws IOException {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// setup check output rule
 		output.extension = new CSVExporter().extension();
 
@@ -151,6 +158,9 @@ public class FlacocoMainTest {
 
 	@Test
 	public void testMainJSONExport() throws IOException {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// setup check output rule
 		output.extension = new JSONExporter().extension();
 
@@ -164,6 +174,9 @@ public class FlacocoMainTest {
 
 	@Test
 	public void testMainCustomExport() throws IOException {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// setup check output rule
 		output.extension = "custom";
 

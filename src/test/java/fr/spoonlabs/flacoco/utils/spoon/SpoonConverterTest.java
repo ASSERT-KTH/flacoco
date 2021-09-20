@@ -15,6 +15,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import static fr.spoonlabs.flacoco.TestUtils.getCompilerVersion;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

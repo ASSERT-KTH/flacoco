@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static fr.spoonlabs.flacoco.TestUtils.isLessThanJava11;
+import static fr.spoonlabs.flacoco.TestUtils.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -38,6 +38,9 @@ public class FlacocoTest {
 
 	@Test
 	public void testExampleFL1SpectrumBasedOchiaiDefaultMode() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
@@ -73,6 +76,9 @@ public class FlacocoTest {
 
 	@Test
 	public void testExampleFL1SpectrumBasedOchiaiDefaultModeThreshold() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
@@ -102,6 +108,9 @@ public class FlacocoTest {
 
 	@Test
 	public void testExampleFL1SpectrumBasedOchiaiDefaultModeIncludeZero() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
@@ -143,6 +152,9 @@ public class FlacocoTest {
 
 	@Test
 	public void testExampleFL1SpectrumBasedOchiaiDefaultModeManualTestConfig() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
@@ -182,6 +194,9 @@ public class FlacocoTest {
 
 	@Test
 	public void testExampleFL1SpectrumBasedOchiaiDefaultModeIgnoreFailingTest() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
@@ -214,6 +229,9 @@ public class FlacocoTest {
 	 */
 	@Test
 	public void testExampleFL2SpectrumBasedOchiaiDefaultMode() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL2/FLtest1").getAbsolutePath());
@@ -248,6 +266,9 @@ public class FlacocoTest {
 
 	@Test
 	public void testExampleFL3SpectrumBasedOchiaiDefaultMode() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL3/FLtest1").getAbsolutePath());
@@ -281,6 +302,9 @@ public class FlacocoTest {
 
 	@Test
 	public void testExampleFL1SpectrumBasedOchiaiCoverTestsDefaultMode() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
@@ -321,6 +345,9 @@ public class FlacocoTest {
 	 */
 	@Test
 	public void testExampleFL1SpectrumBasedOchiaiNoCoverTestsIncludesDefaultMode() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
@@ -354,6 +381,9 @@ public class FlacocoTest {
 
 	@Test
 	public void testExampleFL1SpectrumBasedOchiaiSpoonMode() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
@@ -400,6 +430,9 @@ public class FlacocoTest {
 
 	@Test
 	public void testExampleFL4JUnit5SpectrumBasedOchiaiDefaultMode() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL4JUnit5/FLtest1").getAbsolutePath());
@@ -431,6 +464,9 @@ public class FlacocoTest {
 	@Test
 	@Ignore
 	public void testExampleFL4JUnit5SpectrumBasedOchiaiDefaultModeManualTestConfig() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL4JUnit5/FLtest1").getAbsolutePath());
@@ -469,6 +505,9 @@ public class FlacocoTest {
 	@Test
 	@Ignore
 	public void testExampleFL4JUnit5SpectrumBasedOchiaiCoverTestsDefaultMode() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL4JUnit5/FLtest1").getAbsolutePath());
@@ -503,6 +542,9 @@ public class FlacocoTest {
 
 	@Test
 	public void testExampleFL4JUnit5SpectrumBasedOchiaiSpoonMode() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL4JUnit5/FLtest1").getAbsolutePath());
@@ -547,6 +589,9 @@ public class FlacocoTest {
 
 	@Test
 	public void testExampleFL5JUnit3SpectrumBasedOchiaiDefaultMode() {
+		// Run only on all compiler versions
+		Assume.assumeTrue(getCompilerVersion() >= 1);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL5JUnit3/FLtest1").getAbsolutePath());
@@ -578,6 +623,9 @@ public class FlacocoTest {
 	@Test
 	@Ignore
 	public void testExampleFL5JUnit3SpectrumBasedOchiaiCoverTestsDefaultMode() {
+		// Run only on all compiler versions
+		Assume.assumeTrue(getCompilerVersion() >= 1);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL5JUnit3/FLtest1").getAbsolutePath());
@@ -612,6 +660,9 @@ public class FlacocoTest {
 
 	@Test
 	public void testExampleFL5JUnit3SpectrumBasedOchiaiSpoonMode() {
+		// Run only on all compiler versions
+		Assume.assumeTrue(getCompilerVersion() >= 1);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL5JUnit3/FLtest1").getAbsolutePath());
@@ -656,6 +707,9 @@ public class FlacocoTest {
 
 	@Test
 	public void testExampleFL6MixedSpectrumBasedOchiaiDefaultMode() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL6Mixed/FLtest1").getAbsolutePath());
@@ -686,6 +740,9 @@ public class FlacocoTest {
 
 	@Test
 	public void testExampleFL6MixedSpectrumBasedOchiaiDefaultModeManualTestConfig() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL6Mixed/FLtest1").getAbsolutePath());
@@ -727,6 +784,9 @@ public class FlacocoTest {
 	@Test
 	@Ignore
 	public void testExampleFL6MixedSpectrumBasedOchiaiCoverTestsDefaultMode() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL6Mixed/FLtest1").getAbsolutePath());
@@ -761,6 +821,9 @@ public class FlacocoTest {
 
 	@Test
 	public void testExampleFL6MixedSpectrumBasedOchiaiSpoonMode() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL6Mixed/FLtest1").getAbsolutePath());
@@ -805,6 +868,9 @@ public class FlacocoTest {
 
 	@Test
 	public void testExampleFL7SpectrumBasedOchiaiDefaultMode() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL7SameNamedMethods/FLtest1").getAbsolutePath());
@@ -837,6 +903,9 @@ public class FlacocoTest {
 
 	@Test
 	public void testExampleFL8SpectrumBasedOchiaiDefaultMode() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		// we don't set --projectpath because it is not needed when we explicit the other 4 dirs
@@ -874,6 +943,9 @@ public class FlacocoTest {
 
 	@Test
 	public void testExampleFL8SpectrumBasedOchiaiCoverTestsDefaultMode() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath("./examples/exampleFL8NotMaven/");
@@ -914,6 +986,9 @@ public class FlacocoTest {
 
 	@Test
 	public void testExampleFL8SpectrumBasedOchiaiSpoonMode() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath("./examples/exampleFL8NotMaven/");
@@ -964,6 +1039,9 @@ public class FlacocoTest {
 
 	@Test
 	public void testExampleFL9SpectrumBasedOchiaiDefaultMode() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath("./examples/exampleFL9NotMavenMultiple/");
@@ -1000,6 +1078,9 @@ public class FlacocoTest {
 
 	@Test
 	public void testExampleFL9SpectrumBasedOchiaiSpoonMode() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath("./examples/exampleFL9NotMavenMultiple/");
@@ -1050,6 +1131,9 @@ public class FlacocoTest {
 
 	@Test
 	public void testExampleFL11SpectrumBasedOchiaiDefaultMode() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
 		config.setProjectPath(new File("./examples/exampleFL11/FLtest1").getAbsolutePath());
@@ -1089,6 +1173,9 @@ public class FlacocoTest {
 	 */
 	@Test
 	public void testExampleFL12SpectrumBasedOchiaiDefaultMode() {
+		// Run only on target release < 5
+		Assume.assumeTrue(getCompilerVersion() < 5);
+
 		// We can only run this test on java version less than 11
 		// since java 11 dropped support for compliance level 1.4
 		Assume.assumeTrue(isLessThanJava11());
