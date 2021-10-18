@@ -43,8 +43,16 @@ public class FlacocoResult {
         this.spoonSuspiciousnessMap = spoonSuspiciousnessMap;
     }
 
+    /** returns the suspicious statements. Note that the map is ordered, meaning that it can be iterated in descending order, from most suspicious to least suspicious 
+    * 
+    */
     public Map<Location, CtStatement> getLocationStatementMap() {
         return locationStatementMap;
+    }
+
+    /** Returns the ranked list of suspicious statements in descending order, from most suspicious to least suspicious  */
+   public List<Location> getLocationStatementList() {
+        return new ArrayList<Location>(getLocationStatementMap().keySet());
     }
 
     public void setLocationStatementMap(Map<Location, CtStatement> locationStatementMap) {
