@@ -8,12 +8,13 @@ import eu.stamp_project.testrunner.listener.impl.CoverageFromClass;
 import fr.spoonlabs.flacoco.api.result.Location;
 import fr.spoonlabs.flacoco.core.config.FlacocoConfig;
 import fr.spoonlabs.flacoco.core.test.method.TestMethod;
+import fr.spoonlabs.flacoco.utils.spoon.SpoonBlockInspector;
 import org.apache.log4j.Logger;
+import org.apache.maven.plugin.surefire.util.DirectoryScanner;
+import org.apache.maven.surefire.api.testset.TestListResolver;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.io.File;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -92,8 +93,7 @@ public class CoverageMatrix {
 					if (!element.isNativeMethod()) {
 						// We want to keep it if and only if it the class was included in the coverage
 						// computation, which will ignore classes like org.junit.Assert
-						if (((CoverageDetailed) result.getCoverageOf(testMethod.getFullyQualifiedMethodName()))
-								.getDetailedCoverage().containsKey(element.getClassName().replace(".", "/"))) {
+						if (classToInclude(element.getClassName())) {
 
 							// We also want to ignore test classes if they coverTests is not set
 							if (!config.isCoverTests() && testClasses.contains(element.getClassName())) {
@@ -105,8 +105,16 @@ public class CoverageMatrix {
 									element.getLineNumber()
 							);
 
-							this.logger.debug("Adding a line where an exception was thrown: " + location);
+							System.out.println("Adding a line where an exception was thrown: " + location);
 							this.add(location, testMethod, 1, false);
+
+							SpoonBlockInspector blockMatcher = new SpoonBlockInspector(config);
+							List<Location> locations = blockMatcher.getBlockLocations(element);
+
+							for (Location blockLocation : locations) {
+								System.out.println("Adding a line from the block where an exception was thrown: " + blockLocation);
+								this.add(blockLocation, testMethod, 1, false);
+							}
 						}
 					}
 				}
@@ -154,6 +162,23 @@ public class CoverageMatrix {
 		}
 
 		this.tests.put(testMethod, testResult);
+	}
+
+	private boolean classToInclude(String className) {
+		for (String dir : config.getBinJavaDir()) {
+			DirectoryScanner directoryScanner = new DirectoryScanner(new File(dir), TestListResolver.getWildcard());
+			if (directoryScanner.scan().getClasses().contains(className)) {
+				return true;
+			}
+		}
+		for (String dir : config.getBinTestDir()) {
+			DirectoryScanner directoryScanner = new DirectoryScanner(new File(dir), TestListResolver.getWildcard());
+			if (directoryScanner.scan().getClasses().contains(className)) {
+				return true;
+			}
+		}
+
+        return false;
 	}
 
 }
