@@ -32,7 +32,7 @@ public class SpoonBlockInspector {
 
         // If we cannot find the source code file, we return an empty location list
         if (!new File(path).exists()) {
-            System.out.println("No source code file was found for stack-trace element: " + element);
+            logger.debug("No source code file was found for stack-trace element: " + element);
             return new ArrayList<>();
         }
 
@@ -40,11 +40,6 @@ public class SpoonBlockInspector {
         // Init spoon Launcher
         Launcher launcher = new Launcher();
         launcher.addInputResource(path);
-        /*for (String dir : config.getSrcJavaDir())
-            launcher.addInputResource(dir);
-        for (String dir : config.getSrcTestDir())
-            launcher.addInputResource(dir);
-        */
         launcher.buildModel();
         launcher.addProcessor(new SpoonBlockLocationsFinder());
 
@@ -55,7 +50,7 @@ public class SpoonBlockInspector {
         launcher.process();
 
         if (SpoonBlockLocationsFinder.found == null) {
-            System.out.println("No block was found for stack-trace element: " + element);
+            logger.debug("No block was found for stack-trace element: " + element);
             return new ArrayList<>();
         }
 
