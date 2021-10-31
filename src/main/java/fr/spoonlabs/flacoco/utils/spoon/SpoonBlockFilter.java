@@ -13,6 +13,6 @@ public class SpoonBlockFilter implements Filter<CtBlock<?>> {
 
     @Override
     public boolean matches(CtBlock<?> ctBlock) {
-        return lineNumber >= ctBlock.getPosition().getLine() && lineNumber <= ctBlock.getPosition().getEndLine();
+        return ctBlock.getPosition() != null && ctBlock.getPosition().isValidPosition() && lineNumber >= ctBlock.getPosition().getLine() && lineNumber <= ctBlock.getPosition().getEndLine();
     }
 }
