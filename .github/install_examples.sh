@@ -27,11 +27,11 @@ mvn clean test -DskipTests -Dmaven.compiler.source=$SRC_VERSION -Dmaven.compiler
 mvn clean test -DskipTests -Dmaven.compiler.source=$SRC_VERSION -Dmaven.compiler.target=$SRC_VERSION -B -f examples/exampleFL6Mixed/FLtest1/
 mvn clean test -DskipTests -Dmaven.compiler.source=$SRC_VERSION -Dmaven.compiler.target=$SRC_VERSION -B -f examples/exampleFL7SameNamedMethods/FLtest1/
 mvn clean test -DskipTests -Dmaven.compiler.source=$SRC_VERSION -Dmaven.compiler.target=$SRC_VERSION -B -f examples/exampleFL11/FLtest1/
-mvn clean test -DskipTests -Dmaven.compiler.source=$SRC_VERSION -Dmaven.compiler.target=$SRC_VERSION -B -f examples/exampleFL13Block/cl2/
 
 # Compile real projects
 if [ $JAVA_MAJOR_VERSION -eq "8" ]; then
     mvn clean test -DskipTests -Dmaven.compiler.source=1.8 -Dmaven.compiler.target=1.8 -B -f examples/math_70/
+    mvn clean test -DskipTests -Dmaven.compiler.source=1.5 -Dmaven.compiler.target=1.5 -B -f examples/cl2/
 fi
 
 # Copy compiled classes to non-maven mirror projects

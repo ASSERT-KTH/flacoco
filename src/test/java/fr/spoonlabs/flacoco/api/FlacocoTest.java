@@ -20,8 +20,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static fr.spoonlabs.flacoco.TestUtils.getCompilerVersion;
-import static fr.spoonlabs.flacoco.TestUtils.isLessThanJava11;
+import static fr.spoonlabs.flacoco.TestUtils.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -1306,18 +1305,23 @@ public class FlacocoTest {
 	/**
 	 * This test captures the functionality of computing the coverage even when an exception is
 	 * thrown during execution and there are lines ignored by JaCoCo before the line throwing exception
+	 *
+	 * See:
+	 * - https://github.com/jacoco/jacoco/issues/1223#issuecomment-926636606
+	 * - https://github.com/SpoonLabs/flacoco/issues/109
 	 */
 	@Test
-	public void testExampleFL13SpectrumBasedOchiaiDefaultMode() {
-		// Run only on target release >= 5
+	public void testExampleCL2SpectrumBasedOchiaiDefaultMode() {
+		// Run only on java 8
 		Assume.assumeTrue(getCompilerVersion() >= 5);
+		Assume.assumeTrue(getJavaVersion() == 8);
 
 		// Setup config
 		FlacocoConfig config = getDefaultFlacocoConfig();
-		LogManager.getRootLogger().setLevel(Level.DEBUG);
+		LogManager.getRootLogger().setLevel(Level.INFO);
 		config.setTestRunnerVerbose(false);
-		config.setProjectPath(new File("./examples/exampleFL13Block/cl2").getAbsolutePath());
-		config.setSrcJavaDir(Collections.singletonList(new File("./examples/exampleFL13Block/cl2/src/java").getAbsolutePath()));
+		config.setProjectPath(new File("./examples/cl2").getAbsolutePath());
+		config.setSrcJavaDir(Collections.singletonList(new File("./examples/cl2/src/java").getAbsolutePath()));
 
 		// Run Flacoco
 		Flacoco flacoco = new Flacoco(config);
@@ -1326,16 +1330,11 @@ public class FlacocoTest {
 		FlacocoResult result = flacoco.run();
 
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
-		assertEquals(459, susp.keySet().size());
 
 		// Lines not included by JaCoCo
 		assertTrue(result.getDefaultSuspiciousnessMap().containsKey(new Location("org.apache.commons.lang.StringUtils", 1050)));
 		assertTrue(result.getDefaultSuspiciousnessMap().containsKey(new Location("org.apache.commons.lang.StringUtils", 1051)));
 		assertTrue(result.getDefaultSuspiciousnessMap().containsKey(new Location("org.apache.commons.lang.StringUtils", 1054)));
-
-		List<Location> locations = result.getLocationList();
-		assertEquals(459, locations.size());
-		assertOrdered(susp, locations);
 	}
 
 	private FlacocoConfig getDefaultFlacocoConfig() {
