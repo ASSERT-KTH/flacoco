@@ -1303,6 +1303,41 @@ public class FlacocoTest {
 		assertOrdered(susp, locations);
 	}
 
+	/**
+	 * This test captures the functionality of computing the coverage even when an exception is
+	 * thrown during execution and there are lines ignored by JaCoCo before the line throwing exception
+	 */
+	@Test
+	public void testExampleFL13SpectrumBasedOchiaiDefaultMode() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
+		// Setup config
+		FlacocoConfig config = getDefaultFlacocoConfig();
+		LogManager.getRootLogger().setLevel(Level.DEBUG);
+		config.setTestRunnerVerbose(false);
+		config.setProjectPath(new File("./examples/exampleFL13Block/cl2").getAbsolutePath());
+		config.setSrcJavaDir(Collections.singletonList(new File("./examples/exampleFL13Block/cl2/src/java").getAbsolutePath()));
+
+		// Run Flacoco
+		Flacoco flacoco = new Flacoco(config);
+
+		// Run default mode
+		FlacocoResult result = flacoco.run();
+
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
+		assertEquals(459, susp.keySet().size());
+
+		// Lines not included by JaCoCo
+		assertTrue(result.getDefaultSuspiciousnessMap().containsKey(new Location("org.apache.commons.lang.StringUtils", 1050)));
+		assertTrue(result.getDefaultSuspiciousnessMap().containsKey(new Location("org.apache.commons.lang.StringUtils", 1051)));
+		assertTrue(result.getDefaultSuspiciousnessMap().containsKey(new Location("org.apache.commons.lang.StringUtils", 1054)));
+
+		List<Location> locations = result.getLocationList();
+		assertEquals(459, locations.size());
+		assertOrdered(susp, locations);
+	}
+
 	private FlacocoConfig getDefaultFlacocoConfig() {
 		FlacocoConfig config = new FlacocoConfig();
 		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());

@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<project>
+  <extend>../project.xml</extend>
+  <id>commons-lang</id>
+  <name>Lang</name>
+  <currentVersion>2.0-dev</currentVersion>
+  <inceptionYear>2001</inceptionYear>
+  
+  <description>
+    Commons.Lang, a package of Java utility classes for the
+    classes that are in java.lang's hierarchy, or are considered to be so
+    standard as to justify existence in java.lang.
+  </description>
+  
+  <shortDescription>Java Common Components</shortDescription>
+
+  <developers>
+    <developer>
+      <name>Daniel Rall</name>
+      <id>dlr</id>
+      <email>dlr@finemaltcoding.com</email>
+      <organization>CollabNet, Inc.</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Stephen Colebourne</name>
+      <id>scolebourne</id>
+      <email>scolebourne@joda.org</email>
+      <organization>SITA ATS Ltd</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Henri Yandell</name>
+      <id>bayard</id>
+      <email>bayard@generationjava.com</email>
+      <organization></organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Steven Caswell</name>
+      <id>scaswell</id>
+      <email>steven@caswell.name</email>
+      <organization></organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Robert Burrell Donkin</name>
+      <id>rdonkin</id>
+      <email>rdonkin@apache.org</email>
+      <organization></organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Gary Gregory</name>
+      <id>ggregory</id>
+      <email>ggregory@seagullsw.com</email>
+      <organization>SEAGULL Software</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+      </developer>
+  </developers>
+
+  <contributors>
+    <contributor>
+      <name>Ringo De Smet</name>
+      <id></id>
+      <email>ringods@yahoo.co.uk</email>
+      <organization></organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </contributor>
+    <contributor>
+      <name>Steve Downey</name>
+      <id></id>
+      <email>steve.downey@netfolio.com</email>
+      <organization></organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </contributor>
+  </contributors>
+  
+  <!-- Lang should depend on very little -->
+  <dependencies>
+    <dependency>
+      <id>junit</id>
+      <version>3.7</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+        <include>**/*TestCase.java</include>
+      </includes>
+      <excludes>
+        <exclude>**/Abstract*.java</exclude>
+        <exclude>**/*CalendarUtils*.java</exclude>
+      </excludes>
+    </unitTest>
+  </build>
+
+</project>
+
