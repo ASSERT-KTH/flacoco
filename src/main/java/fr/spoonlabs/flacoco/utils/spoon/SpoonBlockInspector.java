@@ -10,6 +10,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Inspects the analyzed project to find the locations corresponding to the lines
+ * executed before the line corresponding to the given stack-trace element.
+ */
 public class SpoonBlockInspector {
 
     private static final Logger logger = Logger.getLogger(SpoonBlockInspector.class);

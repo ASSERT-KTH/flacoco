@@ -8,6 +8,10 @@ import spoon.reflect.declaration.CtType;
 
 import java.util.List;
 
+/**
+ * Processes CtTypes to find the CtType corresponding to the given class name.
+ * Then, it finds the CtBlock that corresponds to the deepest scope that includes the given line number.
+ */
 public class SpoonBlockLocationsFinder extends AbstractProcessor<CtType<?>> {
 
     private static final Logger logger = Logger.getLogger(SpoonBlockLocationsFinder.class);
