@@ -67,7 +67,7 @@ public class FlacocoResult {
      * Returns a ranked list of suspicious location in descending order, from most to least suspicious
      * @return The ranked list of locations
      */
-    public List<Location> getLocationList() {
+    public List<Location> getSuspiciousLocationList() {
         return new ArrayList<>(getDefaultSuspiciousnessMap().keySet());
     }
 
