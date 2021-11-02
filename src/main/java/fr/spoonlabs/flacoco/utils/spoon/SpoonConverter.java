@@ -47,6 +47,7 @@ public class SpoonConverter {
 			// Compute location information
 			SpoonLocalizedFaultFinder.fullyQualifiedClassName = location.getClassName();
 			SpoonLocalizedFaultFinder.lineNumber = location.getLineNumber();
+			SpoonLocalizedFaultFinder.found = null;
 
 			// Launch processor to find the top-most CtStatement of the given line
 			launcher.process();
