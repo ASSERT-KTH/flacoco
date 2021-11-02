@@ -74,7 +74,7 @@ public class FlacocoTest {
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0);
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0);
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(6, locations.size());
 		assertOrdered(susp, locations);
 	}
@@ -110,7 +110,7 @@ public class FlacocoTest {
 		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
 		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(3, locations.size());
 		assertOrdered(susp, locations);
 	}
@@ -158,7 +158,7 @@ public class FlacocoTest {
 		assertEquals(0.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 16)).getScore(), 0);
 		assertEquals(0.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 17)).getScore(), 0);
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(10, locations.size());
 		assertOrdered(susp, locations);
 	}
@@ -204,7 +204,7 @@ public class FlacocoTest {
 		// Lines executed by all test
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(6, locations.size());
 		assertOrdered(susp, locations);
 	}
@@ -239,7 +239,7 @@ public class FlacocoTest {
 			assertEquals(0.0, susp.get(location).getScore(), 0);
 		}
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(9, locations.size());
 		assertOrdered(susp, locations);
 	}
@@ -284,7 +284,7 @@ public class FlacocoTest {
 		assertEquals(0.44, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0.01);
 		assertEquals(0.44, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0.01);
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(8, locations.size());
 		assertOrdered(susp, locations);
 	}
@@ -324,7 +324,7 @@ public class FlacocoTest {
 		assertEquals(0.44, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0.01);
 		assertEquals(0.44, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0.01);
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(7, locations.size());
 		assertOrdered(susp, locations);
 	}
@@ -367,7 +367,7 @@ public class FlacocoTest {
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0);
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0);
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(9, locations.size());
 		assertOrdered(susp, locations);
 	}
@@ -411,7 +411,7 @@ public class FlacocoTest {
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0);
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0);
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(6, locations.size());
 		assertOrdered(susp, locations);
 	}
@@ -497,7 +497,7 @@ public class FlacocoTest {
 		// Lines executed by all test
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(4, locations.size());
 		assertOrdered(susp, locations);
 	}
@@ -542,7 +542,7 @@ public class FlacocoTest {
 		// Lines executed by all test
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(4, locations.size());
 		assertOrdered(susp, locations);
 	}
@@ -584,7 +584,7 @@ public class FlacocoTest {
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 7)).getScore(), 0);
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(7, locations.size());
 		assertOrdered(susp, locations);
 	}
@@ -668,7 +668,7 @@ public class FlacocoTest {
 		// Lines executed by all test
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(4, locations.size());
 		assertOrdered(susp, locations);
 	}
@@ -710,7 +710,7 @@ public class FlacocoTest {
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 7)).getScore(), 0);
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(7, locations.size());
 		assertOrdered(susp, locations);
 	}
@@ -794,7 +794,7 @@ public class FlacocoTest {
 		// Lines executed by all test
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(4, locations.size());
 		assertOrdered(susp, locations);
 	}
@@ -841,7 +841,7 @@ public class FlacocoTest {
 		// Lines executed by all test
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(4, locations.size());
 		assertOrdered(susp, locations);
 	}
@@ -883,7 +883,7 @@ public class FlacocoTest {
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 7)).getScore(), 0);
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(7, locations.size());
 		assertOrdered(susp, locations);
 	}
@@ -969,7 +969,7 @@ public class FlacocoTest {
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0);
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0);
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(6, locations.size());
 		assertOrdered(susp, locations);
 	}
@@ -1013,7 +1013,7 @@ public class FlacocoTest {
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0);
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0);
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(6, locations.size());
 		assertOrdered(susp, locations);
 	}
@@ -1060,7 +1060,7 @@ public class FlacocoTest {
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0);
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0);
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(9, locations.size());
 		assertOrdered(susp, locations);
 	}
@@ -1156,7 +1156,7 @@ public class FlacocoTest {
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0);
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0);
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(6, locations.size());
 		assertOrdered(susp, locations);
 	}
@@ -1252,7 +1252,7 @@ public class FlacocoTest {
 		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0.01);
 		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0.01);
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(8, locations.size());
 		assertOrdered(susp, locations);
 	}
@@ -1297,7 +1297,7 @@ public class FlacocoTest {
 		// Lines executed by all test
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.enum.Calculator", 10)).getScore(), 0);
 
-		List<Location> locations = result.getLocationList();
+		List<Location> locations = result.getSuspiciousLocationList();
 		assertEquals(4, locations.size());
 		assertOrdered(susp, locations);
 	}
