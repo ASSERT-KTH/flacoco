@@ -30,7 +30,7 @@ public class FlacocoResult {
     private Set<TestMethod> failingTests;
 
     /**
-     * Returns an ordered mapping from {@link Location] to a {@link Suspiciousness}. Note that the mapping's iteration
+     * Returns an ordered mapping from {@link Location} to a {@link Suspiciousness}. Note that the mapping's iteration
      * follows a descending order, from most to least suspicious
      * @return The ordered mapping
      */
@@ -43,7 +43,7 @@ public class FlacocoResult {
     }
 
     /**
-     * Returns an ordered mapping from {@link CtStatement] to a {@link Suspiciousness}. Note that the mapping's iteration
+     * Returns an ordered mapping from {@link CtStatement} to a {@link Suspiciousness}. Note that the mapping's iteration
      * follows a descending order, from most to least suspicious
      * @return The ordered mapping
      */
