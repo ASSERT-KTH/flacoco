@@ -121,7 +121,7 @@ public class FlacocoMain implements Callable<Integer> {
 	@Option(names = {"--jacocoExcludes"}, description = "Class patterns to be excluded by jacoco")
 	Set<String> jacocoExcludes = new HashSet<>();
 
-	@CommandLine.ArgGroup(exclusive = false, multiplicity = "0..1", heading = "Setting any of these options will result in test detection being bypassed.")
+	@CommandLine.ArgGroup(exclusive = false, multiplicity = "0..1", heading = "\nSetting any of these options will result in test detection being bypassed:\n")
 	Tests tests = new Tests();
 
 	static class Tests {
