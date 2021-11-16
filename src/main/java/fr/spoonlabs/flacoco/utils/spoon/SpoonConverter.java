@@ -53,7 +53,7 @@ public class SpoonConverter {
 			launcher.process();
 
 			if (SpoonLocalizedFaultFinder.found == null) {
-				logger.error("Spoon found no CtStatement for the location " +
+				logger.debug("Spoon found no CtStatement for the location " +
 						SpoonLocalizedFaultFinder.fullyQualifiedClassName + ":" + SpoonLocalizedFaultFinder.lineNumber);
 				continue;
 			}
@@ -61,7 +61,7 @@ public class SpoonConverter {
 			// Warning message that should never occur.
 			if (result.containsKey(SpoonLocalizedFaultFinder.found) &&
 					!result.get(SpoonLocalizedFaultFinder.found).equals(original.get(location))) {
-				logger.error("Converting [" + location + "] to [" + SpoonLocalizedFaultFinder.found + "] resulted in a " +
+				logger.debug("Converting [" + location + "] to [" + SpoonLocalizedFaultFinder.found + "] resulted in a " +
 						"duplicate key with different suspiciouness values. Please report this to the developers of " +
 						"Flacoco on https://github.com/SpoonLabs/flacoco");
 			}
