@@ -46,7 +46,8 @@ public class CoverageMatrix {
 	/**
 	 * Processes a wrapper for the coverage from a single test unit
 	 *
-	 * @param iCovWrapper
+	 * @param iCovWrapper The coverage information related to the single unit test
+	 * @param testClasses Classes which contain tests
 	 */
 	public void processSingleTest(CoverageFromSingleTestUnit iCovWrapper, Set<String> testClasses) {
 		CoverageDetailed covLine = iCovWrapper.getCov();
@@ -145,10 +146,10 @@ public class CoverageMatrix {
 	 * <p>
 	 * The modifier is public for testing purposes
 	 *
-	 * @param location
-	 * @param testMethod
-	 * @param instExecutedAtLineI
-	 * @param testResult
+	 * @param location The location to be added
+	 * @param testMethod The test method which covered the location
+	 * @param instExecutedAtLineI Number of instructions executed at the location
+	 * @param testResult The result of the test method
 	 */
 	public void add(Location location, TestMethod testMethod, int instExecutedAtLineI, Boolean testResult) {
 		if (instExecutedAtLineI > 0) {

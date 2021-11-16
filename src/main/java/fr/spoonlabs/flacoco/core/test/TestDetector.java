@@ -85,7 +85,9 @@ public class TestDetector {
 
 	/**
 	 * Checks if testMethod is included in the configured ignored tests
+	 *
 	 * @param testMethod The test method to be checked
+	 * @param ignoredTests Tests to be ignored
 	 * @return true if the test should be ignored, false otherwise
 	 */
 	public static boolean isIgnored(TestMethod testMethod, Set<String> ignoredTests) {
