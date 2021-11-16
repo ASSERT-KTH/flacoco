@@ -19,7 +19,7 @@ public class CSVExporter implements FlacocoExporter {
 		// TODO: Using a CsvListWriter because CsvMapWriter had some issues. Ideally, we could use CsvMapWriter and reduce the complexity here
 		CsvListWriter writer = new CsvListWriter(outputStream, csvPreference);
 		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
-			writer.write(entry.getKey(), entry.getValue().getScore());
+			writer.write(entry.getKey().getClassName(), entry.getKey().getLineNumber(), entry.getValue().getScore());
 		}
 		writer.close();
 	}
