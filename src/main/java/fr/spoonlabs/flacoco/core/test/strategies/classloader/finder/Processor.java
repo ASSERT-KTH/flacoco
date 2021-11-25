@@ -45,7 +45,7 @@ public class Processor {
                             continue;
                         }
                         testMethods.addAll(tester.acceptClass(clazz));
-                    } catch (ClassNotFoundException cnfe2) {
+                    } catch (ClassNotFoundException | IllegalAccessError cnfe2) {
                         Class<?> clazz = null;
                         try {
                             clazz = Class.forName(className, false, ((ClassloaderFinder) finder).urlClassloader);
@@ -53,7 +53,7 @@ public class Processor {
                                 continue;
                             }
                             testMethods.addAll(tester.acceptClass(clazz));
-                        } catch (ClassNotFoundException e) {
+                        } catch (ClassNotFoundException | IllegalAccessError e) {
                             logger.warn("ClassNotFoundException: " + className);
                             logger.warn(Arrays.toString(((ClassloaderFinder) finder).urlClassloader.getURLs()));
                         }
