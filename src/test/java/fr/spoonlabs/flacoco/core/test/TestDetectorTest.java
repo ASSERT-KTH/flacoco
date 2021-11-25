@@ -49,11 +49,13 @@ public class TestDetectorTest {
 		TestDetector testDetector = new TestDetector(config);
 		List<TestContext> testContexts = testDetector.getTests();
 
+		// Additional weak Oracle: absence of any error during the execution
+
 		// Check that there is only one test context
 		assertEquals(1, testContexts.size());
 		// Check that there are 4 test methods in the test context
 		TestContext testContext = testContexts.get(0);
-		assertEquals(4, testContext.getTestMethods().size());
+		assertEquals(1, testContext.getTestMethods().size());
 		// Check that the correct test framework is set
 		assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
 	}
