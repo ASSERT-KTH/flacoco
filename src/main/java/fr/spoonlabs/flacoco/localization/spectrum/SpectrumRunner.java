@@ -12,6 +12,7 @@ import fr.spoonlabs.flacoco.localization.FaultLocalizationRunner;
 import fr.spoonlabs.flacoco.utils.spoon.SpoonConverter;
 import org.apache.log4j.Logger;
 
+import java.lang.management.ManagementFactory;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,13 @@ public class SpectrumRunner implements FaultLocalizationRunner {
     @Override
     public FlacocoResult run() {
         FlacocoResult result = new FlacocoResult();
+
+        // Warn if system memory is lower than 4GiB
+        long memorySize = ((com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean()).getTotalPhysicalMemorySize();
+        if (memorySize < 4294967296L) {
+            logger.warn("System memory is lower than 4GiB. " +
+                    "Caution when running spectrum-based fault localization on large projects, as coverage computation require more than the available memory");
+        }
 
         CoverageMatrix coverageMatrix = computeCoverageMatrix();
         result.setFailingTests(coverageMatrix.getFailingTestCases());
