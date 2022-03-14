@@ -30,7 +30,7 @@ flacoco is currently only available as a SNAPSHOT.
 
 You can use it by installing locally yourself, or by adding flacoco as a maven dependency:
 ```bash
-$ mvn install
+$ mvn install -DskipTests
 ```
 ```xml
 <dependency>
