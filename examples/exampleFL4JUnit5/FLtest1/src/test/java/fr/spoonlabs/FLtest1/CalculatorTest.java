@@ -41,7 +41,7 @@ public class CalculatorTest {
 	@Test
 	public void testIgnore() {
 
-		assertEquals(2, c.calculate("/", 12, 6));
+		Assertions.assertEquals(2, c.calculate("/", 12, 6));
 
 	}
 
