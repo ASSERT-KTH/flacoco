@@ -21,8 +21,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static fr.spoonlabs.flacoco.TestUtils.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * This test class tests the execution of Flacoco as a whole
@@ -52,8 +51,21 @@ public class FlacocoTest {
 		// Run default mode
 		FlacocoResult result = flacoco.run();
 
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum")
+		)));
+
+		// Check failing tests
 		assertEquals(1, result.getFailingTests().size());
 		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+
+		// Check ignored tests weren't executed
+		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testIgnore")));
 
 		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
 			System.out.println(entry);
