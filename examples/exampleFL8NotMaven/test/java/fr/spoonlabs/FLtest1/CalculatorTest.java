@@ -3,6 +3,7 @@ package fr.spoonlabs.FLtest1;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.junit.Ignore;
 
 public class CalculatorTest {
 
@@ -31,6 +32,14 @@ public class CalculatorTest {
 
 	@Test
 	public void testDiv() {
+
+		assertEquals(2, c.calculate("/", 12, 6));
+
+	}
+
+	@Ignore
+	@Test
+	public void testIgnore() {
 
 		assertEquals(2, c.calculate("/", 12, 6));
 

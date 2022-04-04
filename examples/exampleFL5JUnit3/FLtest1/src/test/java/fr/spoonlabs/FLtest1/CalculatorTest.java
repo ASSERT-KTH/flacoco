@@ -31,4 +31,9 @@ public class CalculatorTest extends TestCase {
 
 	}
 
+	public void ignoretestIgnore() {
+
+		assertEquals(2, c.calculate("/", 12, 6));
+
+	}
 }
