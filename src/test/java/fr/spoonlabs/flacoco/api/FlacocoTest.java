@@ -1721,15 +1721,15 @@ public class FlacocoTest {
 		// Check executed tests
 		assertEquals(4, result.getExecutedTests().size());
 		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
-				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
-				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
-				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
-				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum")
+				new StringTestMethod("fr.spoonlabs.FLtest1.enum.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.enum.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.enum.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.enum.CalculatorTest", "testSum")
 		)));
 
 		// Check failing tests
 		assertEquals(1, result.getFailingTests().size());
-		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.enum.CalculatorTest", "testMul")));
 
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(4, susp.size());
