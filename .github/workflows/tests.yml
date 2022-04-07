@@ -22,7 +22,7 @@ jobs:
         if: ${{ matrix.compiler-version <= matrix.java-version && (matrix.java-version < 14 || matrix.compiler-version >= 7) && (matrix.java-version < 11 || matrix.compiler-version >= 6) }}
         with:
           java-version: ${{ matrix.java-version }}
-          distribution: 'adopt'
+          distribution: 'temurin'
 
       - name: Install example projects
         run: ./.github/install_examples.sh
