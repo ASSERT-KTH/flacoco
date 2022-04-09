@@ -7,10 +7,10 @@ import fr.spoonlabs.flacoco.localization.spectrum.SpectrumFormula;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
-import org.junit.*;
-import org.junit.contrib.java.lang.system.ExpectedSystemExit;
-import org.junit.rules.RuleChain;
-import org.junit.rules.TestRule;
+import org.junit.Assume;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import picocli.CommandLine;
@@ -18,16 +18,15 @@ import picocli.CommandLine;
 import java.io.File;
 import java.io.IOException;
 
+import static com.github.stefanbirkner.systemlambda.SystemLambda.catchSystemExit;
 import static fr.spoonlabs.flacoco.TestUtils.getCompilerVersion;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class FlacocoMainTest {
 
-	public final ExpectedSystemExit exit = ExpectedSystemExit.none();
-	public final CheckOutput output = new CheckOutput();
-
 	@Rule
-	public TestRule allRules = RuleChain.outerRule(output).around(exit);
+	public final CheckOutput output = new CheckOutput();
 
 	@Before
 	public void setUp() {
@@ -35,7 +34,7 @@ public class FlacocoMainTest {
 	}
 
 	@Test
-	public void testMainExplicitArguments() {
+	public void testMainExplicitArguments() throws Exception {
 		// Run only on target release >= 5
 		Assume.assumeTrue(getCompilerVersion() >= 5);
 
@@ -53,8 +52,7 @@ public class FlacocoMainTest {
 				+ mavenHome + "org/junit/platform/junit-platform-launcher/1.3.2/junit-platform-launcher-1.3.2.jar";
 		String jacocoClassPath = mavenHome + "org/jacoco/org.jacoco.core/0.8.3/org.jacoco.core-0.8.3.jar";
 
-		exit.expectSystemExitWithStatus(0);
-		FlacocoMain.main(new String[]{
+		int statusCode = catchSystemExit(() -> FlacocoMain.main(new String[]{
 				"--projectpath", "examples/exampleFL1/FLtest1",
 				"--formula", SpectrumFormula.OCHIAI.name(),
 				"--mavenHome", mavenHome,
@@ -73,11 +71,12 @@ public class FlacocoMainTest {
 				"--jacocoIncludes", "fr.spoonlabs.FLtest1.*",
 				"--jacocoExcludes", "org.junit.*",
 				"--complianceLevel", "8"
-		});
+		}));
+		assertEquals(0, statusCode);
 	}
 
 	@Test
-	public void testMainExplicitArgumentsNotMaven() {
+	public void testMainExplicitArgumentsNotMaven() throws Exception {
 		// Run only on target release >= 5
 		Assume.assumeTrue(getCompilerVersion() >= 5);
 
@@ -95,8 +94,7 @@ public class FlacocoMainTest {
 				+ mavenHome + "org/junit/platform/junit-platform-launcher/1.3.2/junit-platform-launcher-1.3.2.jar";
 		String jacocoClassPath = mavenHome + "org/jacoco/org.jacoco.core/0.8.3/org.jacoco.core-0.8.3.jar";
 
-		exit.expectSystemExitWithStatus(0);
-		FlacocoMain.main(new String[]{
+		int statusCode = catchSystemExit(() -> FlacocoMain.main(new String[]{
 				// we don't set --projectpath because it is not needed when we explicit the other 4 dirs
 				"--srcJavaDir", "examples/exampleFL8NotMaven/java",
 				"--srcTestDir", "examples/exampleFL8NotMaven/test",
@@ -112,80 +110,80 @@ public class FlacocoMainTest {
 				"--testRunnerJVMArgs", "-Xms16M",
 				"-v",
 				"--includeZeros"
-		});
+		}));
+		assertEquals(0, statusCode);
 	}
 
 	@Test
-	public void testMainIncorrectInputs() {
+	public void testMainIncorrectInputs() throws Exception {
 
-		exit.expectSystemExitWithStatus(CommandLine.ExitCode.USAGE);
-		FlacocoMain.main(new String[]{
+		int statusCode = catchSystemExit(() -> FlacocoMain.main(new String[]{
 				"--projhjhjhectpathddd", // Incorrect argument
 				"examples/exampleFL1/FLtest1",
 				"--formula", SpectrumFormula.OCHIAI.name(),
 				"--coverTest"
-		});
+		}));
+		assertEquals(CommandLine.ExitCode.USAGE, statusCode);
 	}
 
 	@Test
-	public void testMainDefaultValues() {
+	public void testMainDefaultValues() throws Exception {
 		// Run only on target release >= 5
 		Assume.assumeTrue(getCompilerVersion() >= 5);
 
 		// It's a smoke test
-
-		exit.expectSystemExitWithStatus(0);
-		FlacocoMain.main(new String[]{
+		int statusCode = catchSystemExit(() -> FlacocoMain.main(new String[]{
 				"--projectpath", "examples/exampleFL1/FLtest1"
-		});
+		}));
+		assertEquals(0, statusCode);
 	}
 
 	@Test
-	public void testMainCSVExport() throws IOException {
+	public void testMainCSVExport() throws Exception {
 		// Run only on target release >= 5
 		Assume.assumeTrue(getCompilerVersion() >= 5);
 
 		// setup check output rule
 		output.extension = new CSVExporter().extension();
 
-		exit.expectSystemExitWithStatus(0);
-		FlacocoMain.main(new String[]{
+		int statusCode = catchSystemExit(() -> FlacocoMain.main(new String[]{
 				"--projectpath", "examples/exampleFL1/FLtest1",
 				"--format", "CSV",
 				"-o", "results.csv"
-		});
+		}));
+		assertEquals(0, statusCode);
 	}
 
 	@Test
-	public void testMainJSONExport() throws IOException {
+	public void testMainJSONExport() throws Exception {
 		// Run only on target release >= 5
 		Assume.assumeTrue(getCompilerVersion() >= 5);
 
 		// setup check output rule
 		output.extension = new JSONExporter().extension();
 
-		exit.expectSystemExitWithStatus(0);
-		FlacocoMain.main(new String[]{
+		int statusCode = catchSystemExit(() -> FlacocoMain.main(new String[]{
 				"--projectpath", "examples/exampleFL1/FLtest1",
 				"--format", "JSON",
 				"-o", "results.json"
-		});
+		}));
+		assertEquals(0, statusCode);
 	}
 
 	@Test
-	public void testMainCustomExport() throws IOException {
+	public void testMainCustomExport() throws Exception {
 		// Run only on target release >= 5
 		Assume.assumeTrue(getCompilerVersion() >= 5);
 
 		// setup check output rule
 		output.extension = "custom";
 
-		exit.expectSystemExitWithStatus(0);
-		FlacocoMain.main(new String[]{
+		int statusCode = catchSystemExit(() -> FlacocoMain.main(new String[]{
 				"--projectpath", "examples/exampleFL1/FLtest1",
 				"--formatter", "src/test/resources/OneLineExporter.java",
 				"-o", "results.custom"
-		});
+		}));
+		assertEquals(0, statusCode);
 	}
 
 	private static final class CheckOutput extends TestWatcher {
