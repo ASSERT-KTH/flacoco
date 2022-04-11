@@ -170,15 +170,15 @@ public class SpectrumRunnerTest {
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
-		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 28)).getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 29)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
 		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
 		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 9)).getScore(), 0);
-		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 7)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 10)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 8)).getScore(), 0);
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0);
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0);

@@ -21,8 +21,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static fr.spoonlabs.flacoco.TestUtils.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * This test class tests the execution of Flacoco as a whole
@@ -52,12 +51,25 @@ public class FlacocoTest {
 		// Run default mode
 		FlacocoResult result = flacoco.run();
 
-		assertEquals(1, result.getFailingTests().size());
-		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
-
 		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
 			System.out.println(entry);
 		}
+
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+
+		// Check ignored tests weren't executed
+		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testIgnore")));
 
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(6, susp.size());
@@ -99,6 +111,22 @@ public class FlacocoTest {
 			System.out.println(entry);
 		}
 
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+
+		// Check ignored tests weren't executed
+		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testIgnore")));
+
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		// no lines below to 0.51 in suspiciousness are returned
 		assertEquals(3, susp.size());
@@ -135,6 +163,22 @@ public class FlacocoTest {
 		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
 			System.out.println(entry);
 		}
+
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+
+		// Check ignored tests weren't executed
+		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testIgnore")));
 
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		// all lines are returned
@@ -189,6 +233,22 @@ public class FlacocoTest {
 			System.out.println(entry);
 		}
 
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+
+		// Check ignored tests weren't executed
+		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testIgnore")));
+
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(6, susp.size());
 
@@ -230,6 +290,21 @@ public class FlacocoTest {
 			System.out.println(entry);
 		}
 
+		// Check executed tests
+		assertEquals(3, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(0, result.getFailingTests().size());
+
+		// Check ignored tests weren't executed
+		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testIgnore")));
+
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		// all executed lines are returned
 		assertEquals(9, susp.size());
@@ -266,6 +341,20 @@ public class FlacocoTest {
 		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
 			System.out.println(entry);
 		}
+
+		// Check executed tests
+		assertEquals(5, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMod")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMod")));
 
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(8, susp.keySet().size());
@@ -308,6 +397,20 @@ public class FlacocoTest {
 			System.out.println(entry);
 		}
 
+		// Check executed tests
+		assertEquals(5, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testModCatchException")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testModCatchException")));
+
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(7, susp.keySet().size());
 
@@ -349,20 +452,36 @@ public class FlacocoTest {
 			System.out.println(entry);
 		}
 
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+
+		// Check ignored tests weren't executed
+		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testIgnore")));
+
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(9, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
-		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 28)).getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 29)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
 		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
 		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 9)).getScore(), 0);
-		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 7)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 10)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 8)).getScore(), 0);
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0);
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0);
@@ -395,6 +514,22 @@ public class FlacocoTest {
 		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
 			System.out.println(entry);
 		}
+
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+
+		// Check ignored tests weren't executed
+		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testIgnore")));
 
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(6, susp.size());
@@ -431,6 +566,22 @@ public class FlacocoTest {
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
+
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+
+		// Check ignored tests weren't executed
+		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testIgnore")));
 
 		Map<Location, CtStatement> mapping = result.getLocationStatementMap();
 		assertEquals(6, mapping.size());
@@ -484,6 +635,22 @@ public class FlacocoTest {
 			System.out.println(entry);
 		}
 
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+
+		// Check ignored tests weren't executed
+		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testIgnore")));
+
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(4, susp.size());
 
@@ -524,6 +691,22 @@ public class FlacocoTest {
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
+
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+
+		// Check ignored tests weren't executed
+		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testIgnore")));
 
 		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
 			System.out.println(entry);
@@ -568,20 +751,36 @@ public class FlacocoTest {
 			System.out.println(entry);
 		}
 
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+
+		// Check ignored tests weren't executed
+		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testIgnore")));
+
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(7, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
-		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 28)).getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 29)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
 		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
 		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 9)).getScore(), 0);
-		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 7)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 10)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 8)).getScore(), 0);
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
 
 		List<Location> locations = result.getSuspiciousLocationList();
@@ -604,6 +803,22 @@ public class FlacocoTest {
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
+
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+
+		// Check ignored tests weren't executed
+		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testIgnore")));
 
 		Map<Location, CtStatement> mapping = result.getLocationStatementMap();
 		assertEquals(4, mapping.size());
@@ -655,6 +870,22 @@ public class FlacocoTest {
 			System.out.println(entry);
 		}
 
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+
+		// Check ignored tests weren't executed
+		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "ignoretestIgnore")));
+
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(4, susp.size());
 
@@ -694,6 +925,22 @@ public class FlacocoTest {
 			System.out.println(entry);
 		}
 
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+
+		// Check ignored tests weren't executed
+		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "ignoretestIgnore")));
+
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(7, susp.size());
 
@@ -730,6 +977,22 @@ public class FlacocoTest {
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
+
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+
+		// Check ignored tests weren't executed
+		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "ignoretestIgnore")));
 
 		Map<Location, CtStatement> mapping = result.getLocationStatementMap();
 		assertEquals(4, mapping.size());
@@ -776,6 +1039,19 @@ public class FlacocoTest {
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
+
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorMixedTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorJUnit5Test", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorMixedTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorJUnit3Test", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorMixedTest", "testMul")));
 
 		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
 			System.out.println(entry);
@@ -828,6 +1104,19 @@ public class FlacocoTest {
 			System.out.println(entry);
 		}
 
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorMixedTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorJUnit5Test", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorMixedTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorJUnit3Test", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorMixedTest", "testMul")));
+
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(4, susp.size());
 
@@ -867,6 +1156,19 @@ public class FlacocoTest {
 			System.out.println(entry);
 		}
 
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorMixedTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorJUnit5Test", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorMixedTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorJUnit3Test", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorMixedTest", "testMul")));
+
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(7, susp.size());
 
@@ -903,6 +1205,19 @@ public class FlacocoTest {
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
+
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorMixedTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorJUnit5Test", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorMixedTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorJUnit3Test", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorMixedTest", "testMul")));
 
 		Map<Location, CtStatement> mapping = result.getLocationStatementMap();
 		assertEquals(4, mapping.size());
@@ -954,6 +1269,24 @@ public class FlacocoTest {
 			System.out.println(entry);
 		}
 
+		// Check executed tests
+		assertEquals(8, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorDuplicatedTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorDuplicatedTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorDuplicatedTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorDuplicatedTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(2, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorDuplicatedTest", "testMul")));
+
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(6, susp.size());
 
@@ -997,6 +1330,22 @@ public class FlacocoTest {
 		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
 			System.out.println(entry);
 		}
+
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+
+		// Check ignored tests weren't executed
+		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testIgnore")));
 
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(6, susp.size());
@@ -1042,20 +1391,36 @@ public class FlacocoTest {
 			System.out.println(entry);
 		}
 
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+
+		// Check ignored tests weren't executed
+		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testIgnore")));
+
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(9, susp.size());
 
 		// Line executed only by the failing
 		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
-		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 28)).getScore(), 0);
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 29)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
 		assertEquals(0.70, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
 		assertEquals(0.57, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
 
 		// Lines executed by all test
-		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 9)).getScore(), 0);
-		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 7)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 10)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.CalculatorTest", 8)).getScore(), 0);
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0);
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0);
@@ -1084,6 +1449,22 @@ public class FlacocoTest {
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
+
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+
+		// Check ignored tests weren't executed
+		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testIgnore")));
 
 		Map<Location, CtStatement> mapping = result.getLocationStatementMap();
 		assertEquals(6, mapping.size());
@@ -1141,6 +1522,24 @@ public class FlacocoTest {
 			System.out.println(entry);
 		}
 
+		// Check executed tests
+		assertEquals(8, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorDuplicatedTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorDuplicatedTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorDuplicatedTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorDuplicatedTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(2, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorDuplicatedTest", "testMul")));
+
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(6, susp.size());
 
@@ -1180,6 +1579,24 @@ public class FlacocoTest {
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
+
+		// Check executed tests
+		assertEquals(8, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorDuplicatedTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorDuplicatedTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorDuplicatedTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorDuplicatedTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(2, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorDuplicatedTest", "testMul")));
 
 		Map<Location, CtStatement> mapping = result.getLocationStatementMap();
 		assertEquals(6, mapping.size());
@@ -1233,6 +1650,23 @@ public class FlacocoTest {
 			System.out.println(entry);
 		}
 
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(2, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv")));
+
+		// Check ignored tests weren't executed
+		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testIgnore")));
+
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(8, susp.size());
 
@@ -1284,6 +1718,19 @@ public class FlacocoTest {
 			System.out.println(entry);
 		}
 
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.enum.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.enum.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.enum.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.enum.CalculatorTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.enum.CalculatorTest", "testMul")));
+
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 		assertEquals(4, susp.size());
 
@@ -1328,6 +1775,11 @@ public class FlacocoTest {
 
 		// Run default mode
 		FlacocoResult result = flacoco.run();
+
+		// TODO: Flacoco is running 743 tests compared to the baseline obtained through running `mvn clean test` on the cl2 project
+		// TODO: It also finds 4 failing tests, when it should be 3
+		// assertEquals(703, result.getExecutedTests().size());
+		//assertEquals(4, result.getFailingTests().size());
 
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
 

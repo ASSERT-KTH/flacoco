@@ -3,6 +3,7 @@ package fr.spoonlabs.FLtest1;
 import org.junit.jupiter.api.Assertions;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 public class CalculatorTest {
 
@@ -31,6 +32,14 @@ public class CalculatorTest {
 
 	@Test
 	public void testDiv() {
+
+		Assertions.assertEquals(2, c.calculate("/", 12, 6));
+
+	}
+
+	@Disabled
+	@Test
+	public void testIgnore() {
 
 		Assertions.assertEquals(2, c.calculate("/", 12, 6));
 

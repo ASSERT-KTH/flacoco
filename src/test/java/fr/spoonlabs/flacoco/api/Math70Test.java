@@ -63,6 +63,10 @@ public class Math70Test {
             System.out.println(entry);
         }
 
+        // TODO: Flacoco is only able of executing 2178 tests
+        //assertEquals(2181, result.getExecutedTests().size());
+        assertEquals(1, result.getFailingTests().size());
+
         Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
         assertEquals(8, susp.size());
 
