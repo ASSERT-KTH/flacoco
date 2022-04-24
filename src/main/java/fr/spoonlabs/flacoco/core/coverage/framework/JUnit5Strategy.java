@@ -13,8 +13,6 @@ public class JUnit5Strategy extends TestFrameworkStrategy {
 
 	private static final Logger logger = Logger.getLogger(JUnit5Strategy.class);
 
-	private static JUnit5Strategy instance;
-
 	public JUnit5Strategy(FlacocoConfig config) {
 		super(config);
 	}
@@ -32,7 +30,7 @@ public class JUnit5Strategy extends TestFrameworkStrategy {
 				config.getBinJavaDir(),
 				config.getBinTestDir(),
 				testContext.getTestMethods().stream().map(TestMethod::getFullyQualifiedClassName).distinct().toArray(String[]::new),
-				new String[0]
+				testContext.getTestMethods().stream().map(TestMethod::getFullyQualifiedMethodName).distinct().toArray(String[]::new)
 		);
 	}
 

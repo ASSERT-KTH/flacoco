@@ -13,8 +13,6 @@ public class JUnit4Strategy extends TestFrameworkStrategy {
 
 	private static final Logger logger = Logger.getLogger(JUnit4Strategy.class);
 
-	private static JUnit4Strategy instance;
-
 	public JUnit4Strategy(FlacocoConfig config) {
 		super(config);
 	}
@@ -29,7 +27,7 @@ public class JUnit4Strategy extends TestFrameworkStrategy {
 				config.getBinJavaDir(),
 				config.getBinTestDir(),
 				testContext.getTestMethods().stream().map(TestMethod::getFullyQualifiedClassName).distinct().toArray(String[]::new),
-				new String[0]
+				testContext.getTestMethods().stream().map(TestMethod::getFullyQualifiedMethodName).distinct().toArray(String[]::new)
 		);
 	}
 
