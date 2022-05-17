@@ -36,7 +36,7 @@ public class FlacocoMain implements Callable<Integer> {
 	@Option(names = {"-f", "--formula"}, description = "Spectrum formula to use. Valid values: ${COMPLETION-CANDIDATES}", defaultValue = "OCHIAI")
 	SpectrumFormula spectrumFormula;
 
-	@Option(names = {"-c", "--classpath"}, description = "Classpath of the project under analyzis.")
+	@Option(names = {"-c", "--classpath"}, description = "Classpath of the project under analysis.")
 	String classpath;
 
 	@Option(names = {"--srcJavaDir"}, arity = "0..*", description = "Paths to the directories containing java source files. Defaults to {projectpath}/src/main/java")
