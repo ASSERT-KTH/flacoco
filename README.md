@@ -5,7 +5,7 @@
 
 * **Ease of use**: With an intuitive, reliable and stable API, flacoco can be easily used in other projects such as automated program repair tools.
 * **Compatibility**: 
-    * Supports JUnit3, Junit4 and JUnit5.
+    * Supports JUnit3, JUnit4 and JUnit5.
     * Supports Java 1 to Java 17 bytecode.
     * Runs on Java 8 to Java 17.
     * Runs on Linux, MacOS and Windows.
