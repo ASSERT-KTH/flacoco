@@ -22,7 +22,7 @@ public class SourceFolderFinder implements ClassFinder {
     }
 
     static List<String> getClassesLoc(File testSrcFolder) {
-        DirectoryScanner directoryScanner = new DirectoryScanner(testSrcFolder, TestListResolver.getWildcard());
+        DirectoryScanner directoryScanner = new DirectoryScanner(testSrcFolder, new TestListResolver("*.class"));
         return directoryScanner.scan().getClasses();
     }
 }
