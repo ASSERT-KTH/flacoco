@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3.2.0
+        uses: actions/checkout@v3.3.0
         if: ${{ matrix.compiler-version <= matrix.java-version && (matrix.java-version < 14 || matrix.compiler-version >= 7) && (matrix.java-version < 11 || matrix.compiler-version >= 6) }}
 
       - name: Setup JDK${{ matrix.java-version }}
