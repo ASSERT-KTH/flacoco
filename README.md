@@ -28,7 +28,7 @@ If you use flacoco in academic research, please cite "[FLACOCO: Fault Localizati
 
 flacoco is currently available through Maven Central and as a SNAPSHOT
 
-You can use it by installing locally yourself (if you do so, the install version will be `1.0.6-SNAPSHOT`), or by adding flacoco as a maven dependency:
+You can use it by installing locally yourself (if you do so, the install version will be `1.0.7-SNAPSHOT`), or by adding flacoco as a maven dependency:
 ```bash
 $ mvn install -DskipTests
 ```
@@ -36,7 +36,7 @@ $ mvn install -DskipTests
 <dependency>
     <groupId>com.github.spoonlabs</groupId>
     <artifactId>flacoco</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
 </dependency>
 ```
 
