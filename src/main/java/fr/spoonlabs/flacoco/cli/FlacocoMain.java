@@ -39,16 +39,16 @@ public class FlacocoMain implements Callable<Integer> {
 	@Option(names = {"-c", "--classpath"}, description = "Classpath of the project under analysis.")
 	String classpath;
 
-	@Option(names = {"--srcJavaDir"}, arity = "0..*", description = "Paths to the directories containing java source files. Defaults to {projectpath}/src/main/java")
+	@Option(names = {"--srcJavaDir"}, arity = "0..*", split = "[:,\\s]", description = "Paths to the directories containing java source files. Defaults to {projectpath}/src/main/java")
 	List<String> srcJavaDir;
 
-	@Option(names = {"--srcTestDir"}, arity = "0..*", description = "Paths to the directories containing java test source files. Defaults to {projectpath}/src/test")
+	@Option(names = {"--srcTestDir"}, arity = "0..*", split = "[:,\\s]", description = "Paths to the directories containing java test source files. Defaults to {projectpath}/src/test")
 	List<String> srcTestDir;
 
-	@Option(names = {"--binJavaDir"}, arity = "0..*", description = "Paths to the directories containing java class files. Defaults to {projectpath}/target/classes")
+	@Option(names = {"--binJavaDir"}, arity = "0..*", split = "[:,\\s]", description = "Paths to the directories containing java class files. Defaults to {projectpath}/target/classes")
 	List<String> binJavaDir;
 
-	@Option(names = {"--binTestDir"}, arity = "0..*", description = "Paths to the directories containing java test class files. Defaults to {projectpath}/target/test-classes")
+	@Option(names = {"--binTestDir"}, arity = "0..*", split = "[:,\\s]", description = "Paths to the directories containing java test class files. Defaults to {projectpath}/target/test-classes")
 	List<String> binTestDir;
 
 	@Option(names = {"--junitClasspath"}, description = "Classpath to junit dependencies.")
@@ -112,13 +112,13 @@ public class FlacocoMain implements Callable<Integer> {
 	@Option(names = {"--testDetectionStrategy"}, description = "Strategy for test detection stage. Defaults to CLASSLOADER. Valid values: ${COMPLETION-CANDIDATES}")
 	FlacocoConfig.TestDetectionStrategy testDetectionStrategy = FlacocoConfig.TestDetectionStrategy.CLASSLOADER;
 
-	@Option(names = {"--ignoredTests"}, description = "Tests to be ignored during test execution. Both qualified class and qualified method names are supported.")
+	@Option(names = {"--ignoredTests"}, split = "[:,\\s]", description = "Tests to be ignored during test execution. Both qualified class and qualified method names are supported.")
 	Set<String> ignoredTests = new HashSet<>();
 
-	@Option(names = {"--jacocoIncludes"}, description = "Class patterns to be recorded in by jacoco")
+	@Option(names = {"--jacocoIncludes"}, split = "[:,\\s]", description = "Class patterns to be recorded in by jacoco")
 	Set<String> jacocoIncludes = new HashSet<>();
 
-	@Option(names = {"--jacocoExcludes"}, description = "Class patterns to be excluded by jacoco")
+	@Option(names = {"--jacocoExcludes"}, split = "[:,\\s]", description = "Class patterns to be excluded by jacoco")
 	Set<String> jacocoExcludes = new HashSet<>();
 
 	@CommandLine.ArgGroup(exclusive = false, multiplicity = "0..1", heading = "\nSetting any of these options will result in test detection being bypassed:\n")
@@ -131,10 +131,10 @@ public class FlacocoMain implements Callable<Integer> {
 			this.jUnit5Tests = new HashSet<>();
 		}
 
-		@Option(names = {"--junit4tests"}, description = "JUnit4 or JUnit3 tests to be ran.")
+		@Option(names = {"--junit4tests"}, split = "[:,\\s]", description = "JUnit4 or JUnit3 tests to be ran. Only qualified method names are supported.")
 		Set<String> jUnit4Tests;
 
-		@Option(names = {"--junit5tests"}, description = "JUnit5 tests to be ran.")
+		@Option(names = {"--junit5tests"}, split = "[:,\\s]", description = "JUnit5 tests to be ran. Only qualified method names are supported.")
 		Set<String> jUnit5Tests;
 	}
 
