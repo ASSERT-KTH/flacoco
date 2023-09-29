@@ -42,14 +42,14 @@ public abstract class TestFrameworkStrategy {
 		} else {
 			EntryPoint.jacocoAgentIncludes = this.computeJacocoIncludes();
 		}
-		if (!config.getJacocoIncludes().isEmpty()) {
+		if (!config.getJacocoExcludes().isEmpty()) {
 			EntryPoint.jacocoAgentExcludes =
 					config.getJacocoExcludes().stream().reduce((x, y) -> x + ":" + y).orElse("");
 		}
 	}
 
 	/**
-	 * Auxiliary method to compute the classpath according to the test framework and the custom confirguration
+	 * Auxiliary method to compute the classpath according to the test framework and the custom configuration
 	 *
 	 * @return Classpath for test-runner execution
 	 */
