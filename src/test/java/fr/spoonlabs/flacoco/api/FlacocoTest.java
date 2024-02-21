@@ -128,7 +128,10 @@ public class FlacocoTest {
 		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testIgnore")));
 
 		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
-		assertEquals(5, susp.size());
+		assertEquals(6, susp.size());
+
+		// Line executed only by the failing
+		assertEquals(1.0, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 15)).getScore(), 0);
 
 		// Line executed by a mix of failing and passing
 		assertEquals(0.75, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
@@ -140,7 +143,7 @@ public class FlacocoTest {
 		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0);
 
 		List<Location> locations = result.getSuspiciousLocationList();
-		assertEquals(5, locations.size());
+		assertEquals(6, locations.size());
 		assertOrdered(susp, locations);
 	}
 

@@ -10,7 +10,7 @@ public class TarantulaFormula implements Formula {
 		double passingTerm = nPassingNotExecuting + nPassingExecuting == 0 ? 0 : nPassingExecuting / (nPassingNotExecuting + nPassingExecuting);
 		double failingTerm = nFailingNotExecuting + nFailingExecuting == 0 ? 0 : nFailingExecuting / (nFailingNotExecuting + nFailingExecuting);
 
-		if (passingTerm == 0 || failingTerm == 0) {
+		if (passingTerm + failingTerm == 0) {
 			return 0;
 		}
 
