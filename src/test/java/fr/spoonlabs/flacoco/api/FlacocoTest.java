@@ -92,6 +92,59 @@ public class FlacocoTest {
 	}
 
 	@Test
+	public void testExampleFL1SpectrumBasedTarantulaDefaultMode() {
+		// Run only on target release >= 5
+		Assume.assumeTrue(getCompilerVersion() >= 5);
+
+		// Setup config
+		FlacocoConfig config = getDefaultFlacocoConfig();
+		config.setProjectPath(new File("./examples/exampleFL1/FLtest1").getAbsolutePath());
+		config.setSpectrumFormula(SpectrumFormula.TARANTULA);
+
+		// Run Flacoco
+		Flacoco flacoco = new Flacoco(config);
+
+		// Run default mode
+		FlacocoResult result = flacoco.run();
+
+		for (Map.Entry<Location, Suspiciousness> entry : result.getDefaultSuspiciousnessMap().entrySet()) {
+			System.out.println(entry);
+		}
+
+		// Check executed tests
+		assertEquals(4, result.getExecutedTests().size());
+		assertTrue(result.getExecutedTests().containsAll(Arrays.asList(
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testDiv"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSubs"),
+				new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testSum")
+		)));
+
+		// Check failing tests
+		assertEquals(1, result.getFailingTests().size());
+		assertTrue(result.getFailingTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testMul")));
+
+		// Check ignored tests weren't executed
+		assertFalse(result.getExecutedTests().contains(new StringTestMethod("fr.spoonlabs.FLtest1.CalculatorTest", "testIgnore")));
+
+		Map<Location, Suspiciousness> susp = result.getDefaultSuspiciousnessMap();
+		assertEquals(5, susp.size());
+
+		// Line executed by a mix of failing and passing
+		assertEquals(0.75, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 14)).getScore(), 0.01);
+		assertEquals(0.6, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 12)).getScore(), 0.01);
+
+		// Lines executed by all test
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 10)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 5)).getScore(), 0);
+		assertEquals(0.5, susp.get(new Location("fr.spoonlabs.FLtest1.Calculator", 6)).getScore(), 0);
+
+		List<Location> locations = result.getSuspiciousLocationList();
+		assertEquals(5, locations.size());
+		assertOrdered(susp, locations);
+	}
+
+	@Test
 	public void testExampleFL1SpectrumBasedOchiaiDefaultModeThreshold() {
 		// Run only on target release >= 5
 		Assume.assumeTrue(getCompilerVersion() >= 5);
