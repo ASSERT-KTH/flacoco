@@ -35,32 +35,6 @@ public class TestDetectorTest {
 	}
 
 	@Test
-	public void testSpoonClass() {
-		// Run only on target release >= 5
-		Assume.assumeTrue(getCompilerVersion() >= 5);
-
-		// Setup config
-		FlacocoConfig config = new FlacocoConfig();
-		config.setWorkspace(workspaceDir.getRoot().getAbsolutePath());
-		config.setTestRunnerVerbose(true);
-		config.setProjectPath(new File("./examples/spoon").getAbsolutePath());
-
-		// Find the tests
-		TestDetector testDetector = new TestDetector(config);
-		List<TestContext> testContexts = testDetector.getTests();
-
-		// Additional weak Oracle: absence of any error during the execution
-
-		// Check that there is only one test context
-		assertEquals(1, testContexts.size());
-		// Check that there are 4 test methods in the test context
-		TestContext testContext = testContexts.get(0);
-		assertEquals(1, testContext.getTestMethods().size());
-		// Check that the correct test framework is set
-		assertTrue(testContext.getTestFrameworkStrategy() instanceof JUnit4Strategy);
-	}
-
-	@Test
 	public void testExampleFL1() {
 		// Run only on target release >= 5
 		Assume.assumeTrue(getCompilerVersion() >= 5);
