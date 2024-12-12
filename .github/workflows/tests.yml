@@ -42,5 +42,5 @@ jobs:
           SRC_VERSION: ${{ matrix.compiler-version }}
 
       - name: Codecov
-        uses: codecov/codecov-action@v4.6.0
+        uses: codecov/codecov-action@v5.1.1
         if: ${{ matrix.compiler-version == 8 && matrix.java-version == 8 && matrix.os == 'ubuntu-latest' }}
