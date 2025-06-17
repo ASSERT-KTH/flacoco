@@ -16,9 +16,9 @@ import spoon.Launcher;
 import spoon.reflect.declaration.CtClass;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -218,21 +218,20 @@ public class FlacocoMain implements Callable<Integer> {
 	}
 
 	private OutputStreamWriter getOutputStreamWriter(FlacocoExporter exporter) throws IOException {
-		if (this.output == null) {
+		if (output == null) {
 			return new OutputStreamWriter(System.out);
-		} else if (this.output.isEmpty()) {
-			File file = new File("flacoco_results." + exporter.extension());
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-			return new OutputStreamWriter(new FileOutputStream(file));
-		} else {
-			File file = new File(this.output);
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-			return new OutputStreamWriter(new FileOutputStream(file));
 		}
+		String path;
+		if (output.isEmpty()) {
+			path = "flacoco_results." + exporter.extension();
+		} else {
+			path = output;
+		}
+		File file = new File(path);
+		if (!file.exists()) {
+			file.createNewFile();
+		}
+		return new OutputStreamWriter(Files.newOutputStream(file.toPath()));
 	}
 
 	private FlacocoExporter getExporter() {
