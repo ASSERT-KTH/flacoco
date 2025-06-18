@@ -6,13 +6,16 @@ public class OchiaiFormula implements Formula {
 	}
 
 	public double compute(double nPassingNotExecuting, double nFailingNotExecuting, double nPassingExecuting,
-			double nFailingExecuting) {
-
-		if ((nFailingExecuting + nPassingExecuting == 0) || (nFailingExecuting + nFailingNotExecuting == 0)) {
-			return 0;
+						  double nFailingExecuting) {
+		double sumOfFailingExecutingAndPassingExecuting = nFailingExecuting + nPassingExecuting;
+		if (Double.compare(sumOfFailingExecutingAndPassingExecuting, 0.0) == 0) {
+			return 0.0;
+		}
+		double sumOfFailingExecutingAndFailingNotExecuting = nFailingExecuting + nFailingNotExecuting;
+		if (Double.compare(sumOfFailingExecutingAndFailingNotExecuting, 0.0) == 0) {
+			return 0.0;
 		}
 		return nFailingExecuting
-				/ (Math.sqrt((nFailingExecuting + nFailingNotExecuting) * (nFailingExecuting + nPassingExecuting)));
+				/ Math.sqrt(sumOfFailingExecutingAndPassingExecuting * sumOfFailingExecutingAndFailingNotExecuting);
 	}
-
 }
